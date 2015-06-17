@@ -1,0 +1,29 @@
+this is {{ name }} project!
+
+
+
+<div>
+
+
+    <div style="background-color: #8888BB; width: 250px; color: #66dd66">
+        {{ form_label(form.summary) }}
+        {{ form_errors(form.summary) }}
+        {{ form_widget(form.summary) }}
+    </div>
+    <div style="background-color: #998899; width: 250px; color: #66dd66">
+        {{ form_label(form.code) }}
+        {{ form_errors(form.code) }}
+        {{ form_widget(form.code) }}
+    </div>
+    <div style="background-color: #8888BB; width: 250px; color: #66dd66">
+        {{ form_label(form.label) }}
+        {{ form_errors(form.label) }}
+        {{ form_widget(form.label) }}
+    </div>
+    <div style="background-color: #998899; width: 250px; color: #66dd66">
+        {{ form_label(form.id) }}
+        {{ form_errors(form.id) }}
+        {{ form_widget(form.id) }}
+    </div>
+
+</div>

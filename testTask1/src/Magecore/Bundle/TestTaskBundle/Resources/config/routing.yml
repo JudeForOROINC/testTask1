@@ -1,0 +1,11 @@
+magecore_test_task_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: MagecoreTestTaskBundle:Default:index }
+magecore_test_task_user:
+    resource: "@MagecoreTestTaskBundle/Controller/UserController.php"
+    type:     annotation
+    prefix: /user
+magecore_test_task_project:
+    resource: "@MagecoreTestTaskBundle/Controller/ProjectController.php"
+    type:     annotation
+    prefix: /project
