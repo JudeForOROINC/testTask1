@@ -5,17 +5,32 @@
  * Date: 17.06.15
  * Time: 17:23
  */
-namespace MagecoreTestTaskBundle\Form\Type;
-
-
+namespace Magecore\Bundle\TestTaskBundle\Form\Type;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 class ProjectType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('label','text')
-            ->add('summary', null, array('widget' => 'single_text'))
-            ->add('save', 'submit')
+            ->add('label','text', array(
+                'constraints' => array(
+                    new NotBlank(),
+                    new Length(array('max'=>100,'maxMessage'=>'Project Label cannot be longer than {{ limit }} characters!')),
+                ),
+
+            ))
+
+            ->add('code','text',array(
+                'constraints' => array(
+                    new NotBlank(),
+                    new Length(array('max'=>3,'maxMessage'=>'Project Label cannot be longer than {{ limit }} characters!')),
+                ),
+            ))
+            ->add('summary','textarea')
+            ->add('save','submit',array('label'=>'Create task'))
         ;
     }
 

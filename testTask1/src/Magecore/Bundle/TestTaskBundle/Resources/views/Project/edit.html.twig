@@ -1,9 +1,15 @@
-<h1> Create new project</h1>
+{% extends 'base.html.twig' %}
 
+
+{% block body %}
+    <div style="background-color: #0088CC; border-radius: 10px">
+        {% block FormTitle %} <h1> Create new project</h1> {% endblock %}
+
+        <div style="color:red">{{ form_errors(form) }}</div>
 
 {{ form_start(form) }}
 
-<div>
+<div style="border-bottom-left-radius: 5px; left: 40px;width: 300px" >
 
 
     <div style="background-color: #8888BB; width: 250px; color: #66dd66">
@@ -25,6 +31,12 @@
 
 
 </div>
+        {% block ButtonSave %}
 {{ form_row(form.save) }}
-
+        {% endblock %}
 {{ form_end(form) }}
+        </div>
+{% block MembersList %}
+    <p>add members??</p>
+{% endblock %}
+{% endblock %}
