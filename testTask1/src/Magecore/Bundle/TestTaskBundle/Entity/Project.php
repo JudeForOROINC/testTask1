@@ -4,6 +4,7 @@ namespace Magecore\Bundle\TestTaskBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 //use FOS\UserBundle\Model\User as BaseUser;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -31,9 +32,22 @@ class Project
 
 
     /**
-     * @ORM\Column(type="string", length=3)
+     * @ORM\Column(type="string", length=3, unique=true)
      */
     protected $code;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="User")
+     * @ORM\JoinTable(name="magecore_testtask_products_to_users",
+     *     joinColumns={@ORM\JoinColumn(name="product_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     * )
+     */
+    protected $members;
+
+    public function __construct(){
+        $this->members = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -111,5 +125,10 @@ class Project
     public function getCode()
     {
         return $this->code;
+    }
+
+    public function getMembers()
+    {
+        return $this->members;
     }
 }

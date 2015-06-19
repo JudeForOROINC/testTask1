@@ -4,13 +4,27 @@ namespace Magecore\Bundle\TestTaskBundle\Controller;
 
 use Magecore\Bundle\TestTaskBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
+
+use Magecore\Bundle\TestTaskBundle\Entity\Project;
+use Magecore\Bundle\TestTaskBundle\Form\Type\ProjectType;
+//use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+//use Symfony\Component\BrowserKit\Request;
+//use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UserController extends Controller
 {
     /**
-     * @Route("/{name}", name="magecore_test_task_user_index")
+     * @Route("/list", name="magecore_test_task_user_index")
      * @param $name
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -23,11 +37,13 @@ class UserController extends Controller
      * Must view an a user page. with a user profile like an part of page;
      * @Route("/view/{id}", name="magecore_test_task_user_view", requirements={"id"="\d+"})
      * @Template
-     * @param User $user
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function viewAction(User $user){
-        return ['name'=>$user->getUsername()];
+        return [
+            'user' => $user,
+            'name'=>$user->getUsername(),
+        ];
     }
     /**
      * Must view an a user page. with a user profile like an part of page;
@@ -39,7 +55,7 @@ class UserController extends Controller
     {
         #must be forbiden; we create users from console only;
         // ...
-
+        return new Response('ok');
     }
 
     /**
@@ -49,6 +65,7 @@ class UserController extends Controller
     public function updateAction(User $entity)
     {
         // ...
+        return new Response('ok');
     }
 
     /**
