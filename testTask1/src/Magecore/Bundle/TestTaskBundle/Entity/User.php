@@ -42,7 +42,9 @@ class User extends BaseUser
 
 
 
-    //public function isOwner
+    public function isOwner(User $user){
+        return (bool)$this->getId() ==$user->getId();
+    }
     /**
      * Get id
      *
@@ -107,9 +109,9 @@ class User extends BaseUser
      * @param string $timezone
      * @return User
      */
-    public function setTimezone(\DateTimeZone $timezone)
+    public function setTimezone( $timezone)
     {
-        $this->timezone = $timezone->getName();
+        $this->timezone = $timezone;
 
         return $this;
     }
@@ -121,6 +123,6 @@ class User extends BaseUser
      */
     public function getTimezone()
     {
-        return new \DateTimeZone($this->timezone);
+        return $this->timezone;
     }
 }

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div style="background-color: #0088CC; border-radius: 10px">
+        {% block FormTitle %} <h1> Edit User`s Profile!</h1> {% endblock %}
+
+        <div style="color:red">{{ form_errors(form) }}</div>
+
+        {{ form_start(form) }}
+
+        <div style="border-bottom-left-radius: 5px; left: 40px;width: 300px" >
+
+
+            <div style="background-color: #8888BB; width: 250px; color: #66dd66">
+                {{ form_label(form.fullname) }}
+                {{ form_errors(form.fullname) }}
+                {{ form_widget(form.fullname) }}
+            </div>
+            <div style="background-color: #998899; width: 250px; color: #66dd66">
+                {{ form_label(form.timezone) }}
+                {{ form_errors(form.timezone) }}
+                {{ form_widget(form.timezone) }}
+            </div>
+            {#
+            <div style="background-color: #8888BB; width: 250px; color: #66dd66">
+                {{ form_label(form.label) }}
+                {{ form_errors(form.label) }}
+                {{ form_widget(form.label) }}
+            </div>
+#}
+
+
+        </div>
+        {% block ButtonSave %}
+            {{ form_row(form.save) }}
+        {% endblock %}
+        {{ form_end(form) }}
+    </div>
+{#{% block MembersList %}
+        <p>add members??</p>
+    {% endblock %}#}
+{% endblock %}

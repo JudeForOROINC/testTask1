@@ -3,6 +3,7 @@
 namespace Magecore\Bundle\TestTaskBundle\Controller;
 
 use Magecore\Bundle\TestTaskBundle\Entity\User;
+use Magecore\Bundle\TestTaskBundle\Form\Type\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -62,10 +63,25 @@ class UserController extends Controller
      * @Route("/update/{id}", name="magecore_test_task_user_update", requirements={"id"="\d+"})
      * @Template
      */
-    public function updateAction(User $entity)
+    public function updateAction( User $entity,Request $request)
     {
         // ...
-        return new Response('ok');
+        //return new Response('ok');
+        //$user = new User();
+        $form = $this->createForm(new UserType(),$entity);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('magecore_test_task_user_view',['id'=>$entity->getId()]));
+        }
+
+        return $this->render('MagecoreTestTaskBundle:User:update.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
 
     /**

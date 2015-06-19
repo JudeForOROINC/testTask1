@@ -16,30 +16,37 @@
         <h2> {{  user.roles }},</h2>
     {% endif %}
     <h3>timezone</h3>
-    <h2>{{ user.timezone.getName }}</h2>
-    {# <div>
-         <h3>label:</h3>
-         <h1>{{ project.label }}</h1>
-         <h3>summary:</h3>
-         <div style="background-color: #8888BB; width: 400px; color: #66dd66; border-radius: 7px">
-             <textarea readonly rows="20" cols="50" align="center">{{ project.summary }}</textarea>
-         </div>
-         <div>
-             <p>Here must be members list</p>
-         </div>
-
-         {% if app.user and (is_granted( 'ROLE_ADMIN' ) or is_granted('ROLE_MANAGER') ) %}
-             <a href="{{ path('magecore_test_task_project_update', { id: project.id }) }}">
-                 edit
-             </a>
-             <a href="{{ path('magecore_test_task_project_create') }}">
-                 New Project
-             </a>
-         {% endif %}
-         <div>
-             <p>Here must be activity</p>
-         </div>
+    <h2>{{ user.timezone }}</h2>
+    {% if app.user and (is_granted( 'ROLE_ADMIN' ) or user.isowner(app.user) ) %}
+        <a href="{{ path('magecore_test_task_user_update', { id: user.id }) }}">
+            edit
+        </a>
+        {% endif %}
 
 
-     </div>#}
+        {# <div>
+             <h3>label:</h3>
+             <h1>{{ project.label }}</h1>
+             <h3>summary:</h3>
+             <div style="background-color: #8888BB; width: 400px; color: #66dd66; border-radius: 7px">
+                 <textarea readonly rows="20" cols="50" align="center">{{ project.summary }}</textarea>
+             </div>
+             <div>
+                 <p>Here must be members list</p>
+             </div>
+
+             {% if app.user and (is_granted( 'ROLE_ADMIN' ) or is_granted('ROLE_MANAGER') ) %}
+                 <a href="{{ path('magecore_test_task_project_update', { id: project.id }) }}">
+                     edit
+                 </a>
+                 <a href="{{ path('magecore_test_task_project_create') }}">
+                     New Project
+                 </a>
+             {% endif %}
+             <div>
+                 <p>Here must be activity</p>
+             </div>
+
+
+         </div>#}
 {% endblock %}
