@@ -26,12 +26,17 @@ class UserController extends Controller
 {
     /**
      * @Route("/list", name="magecore_test_task_user_index")
-     * @param $name
+     * @Template
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction($name)
+    public function indexAction()
     {
-        return $this->render('User/index.html.twig');
+        $en = $this->getDoctrine()->getManager();
+        $users = $en->getRepository('MagecoreTestTaskBundle:User')->findAll();
+        return [
+            'users'=>$users,
+        ]//$this->render('User/index.html.twig');
+        ;
     }
 
     /**
@@ -84,13 +89,14 @@ class UserController extends Controller
         ));
     }
 
-    /**
-     * @Route("/delete/{id}", name="magecore_test_task_user_delete", requirements={"id"="\d+"})
-     */
-    public function deleteAction(User $user)
-    {
-        // ...
-    }
+//    /**
+//     * @Route("/delete/{id}", name="magecore_test_task_user_delete", requirements={"id"="\d+"})
+//     */
+//    public function deleteAction(User $user)
+//    {
+//        // ...
+//    }
+//
 
 
 }

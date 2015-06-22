@@ -77,7 +77,8 @@ class ProjectController extends Controller
     public function updateAction( Project $project, Request $request)
     {
         //TODO : Jude - remove constraints from Form = use form class + validatorclass;
-        $form = $this->createFormBuilder($project)
+        $form = $this->createForm(new ProjectType(),$project);
+        /*$form = $this->createFormBuilder($project)
             ->add('label','text', array(
                 'constraints' => array(
                     new NotBlank(),
@@ -94,7 +95,7 @@ class ProjectController extends Controller
             ))
             ->add('summary','textarea')
             ->add('save','submit',array('label'=>'Create task'))
-            ->getForm();
+            ->getForm();*/
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

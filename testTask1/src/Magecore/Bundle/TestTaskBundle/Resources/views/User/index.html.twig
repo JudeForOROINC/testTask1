@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'Magecore_TestTask_user_list' %}
+
+{% block body %}
+<div>
+
+    <h2> User list </h2>
+
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th><i class="fa fa-user"></i> user name</th>
+            <th><i class="fa fa-user"></i> user full name</th>
+            <th><i class="fa fa-calendar"></i> user timezone</th>
+            <th><i class="fa fa-cogs"></i> Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.fullname }}</td>
+                <td>{{ user.timezone }}</td>
+                <td>
+                    <div class="item-actions">
+                        <a href="{{ path('magecore_test_task_user_view', { id: user.id }) }}" class="btn btn-sm btn-default">
+                            {{ 'action.show'|trans }}
+                        </a>
+                        {% if app.user and (is_granted('ROLE_ADMIN') or user.isOwner(app.user))%}
+                        {#{% if post.isAuthor(app.user) %}#}
+                            <a href="{{ path('magecore_test_task_user_update', { id: user.id }) }}" class="btn btn-sm btn-primary">
+                                <i class="fa fa-edit"></i> {{ 'action.edit'|trans }}
+                            </a>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
