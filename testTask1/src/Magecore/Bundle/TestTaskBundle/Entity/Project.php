@@ -197,4 +197,7 @@ class Project
     {
         return $this->issue;
     }
+    public function __toString(){
+        return (string)$this->getCode();
+    }
 }
