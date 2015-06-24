@@ -36,6 +36,13 @@
             New Project
         </a>
     {% endif %}
+
+    {% if app.user and (is_granted( 'ROLE_ADMIN' ) or is_granted('ROLE_MANAGER') or app.user.is_member(project) ) %}
+        <a href="{{ path('magecore_testtask_issue_create', { id: project.id }) }}">
+            New Issue
+        </a>
+    {% endif %}
+
     <div>
         <p>Here must be activity</p>
     </div>

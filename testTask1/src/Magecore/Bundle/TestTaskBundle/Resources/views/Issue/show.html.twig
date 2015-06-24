@@ -10,16 +10,32 @@
                 <td>{{ entity.id }}</td>
             </tr>
             <tr>
-                <th>Code</th>
-                <td>{{ entity.code }}</td>
-            </tr>
-            <tr>
                 <th>Summary</th>
                 <td>{{ entity.summary }}</td>
             </tr>
             <tr>
+                <th>Code</th>
+                <td>{{ entity.code }}</td>
+            </tr>
+            <tr>
                 <th>Description</th>
                 <td>{{ entity.description }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ entity.type }}</td>
+            </tr>
+            <tr>
+                <th>Reporter</th>
+                <td>{{ entity.reporter }}</td>
+            </tr>
+            <tr>
+                <th>Assigned</th>
+                <td>{{ entity.assignee }}</td>
+            </tr>
+            <tr>
+                <th>Assigned</th>
+                <td>{{ entity.assignee }}</td>
             </tr>
             <tr>
                 <th>Created</th>
@@ -34,7 +50,7 @@
 
         <ul class="record_actions">
     <li>
-        <a href="{{ path('issue') }}">
+        <a href="{{ path('magecore_testtask_issue') }}">
             Back to the list
         </a>
     </li>
@@ -45,4 +61,29 @@
     </li>
     <li>{{ form(delete_form) }}</li>
 </ul>
+
+    {% block issue_activity_block %}
+        <div>
+            <p>Here must be an activity</p>
+        </div>
+    {% endblock %}
+
+    {% block issue_coloborators_block %}
+        <div>
+            <p>Here must be issue_coloborators_block</p>
+        </div>
+    {% endblock %}
+
+    {% block issue_story_child_block %}
+        <div>
+            <p>Here must be issue_story_child_block</p>
+        </div>
+    {% endblock %}
+
+    {% block issue_subtask_parent_block %}
+        <div>
+            <p>Here must be issue_subtask_parent_block</p>
+        </div>
+    {% endblock %}
+
 {% endblock %}

@@ -2,6 +2,7 @@
 
 namespace Magecore\Bundle\TestTaskBundle\Controller;
 
+use Magecore\Bundle\TestTaskBundle\Entity\Project;
 use Symfony\Component\Form\Extension\Core\Type\TimezoneType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -10,6 +11,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Magecore\Bundle\TestTaskBundle\Entity\Issue;
 use Magecore\Bundle\TestTaskBundle\Form\IssueType;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException as Sec;
+
 
 /**
  * Issue controller.
@@ -22,7 +25,7 @@ class IssueController extends Controller
     /**
      * Lists all Issue entities.
      *
-     * @Route("/", name="issue")
+     * @Route("/", name="magecore_testtask_issue")
      * @Method("GET")
      * @Template()
      */
@@ -39,19 +42,27 @@ class IssueController extends Controller
     /**
      * Creates a new Issue entity.
      *
-     * @Route("/", name="issue_create")
-     * @Method("POST")
+     * @Route("/project/{id}/create", name="magecore_testtask_issue_create", requirements={"id"="\d+"} )
      * @Template("MagecoreTestTaskBundle:Issue:new.html.twig")
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request, Project $project)
     {
+
+        if ( (!$project->isMember($this->getUser())) AND (!($this->getUser()->hasRole('ROLE_ADMIN') or $this->getUser()->hasRole('ROLE_MANAGER') ))){
+            throw new Sec('You are not a member!'); // hard core Secure to protect a not member intrude;
+        }
+
         $entity = new Issue();
+        $entity->setReporter($this->getUser());
+        $entity->setProject($project);
+
+
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-
+        //var_dump($entity->getCreated());
         if ($form->isValid()) {
             //set time
-            $entity->setCreated(new \DateTime('now', new \DateTimeZone("UTC")));
+            $entity->setCreated(new \DateTime('now'));
             $entity->setUpdated($entity->getCreated());
 
             $em = $this->getDoctrine()->getManager();
@@ -68,6 +79,38 @@ class IssueController extends Controller
     }
 
     /**
+     * Creates a new Issue entity. type SubTask.
+     *
+     * @Route("/story/{id}/create", name="magecore_testtask_issue_subtask_create", requirements={"id"="\d+"})
+     * @Template("MagecoreTestTaskBundle:Issue:new.html.twig")
+     */
+    public function createSubtaskAction(Request $request, Issue $story)
+    {
+        $entity = new Issue();
+        $form = $this->createCreateForm($entity);
+        $form->handleRequest($request);
+        //var_dump($entity->getCreated());
+        if ($form->isValid()) {
+            //set time
+            $entity->setCreated(new \DateTime('now'));
+            $entity->setUpdated($entity->getCreated());
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('issue_show', array('id' => $entity->getId())));
+        }
+
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        );
+    }
+
+
+
+    /**
      * Creates a form to create a Issue entity.
      *
      * @param Issue $entity The entity
@@ -77,7 +120,6 @@ class IssueController extends Controller
     private function createCreateForm(Issue $entity)
     {
         $form = $this->createForm(new IssueType(), $entity, array(
-            'action' => $this->generateUrl('issue_create'),
             'method' => 'POST',
         ));
 
@@ -89,17 +131,18 @@ class IssueController extends Controller
     /**
      * Displays a form to create a new Issue entity.
      *
-     * @Route("/new", name="issue_new")
+     * @Route("/new/{id}", name="magecore_testtask_issue_new", requirements={"id"="\d+"})
      * @Method("GET")
      * @Template()
      */
-    public function newAction()
+    public function newAction(Project $project)
     {
         $entity = new Issue();
         //var_dump($this->getUser());
         $entity->setReporter( $this->getUser());
         $entity->setSummary('mama mila ramu');
-        //var_dump($entity->getReporter());
+        $entity->setCreated(new \DateTime('now'));
+        var_dump($entity->getCreated());
         $form   = $this->createCreateForm($entity);
 
         return array(
@@ -200,7 +243,7 @@ class IssueController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            $entity->setUpdated(new \DateTime('now',new \DateTimeZone("UTC")));
+            $entity->setUpdated(new \DateTime('now'));
             $em->flush();
 
             return $this->redirect($this->generateUrl('issue_edit', array('id' => $id)));
@@ -254,4 +297,7 @@ class IssueController extends Controller
             ->getForm()
         ;
     }
+
+    //protected function CreateIssue
+
 }

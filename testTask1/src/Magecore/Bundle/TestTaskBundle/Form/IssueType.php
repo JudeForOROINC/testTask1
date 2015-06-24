@@ -20,9 +20,29 @@ class IssueType extends AbstractType
             ->add('description')
             //->add('created')
             //->add('updated')
-            ->add('reporter')
+            //->add('reporter')
             ->add('assignee')
-            ->add('type')
+        ;
+        if (isset($options['data'])){
+
+            if (get_class($options['data']) == 'Magecore\Bundle\TestTaskBundle\Entity\Issue'){
+                if ($options['data']->getId() == 0) {
+                    $arr = $options['data']->getParentTypes();
+                    $arr = array_combine($arr, $arr);
+                }
+            }
+
+        }
+        if (!empty($arr)){
+            $builder->add('type','choice', array(
+                'choices' => array(
+                    $arr
+                ),
+                'required' => true,
+          ))
+            ;
+        }
+        $builder
             ->add('priority')
             ->add('status')
             ->add('resolution')

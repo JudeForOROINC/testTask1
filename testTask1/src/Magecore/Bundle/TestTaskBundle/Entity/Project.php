@@ -48,6 +48,11 @@ class Project
      */
     protected $members;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Issue", mappedBy="project")
+     */
+    protected $issue;
+
     public function __construct(){
         $this->members = new ArrayCollection();
     }
@@ -155,4 +160,41 @@ class Project
         return $this;
     }
 
+    public function isMember(User $user){
+        return (bool)$this->getMembers()->contains($user);
+    }
+
+
+    /**
+     * Add issue
+     *
+     * @param \Magecore\Bundle\TestTaskBundle\Entity\Issue $issue
+     * @return Project
+     */
+    public function addIssue(\Magecore\Bundle\TestTaskBundle\Entity\Issue $issue)
+    {
+        $this->issue[] = $issue;
+
+        return $this;
+    }
+
+    /**
+     * Remove issue
+     *
+     * @param \Magecore\Bundle\TestTaskBundle\Entity\Issue $issue
+     */
+    public function removeIssue(\Magecore\Bundle\TestTaskBundle\Entity\Issue $issue)
+    {
+        $this->issue->removeElement($issue);
+    }
+
+    /**
+     * Get issue
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getIssue()
+    {
+        return $this->issue;
+    }
 }

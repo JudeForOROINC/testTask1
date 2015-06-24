@@ -56,11 +56,17 @@ class Issue
      */
     private $description;
 
+
+    //const ISSUE_PARENT_TYPES = [ self::ISSUE_TYPE_STORY, self::ISSUE_TYPE_BUG, self::ISSUE_TYPE_TASK];
+
+
     /**
-     * @ORM\ManyToOne(targetEntity="DicType")
-     * @ORM\JoinColumn(name="type_id", referencedColumnName="id")
+     * @ORM\Column(name="issue_type", type="string", length=30)
      */
-    private $type;
+    private $type;//Это заведомо не корректная архитектура с т.з. производительности. делаю для удобства дебага - запросы в базу смотреть.
+
+
+
 
     /**
      * @ORM\ManyToOne(targetEntity="DicPriority")
@@ -83,7 +89,7 @@ class Issue
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created", type="datetime")
+     * @ORM\Column(name="created", type="datetimetz")
      */
     private $created;
 
@@ -106,7 +112,16 @@ class Issue
      */
     private $parentIssue;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Project")
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
+     */
+    protected $project;
 
+    const ISSUE_TYPE_STORY = 'Story';
+    const ISSUE_TYPE_BUG = 'Bug';
+    const ISSUE_TYPE_TASK = 'Task';
+    const ISSUE_TYPE_SUBTASK = 'Subtask';
     /**
      * Get id
      *
@@ -238,9 +253,15 @@ class Issue
      * @param integer $type
      * @return Issue
      */
+    protected function isValidType($type){
+        return in_array( $type ,[self::ISSUE_TYPE_STORY,self::ISSUE_TYPE_BUG, self::ISSUE_TYPE_SUBTASK, self::ISSUE_TYPE_TASK]);
+    }
+
     public function setType($type)
     {
-        $this->type = $type;
+        if ($this->isValidType($type)){
+            $this->type = $type;
+        }
 
         return $this;
     }
@@ -254,6 +275,23 @@ class Issue
     {
         return $this->type;
     }
+
+    public function isStory(){
+        return (bool)$this->getType()==self::ISSUE_TYPE_STORY;
+    }
+
+    public function isSubtask(){
+        return (bool)$this->getType()==self::ISSUE_TYPE_SUBTASK;
+    }
+
+    public function getParentTypes(){
+        return array(
+            self::ISSUE_TYPE_BUG,
+            self::ISSUE_TYPE_TASK,
+            self::ISSUE_TYPE_STORY,
+        );
+    }
+
 
     /**
      * Set priority
@@ -399,6 +437,8 @@ class Issue
     {
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
         //$this->created = new
+        $this->created = new \DateTime();
+        $this->updated = new \DateTime();
     }
 
     /**
@@ -528,5 +568,28 @@ class Issue
 
     public function __toString(){
         return (string)$this->getCode();
+    }
+
+    /**
+     * Set project
+     *
+     * @param \Magecore\Bundle\TestTaskBundle\Entity\Project $project
+     * @return Issue
+     */
+    public function setProject(\Magecore\Bundle\TestTaskBundle\Entity\Project $project = null)
+    {
+        $this->project = $project;
+
+        return $this;
+    }
+
+    /**
+     * Get project
+     *
+     * @return \Magecore\Bundle\TestTaskBundle\Entity\Project 
+     */
+    public function getProject()
+    {
+        return $this->project;
     }
 }
