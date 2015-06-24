@@ -9,3 +9,7 @@ magecore_test_task_project:
     resource: "@MagecoreTestTaskBundle/Controller/ProjectController.php"
     type:     annotation
     prefix: /project
+magecore_test_task_issue:
+    resource: "@MagecoreTestTaskBundle/Controller/IssueController.php"
+    type:     annotation
+    prefix: /

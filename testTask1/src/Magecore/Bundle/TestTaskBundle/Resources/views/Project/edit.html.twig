@@ -31,12 +31,27 @@
 
 
 </div>
+        {% block MembersList %}
+            <p>add members</p>
+            {% form_theme form _self %}
+
+            {% block _project_members %}
+                <div {{ block('widget_container_attributes') }}>
+                    {%- for child in form.members %}
+                        <div style="border-radius: 3px; background-color: #0000BB;width: 200px">
+                            {{- form_widget(child) -}}
+                            {{- form_label(child) -}}
+                        </div>
+                    {% endfor -%}
+                </div>
+            {% endblock %}
+            {{ form_row(form.members,{'attr': {'width':'300px;'}}) }}
+        {% endblock %}
+
         {% block ButtonSave %}
 {{ form_row(form.save) }}
         {% endblock %}
 {{ form_end(form) }}
         </div>
-{% block MembersList %}
-    <p>add members??</p>
-{% endblock %}
+
 {% endblock %}

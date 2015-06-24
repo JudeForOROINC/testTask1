@@ -5,6 +5,8 @@ namespace Magecore\Bundle\TestTaskBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 use Symfony\Component\Form\Extension\Core\Type\TimezoneType;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity
@@ -21,7 +23,7 @@ class User extends BaseUser
 
     /**
      *
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      *
      */
     protected $avapath;
@@ -29,6 +31,7 @@ class User extends BaseUser
     /**
      *
      * @ORM\Column(type="string", nullable=true)
+     *
      *
      */
     protected $full_name;
@@ -40,15 +43,122 @@ class User extends BaseUser
      */
     protected $timezone = 'Europe/Kiev';
 
+    /**
+     * @Assert\File(maxSize="6000000")
+     * @Assert\Image(
+     *     minWidth = 72,
+     *     maxWidth = 400,
+     *     minHeight = 72,
+     *     maxHeight = 400
+     * )
+     */
+    protected $file;
 
+    protected $remove_ava;
+
+    public function getRemoveAva()
+    {
+        return $this->remove_ava;
+    }
+    public function setRemoveAva($remove_ava)
+    {
+        $this->remove_ava = $remove_ava;
+    }
+
+    public function setFile(UploadedFile $file = null){
+        $this->file = $file;
+    }
+
+    public function getFile()
+    {
+        return $this->file;
+    }
 
     public function isOwner(User $user){
-        return (bool)$this->getId() ==$user->getId();
+        return (bool)$this->getId() == $user->getId();
     }
+
+    public function getAbsolutePath()
+    {
+        return null === $this->avapath
+            ? null
+            : $this->getUploadRootDir().DIRECTORY_SEPARATOR.$this->avapath;
+    }
+
+    public function getWebPath()
+    {
+        return null === $this->avapath
+            ? null
+            : $this->getUploadDir().DIRECTORY_SEPARATOR.$this->avapath;
+    }
+
+    public function getUploadRootDir()
+    {
+        //upload abs. dir;
+        return dirname(dirname(dirname(dirname(dirname(__DIR__))))).DIRECTORY_SEPARATOR.'web'.DIRECTORY_SEPARATOR.$this->getUploadDir();
+    }
+
+    public function getUploadDir()
+    {
+        //upload abs. dir;
+        return 'uploads'.DIRECTORY_SEPARATOR.'documents';
+    }
+
+    public  function upload(){
+        if($this->getRemoveAva()){
+            if(!empty($this->avapath)){
+                //kick old ave:
+                if (\file_exists($this->getAbsolutePath())){
+                    unlink($this->getAbsolutePath());
+                }
+                $this->avapath = null;
+            }
+        }
+
+        if (null === $this->getFile()) {
+            return;
+        }
+
+        // use the original file name here but you should
+        // sanitize it at least to avoid any security issues
+
+        // move takes the target directory and then the
+        // target filename to move to
+
+
+/*
+        $this->getFile()->move(
+            $this->getUploadRootDir(),
+            $this->getFile()->getClientOriginalName()
+        );*/
+
+        $extension = $this->getFile()->guessExtension();
+        if (!$extension) {
+            // extension cannot be guessed
+            $extension = 'bin';
+        }
+
+        //kick old ave:
+        if (\file_exists($this->getAbsolutePath())){
+            unlink($this->getAbsolutePath());
+        }
+
+        $this->getFile()->move(
+            $this->getUploadRootDir(),
+            $this->getId().'.'.$extension
+        );
+        // set the path property to the filename where you've saved the file
+        //$this->avapath = $this->getFile()->getClientOriginalName();
+        $this->avapath = $this->getId().'.'.$extension;
+
+        // clean up the file property as you won't need it anymore
+        $this->file = null;
+    }
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {

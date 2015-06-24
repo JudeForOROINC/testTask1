@@ -3,6 +3,42 @@
 
 
         {% block FormTitle %} <h1> Edit the project</h1> {% endblock %}
+
+
+
 {% block MembersList %}
     <p>manage members!!</p>
+{#
+    <div style="align-content: center;width: 100px">
+        {% for child in form.members.children %}
+            {{ form_row(child) }}
+        {% endfor %}
+        <div>#}
+    {% form_theme form _self %}
+
+    {% block _project_members %}
+        <div {{ block('widget_container_attributes') }}>
+            {%- for child in form.members %}
+                <div style="border-radius: 3px; background-color: #0000BB;width: 200px">
+                    {{- form_widget(child) -}}
+                    {{- form_label(child) -}}
+                </div>
+            {% endfor -%}
+        </div>
+    {% endblock %}
+
+    <div style="width: 250px">
+        {{ form_widget(form.members) }}
+    </div>
+    {#<p>manage members!! OFF</p>#}
+
 {% endblock %}
+
+ {% block ButtonSave %}
+     {{ form_widget(form.save,{'label':'Save project'}) }}
+ {% endblock %}
+
+
+
+
+

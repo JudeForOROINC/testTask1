@@ -51,6 +51,12 @@ class ProjectController extends Controller
     public function createAction(Request $request)
     {
         $project = new Project();
+        /*$en = $this->getDoctrine()->getManager();
+        $users = $en->getRepository('MagecoreTestTaskBundle:User')->findAll();
+        foreach ($users as $user) {
+            $project->addMember($user);
+        }*/
+
         $form = $this->createForm(new ProjectType(),$project);
         $form->handleRequest($request);
 

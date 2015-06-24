@@ -21,9 +21,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UserController extends Controller
 {
+
+
+
+
+
     /**
      * @Route("/list", name="magecore_test_task_user_index")
      * @Template
@@ -78,6 +84,9 @@ class UserController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            $entity->upload();
+
             $em->persist($entity);
             $em->flush();
 

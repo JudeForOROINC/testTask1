@@ -12,6 +12,20 @@
     </div>
     <div>
         <p>Here must be members list</p>
+        <div style="width: 350px">
+
+        {% if not project.members.isEmpty %}
+            <ul>
+            {% for member in project.members %}
+                <li>
+                <div style="border-radius: 3px; background-color: #0081c2;width: auto">
+                    {{ member.username }}
+                </div>
+                </li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+        </div>
     </div>
 
     {% if app.user and (is_granted( 'ROLE_ADMIN' ) or is_granted('ROLE_MANAGER') ) %}

@@ -137,6 +137,7 @@ class UserControllerTest extends WebTestCase
     public function testAccess(){
         //test access rights!
         //TODO: write tests for buttons && 403.
+        //TODO: write test for check Ava Manage;
     }
 
 }

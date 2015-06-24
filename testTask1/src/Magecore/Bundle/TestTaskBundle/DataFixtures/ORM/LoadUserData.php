@@ -23,6 +23,8 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
     public function load(ObjectManager $manager)
     {
         $this->loadUsers($manager);
+        $this->loadDictionaries($manager);
+
         //$this->loadPosts($manager);
     }
 
@@ -109,6 +111,47 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $manAdmin->setPassword($encodedPassword);
         $manager->persist($manAdmin);
 
+
+        $manager->flush();
+    }
+    private function loadDictionaries(ObjectManager $manager)
+    {
+        $DicVals = array('Bug', 'Subtask', 'Task', 'Story');
+        foreach ($DicVals as $dicVal) {
+
+            $dicType = new Entity\DicType();
+            $dicType->setValue($dicVal);
+            $manager->persist($dicType);
+        }
+
+        $DicVals = array('Done', 'Fixed', 'Can not reproduce', 'Duplicate');
+        foreach ($DicVals as $dicVal) {
+
+            $dicResolution = new Entity\DicResolution();
+            $dicResolution->setValue($dicVal);
+            $manager->persist($dicResolution);
+        }
+
+        $DicVals = array(3=>'Major', 1=>'Minor', 5=>'Blocker', 4=>'Kritical', 2=>'Trivial');
+        //value = link to dic major(3) ; minor(1); blocker(5);critical(4);trivial(2))
+        foreach ($DicVals as $key=>$dicVal) {
+
+            $dicPriority = new Entity\DicPriority();
+            $dicPriority->setValue($dicVal);
+            $dicPriority->setSortOrder($key);
+            $manager->persist($dicPriority);
+        }
+
+        $DicVals = array(1=>'Open', 2=>'In progress', 3=>'Closed');
+        //var_dump($DicVals);
+        //value = link to dic major(3) ; minor(1); blocker(5);critical(4);trivial(2))
+        foreach ($DicVals as $key=>$dicVal) {
+
+            $dicStatus = new Entity\DicStatus();
+            $dicStatus->setValue($dicVal);
+            $dicStatus->setSortOrder($key);
+            $manager->persist($dicStatus);
+        }
 
         $manager->flush();
     }

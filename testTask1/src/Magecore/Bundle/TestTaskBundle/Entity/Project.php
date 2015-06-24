@@ -5,10 +5,13 @@ namespace Magecore\Bundle\TestTaskBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 //use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="magecore_testtask_project")
+ * @UniqueEntity("code")
  */
 class Project
 {
@@ -131,4 +134,25 @@ class Project
     {
         return $this->members;
     }
+
+    public function setMembers(Collection $members)
+    {
+        $this->members= $members;
+    }
+
+    public function addMember(User $user){
+        if (!$this->getMembers()->contains($user)){
+            $this->getMembers()->add($user);
+            //???
+        }
+        return $this;
+    }
+    public function removeMember(User $user){
+        if (!$this->getMembers()->contains($user)){
+            $this->getMembers()->removeElement($user);
+            //???
+        }
+        return $this;
+    }
+
 }
