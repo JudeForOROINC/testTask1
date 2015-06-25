@@ -130,6 +130,13 @@ class Issue
 
 
     /**
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="issues")
+     * @ORM\JoinTable(name="magecore_testtask_issue_to_users"),
+     */
+    protected $collaborators;
+
+
+    /**
      * Get id
      *
      * @return integer 
@@ -598,5 +605,71 @@ class Issue
     public function getProject()
     {
         return $this->project;
+    }
+
+    /**
+     * Add comments
+     *
+     * @param \Magecore\Bundle\TestTaskBundle\Entity\Comment $comments
+     * @return Issue
+     */
+    public function addComment(\Magecore\Bundle\TestTaskBundle\Entity\Comment $comments)
+    {
+        $this->comments[] = $comments;
+
+        return $this;
+    }
+
+    /**
+     * Remove comments
+     *
+     * @param \Magecore\Bundle\TestTaskBundle\Entity\Comment $comments
+     */
+    public function removeComment(\Magecore\Bundle\TestTaskBundle\Entity\Comment $comments)
+    {
+        $this->comments->removeElement($comments);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * Add collaborators
+     *
+     * @param \Magecore\Bundle\TestTaskBundle\Entity\User $collaborators
+     * @return Issue
+     */
+    public function addCollaborator(\Magecore\Bundle\TestTaskBundle\Entity\User $collaborators)
+    {
+        $this->collaborators[] = $collaborators;
+
+        return $this;
+    }
+
+    /**
+     * Remove collaborators
+     *
+     * @param \Magecore\Bundle\TestTaskBundle\Entity\User $collaborators
+     */
+    public function removeCollaborator(\Magecore\Bundle\TestTaskBundle\Entity\User $collaborators)
+    {
+        $this->collaborators->removeElement($collaborators);
+    }
+
+    /**
+     * Get collaborators
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCollaborators()
+    {
+        return $this->collaborators;
     }
 }

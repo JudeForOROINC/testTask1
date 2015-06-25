@@ -56,6 +56,13 @@ class User extends BaseUser
 
     protected $remove_ava;
 
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Issue", mappedBy="collaborators")
+     */
+
+    protected $issues;
+
     public function getRemoveAva()
     {
         return $this->remove_ava;
@@ -234,5 +241,45 @@ class User extends BaseUser
     public function getTimezone()
     {
         return $this->timezone;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->issues = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add issues
+     *
+     * @param \Magecore\Bundle\TestTaskBundle\Entity\Issue $issues
+     * @return User
+     */
+    public function addIssue(\Magecore\Bundle\TestTaskBundle\Entity\Issue $issues)
+    {
+        $this->issues[] = $issues;
+
+        return $this;
+    }
+
+    /**
+     * Remove issues
+     *
+     * @param \Magecore\Bundle\TestTaskBundle\Entity\Issue $issues
+     */
+    public function removeIssue(\Magecore\Bundle\TestTaskBundle\Entity\Issue $issues)
+    {
+        $this->issues->removeElement($issues);
+    }
+
+    /**
+     * Get issues
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getIssues()
+    {
+        return $this->issues;
     }
 }
