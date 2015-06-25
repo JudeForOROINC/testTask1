@@ -47,6 +47,20 @@
         <p>Here must be activity</p>
     </div>
 
+    <div>
+        <p>additional: list of issues of a project;</p>
+        {% if project.issue %}
+            {% for issue in project.issues %}
+                <a>{{ path('magecore_testtask_issue_show',{id : issue.id}) }}
+                    {{ issue }}
+                </a>
+            {% endfor %}
+        {% else %}
+            <div>No issues found</div>
+        {% endif %}
+    </div>
+
+
 
 </div>
 {% endblock %}

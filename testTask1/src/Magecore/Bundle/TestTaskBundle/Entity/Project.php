@@ -51,7 +51,7 @@ class Project
     /**
      * @ORM\OneToMany(targetEntity="Issue", mappedBy="project")
      */
-    protected $issue;
+    protected $issues;
 
     public function __construct(){
         $this->members = new ArrayCollection();
@@ -174,7 +174,7 @@ class Project
      */
     public function addIssue(\Magecore\Bundle\TestTaskBundle\Entity\Issue $issue)
     {
-        $this->issue[] = $issue;
+        $this->issues[] = $issue;
 
         return $this;
     }
@@ -186,7 +186,7 @@ class Project
      */
     public function removeIssue(\Magecore\Bundle\TestTaskBundle\Entity\Issue $issue)
     {
-        $this->issue->removeElement($issue);
+        $this->issues->removeElement($issue);
     }
 
     /**
@@ -194,11 +194,13 @@ class Project
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getIssue()
+    public function getIssues()
     {
-        return $this->issue;
+        return $this->issues;
     }
     public function __toString(){
         return (string)$this->getCode();
     }
+
+    
 }

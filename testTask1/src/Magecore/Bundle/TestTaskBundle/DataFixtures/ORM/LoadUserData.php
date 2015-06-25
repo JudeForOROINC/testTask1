@@ -12,6 +12,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Magecore\Bundle\TestTaskBundle\Entity;
 use Magecore\Bundle\TestTaskBundle\Entity\User;
 use Magecore\Bundle\TestTaskBundle\Entity\Project;
+use Magecore\Bundle\TestTaskBundle\Entity\Issue;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -26,6 +27,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $this->loadUsers($manager);
         $this->loadDictionaries($manager);
         $this->loadProjects($manager);
+        $this->loadIssue($manager);
         //$this->loadPosts($manager);
     }
 
@@ -73,6 +75,15 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $manAdmin->setUsername('Manager');
         $manAdmin->setEmail('yo_man@symfony.com');
         $manAdmin->setRoles(array('ROLE_MANAGER'));
+        $encodedPassword = $passwordEncoder->encodePassword( '123', $manAdmin->getSalt());
+        $manAdmin->setPassword($encodedPassword);
+        $manAdmin->setEnabled(true);
+        $manager->persist($manAdmin);
+
+        $manAdmin = new User();
+        $manAdmin->setUsername('Operator');
+        $manAdmin->setEmail('yo_man_2@symfony.com');
+        $manAdmin->setRoles(array('ROLE_OPERATOR'));
         $encodedPassword = $passwordEncoder->encodePassword( '123', $manAdmin->getSalt());
         $manAdmin->setPassword($encodedPassword);
         $manAdmin->setEnabled(true);
@@ -163,21 +174,23 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
     protected function loadProjects(ObjectManager $manager){
         //pro
         $user = $manager->getRepository('MagecoreTestTaskBundle:User')->findOneBy(['username'=>'Manager']);
+        $userOperator = $manager->getRepository('MagecoreTestTaskBundle:User')->findOneBy(['username'=>'Operator']);
 
 
         $Project = new Project();
         //var_dump($Project);
         $Project->setCode('M1M');
-        $Project->setLabel('First Test Project');
-        $Project->setSummary('First Test Project = Summary. This is a simple text');
+        $Project->setLabel('Create An Enviroment');
+        $Project->setSummary('To start must be installed inviroment. install all needable Programs. set up Storm, Xdebug ect.');
         $Project->addMember($user);
+        $Project->addMember($userOperator);
 
         $manager->persist($Project);
 
         $Project = new Project();
         $Project->setCode('P1');
-        $Project->setLabel('Second Test Project');
-        $Project->setSummary('Second Test Project = Summary. This is not that like simple text');
+        $Project->setLabel('TestTask for Newcomer');
+        $Project->setSummary('Set up a test task for a real sprint. logg and try to test skills and accurassy.');
 
         $manager->persist($Project);
 
@@ -186,19 +199,44 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 
     protected function loadIssue(ObjectManager $manager){
         //pro
-        $Project = new Project();
-        $Project->setCode('M1M');
-        $Project->setLabel('First Test Project');
-        $Project->setSummary('First Test Project = Summary. This is a simple text');
+        $user = $manager->getRepository('MagecoreTestTaskBundle:User')->findOneBy(['username'=>'Manager']);
+        $userOperator = $manager->getRepository('MagecoreTestTaskBundle:User')->findOneBy(['username'=>'Operator']);
+        $project = $manager->getRepository('MagecoreTestTaskBundle:Project')->findOneBy(['code'=>'M1M']);
 
-        $manager->persist($Project);
+        $issue = new Issue();
+        $issue->setType($issue::ISSUE_TYPE_STORY);
+        $issue->setProject($project);
+        $issue->setReporter($user);
+        $issue->setAssignee($userOperator);
+        $issue->setSummary('Prepere work place');
+        $issue->setCode('Prepere work place');//TODO fix this field!!!
+        $issue->setDescription('Must be prepere work place. install windows 8. Try to put all needed Programs. inspall php. read Jira. ' );
 
-        $Project = new Project();
-        $Project->setCode('P1');
-        $Project->setLabel('Second Test Project');
-        $Project->setSummary('Second Test Project = Summary. This is not that like simple text');
+        $manager->persist($issue);
 
-        $manager->persist($Project);
+        $issue = new Issue();
+        $issue->setType($issue::ISSUE_TYPE_TASK);
+        $issue->setProject($project);
+        $issue->setReporter($user);
+        $issue->setAssignee($userOperator);
+        $issue->setSummary('Buy a computer ');
+        $issue->setCode('Prepere work place');//TODO fix this field!!!
+        $issue->setDescription('Please , Buy a computer for NewCommer.' );
+
+
+        $manager->persist($issue);
+
+        $issue = new Issue();
+        $issue->setType($issue::ISSUE_TYPE_BUG);
+        $issue->setProject($project);
+        $issue->setReporter($user);
+        $issue->setAssignee($userOperator);
+        $issue->setSummary('Not enaf operative memory ');
+        $issue->setCode('Prepere work place');//TODO fix this field!!!
+        $issue->setDescription('subj' );
+
+
+        $manager->persist($issue);
 
         $manager->flush();
     }
