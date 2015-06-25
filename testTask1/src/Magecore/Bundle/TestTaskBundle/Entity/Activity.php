@@ -62,7 +62,7 @@ class Activity
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="time", type="datetimetz")
+     * @ORM\Column(name="time", type="datetime")
      */
     private $time;
 

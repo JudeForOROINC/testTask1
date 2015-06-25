@@ -11,6 +11,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Magecore\Bundle\TestTaskBundle\Entity;
 use Magecore\Bundle\TestTaskBundle\Entity\User;
+use Magecore\Bundle\TestTaskBundle\Entity\Project;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -24,7 +25,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
     {
         $this->loadUsers($manager);
         $this->loadDictionaries($manager);
-
+        $this->loadProjects($manager);
         //$this->loadPosts($manager);
     }
 
@@ -52,7 +53,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 
 
         $passwordEncoder = $this->container->get('security.encoder_factory')->getEncoder($johnUser);
-
+        //var_dump($johnUser->getSalt());
         $encodedPassword = $passwordEncoder->encodePassword( '123', $johnUser->getSalt());
         $johnUser->setPassword($encodedPassword);
         $johnUser->setEnabled(true);
@@ -154,6 +155,50 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
             $dicStatus->setSortOrder($key);
             $manager->persist($dicStatus);
         }
+
+        $manager->flush();
+    }
+
+
+    protected function loadProjects(ObjectManager $manager){
+        //pro
+        $user = $manager->getRepository('MagecoreTestTaskBundle:User')->findOneBy(['username'=>'Manager']);
+
+
+        $Project = new Project();
+        //var_dump($Project);
+        $Project->setCode('M1M');
+        $Project->setLabel('First Test Project');
+        $Project->setSummary('First Test Project = Summary. This is a simple text');
+        $Project->addMember($user);
+
+        $manager->persist($Project);
+
+        $Project = new Project();
+        $Project->setCode('P1');
+        $Project->setLabel('Second Test Project');
+        $Project->setSummary('Second Test Project = Summary. This is not that like simple text');
+
+        $manager->persist($Project);
+
+        $manager->flush();
+    }
+
+    protected function loadIssue(ObjectManager $manager){
+        //pro
+        $Project = new Project();
+        $Project->setCode('M1M');
+        $Project->setLabel('First Test Project');
+        $Project->setSummary('First Test Project = Summary. This is a simple text');
+
+        $manager->persist($Project);
+
+        $Project = new Project();
+        $Project->setCode('P1');
+        $Project->setLabel('Second Test Project');
+        $Project->setSummary('Second Test Project = Summary. This is not that like simple text');
+
+        $manager->persist($Project);
 
         $manager->flush();
     }

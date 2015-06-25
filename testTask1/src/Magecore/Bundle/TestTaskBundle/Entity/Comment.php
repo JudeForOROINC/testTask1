@@ -22,7 +22,7 @@ class Comment
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Issue")
+     * @ORM\ManyToOne(targetEntity="Issue", inversedBy="comments" )
      * @ORM\JoinColumn(name="issue_id", referencedColumnName="id")
      */
     private $issue;
@@ -43,14 +43,14 @@ class Comment
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created", type="datetimetz")
+     * @ORM\Column(name="created", type="datetime")
      */
     private $created;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated", type="datetimetz")
+     * @ORM\Column(name="updated", type="datetime")
      */
     private $updated;
 

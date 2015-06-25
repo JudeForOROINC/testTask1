@@ -89,7 +89,7 @@ class Issue
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created", type="datetimetz")
+     * @ORM\Column(name="created", type="datetime")
      */
     private $created;
 
@@ -113,7 +113,7 @@ class Issue
     private $parentIssue;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Project")
+     * @ORM\ManyToOne(targetEntity="Project", inversedBy="issue")
      * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
      */
     protected $project;
@@ -124,7 +124,7 @@ class Issue
     const ISSUE_TYPE_SUBTASK = 'Subtask';
 
     /**
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="comments")
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="issue")
      */
     protected $comments;
 

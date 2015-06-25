@@ -55,6 +55,7 @@ class Project
 
     public function __construct(){
         $this->members = new ArrayCollection();
+
     }
 
     /**
