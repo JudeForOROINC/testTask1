@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * DicStatus
  *
- * @ORM\Table()
+ * @ORM\Table(name = "magecore_testtask_dic_status")
  * @ORM\Entity
  */
 class DicStatus

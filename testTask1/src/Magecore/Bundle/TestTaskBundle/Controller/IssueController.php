@@ -11,8 +11,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Magecore\Bundle\TestTaskBundle\Entity\Issue;
 use Magecore\Bundle\TestTaskBundle\Form\IssueType;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException as Sec;
-
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * Issue controller.
@@ -39,6 +39,40 @@ class IssueController extends Controller
             'entities' => $entities,
         );
     }
+
+    /**
+     * @param Project $project
+     * @throws AccessDeniedException
+     */
+    protected function checkProjectAccess(Project $project){
+        if (!$this->isProjectAccessAllowed($project)) {
+            throw new AccessDeniedException('You are not a member!'); // hard core Secure to protect a not member intrude;
+        }
+    }
+
+    /**
+     * Check if current logged in user has an access to input project
+     *
+     * @param Project $project
+     * @return bool
+     */
+    protected function isProjectAccessAllowed(Project $project)
+    {
+        $currentUser = $this->getUser();
+
+        // member must have access
+        if ($project->isMember($currentUser)) {
+            return true;
+        }
+
+        // any admin or manager must have access too
+        if ($currentUser->hasRole('ROLE_ADMIN') || $currentUser->hasRole('ROLE_MANAGER'))  {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * Creates a new Issue entity.
      *
@@ -47,10 +81,8 @@ class IssueController extends Controller
      */
     public function createAction(Request $request, Project $project)
     {
+        $this->checkProjectAccess($project);
 
-        if ( (!$project->isMember($this->getUser())) AND (!($this->getUser()->hasRole('ROLE_ADMIN') or $this->getUser()->hasRole('ROLE_MANAGER') ))){
-            throw new Sec('You are not a member!'); // hard core Secure to protect a not member intrude;
-        }
 
         $entity = new Issue();
         $entity->setReporter($this->getUser());
@@ -59,7 +91,7 @@ class IssueController extends Controller
 
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-        //var_dump($entity->getCreated());
+
         if ($form->isValid()) {
             //set time
             $entity->setCreated(new \DateTime('now'));
@@ -69,7 +101,7 @@ class IssueController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('issue_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('magecore_testtask_issue_show', array('id' => $entity->getId())));
         }
 
         return array(
@@ -83,13 +115,26 @@ class IssueController extends Controller
      *
      * @Route("/story/{id}/create", name="magecore_testtask_issue_subtask_create", requirements={"id"="\d+"})
      * @Template("MagecoreTestTaskBundle:Issue:new.html.twig")
+     * @throws BadRequestHttpException
      */
     public function createSubtaskAction(Request $request, Issue $story)
     {
+        $project =  $story->getProject();
+        $this->checkProjectAccess($project);
+
+        if (!$story->isStory()){
+            throw new BadRequestHttpException('Story type expected , but " '.( (string)$story->getType() ).' " given!');
+        }
+
         $entity = new Issue();
+
+        $entity->setParentIssue($story);
+        $entity->setProject($project);
+        $entity->setType($entity::ISSUE_TYPE_SUBTASK);
+
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-        //var_dump($entity->getCreated());
+
         if ($form->isValid()) {
             //set time
             $entity->setCreated(new \DateTime('now'));
@@ -99,7 +144,7 @@ class IssueController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('issue_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('magecore_testtask_issue_show', array('id' => $entity->getId())));
         }
 
         return array(
@@ -134,6 +179,7 @@ class IssueController extends Controller
      * @Route("/new/{id}", name="magecore_testtask_issue_new", requirements={"id"="\d+"})
      * @Method("GET")
      * @Template()
+     * //TODO Remove this action.
      */
     public function newAction(Project $project)
     {
@@ -154,7 +200,7 @@ class IssueController extends Controller
     /**
      * Finds and displays a Issue entity.
      *
-     * @Route("/{id}", name="issue_show")
+     * @Route("/{id}", name="magecore_testtask_issue_show")
      * @Method("GET")
      * @Template()
      */
@@ -246,7 +292,8 @@ class IssueController extends Controller
             $entity->setUpdated(new \DateTime('now'));
             $em->flush();
 
-            return $this->redirect($this->generateUrl('issue_edit', array('id' => $id)));
+            //return $this->redirect($this->generateUrl('issue_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('magecore_testtask_issue_show', array('id' => $id)));
         }
 
         return array(

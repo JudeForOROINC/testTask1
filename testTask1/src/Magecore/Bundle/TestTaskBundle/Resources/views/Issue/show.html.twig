@@ -42,6 +42,18 @@
                 <td>{{ entity.project }}</td>
             </tr>
             <tr>
+                <th>ParentIssue</th>
+                <td>{{ entity.parentIssue }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ entity.status }}</td>
+            </tr>
+            <tr>
+                <th>Resolution</th>
+                <td>{{ entity.resolution }}</td>
+            </tr>
+            <tr>
                 <th>Created</th>
                 <td>{{ entity.created|date('Y-m-d H:i:s',app.user.gettimezone) }}</td>
             </tr>
@@ -81,13 +93,43 @@
     {% block issue_story_child_block %}
         <div>
             <p>Here must be issue_story_child_block</p>
+
+            {% if entity.isStory %}
+                <div>
+
+                    <ul>
+                    {% for child in entity.children %}
+                        <li>
+                        <a href="{{ path('magecore_testtask_issue_show',{id: child.id}) }}">
+                            {{ child }}
+                        </a>
+                        </li>
+                    {% endfor %}
+                        </ul>
+                    </div>
+                <a href={{ path('magecore_testtask_issue_subtask_create',{id : entity.id}) }}>
+                    add child
+                    </a>
+            {% endif %}
         </div>
     {% endblock %}
 
     {% block issue_subtask_parent_block %}
         <div>
             <p>Here must be issue_subtask_parent_block</p>
+            {% if entity.isSubtask %}
+                <div>
+
+                    Parent: <a href="{{ path('magecore_testtask_issue_show',{id: entity.parentIssue.id}) }}">
+                                 {{ entity.parentIssue }}
+                            </a>
+                </div>
+            {% endif %}
         </div>
+    {% endblock %}
+
+    {% block comments %}
+        <p> Here must be an comments + button</p>
     {% endblock %}
 
 {% endblock %}

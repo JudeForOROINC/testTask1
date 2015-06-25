@@ -122,6 +122,13 @@ class Issue
     const ISSUE_TYPE_BUG = 'Bug';
     const ISSUE_TYPE_TASK = 'Task';
     const ISSUE_TYPE_SUBTASK = 'Subtask';
+
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="comments")
+     */
+    protected $comments;
+
+
     /**
      * Get id
      *
@@ -277,11 +284,11 @@ class Issue
     }
 
     public function isStory(){
-        return (bool)$this->getType()==self::ISSUE_TYPE_STORY;
+        return (bool)($this->getType()==self::ISSUE_TYPE_STORY);
     }
 
     public function isSubtask(){
-        return (bool)$this->getType()==self::ISSUE_TYPE_SUBTASK;
+        return (bool)($this->getType()==self::ISSUE_TYPE_SUBTASK);
     }
 
     public function getParentTypes(){

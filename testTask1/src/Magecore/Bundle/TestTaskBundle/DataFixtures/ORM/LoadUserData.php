@@ -116,6 +116,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
     }
     private function loadDictionaries(ObjectManager $manager)
     {
+        /*
         $DicVals = array('Bug', 'Subtask', 'Task', 'Story');
         foreach ($DicVals as $dicVal) {
 
@@ -123,6 +124,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
             $dicType->setValue($dicVal);
             $manager->persist($dicType);
         }
+        */
 
         $DicVals = array('Done', 'Fixed', 'Can not reproduce', 'Duplicate');
         foreach ($DicVals as $dicVal) {

@@ -26,13 +26,23 @@ class IssueType extends AbstractType
         if (isset($options['data'])){
 
             if (get_class($options['data']) == 'Magecore\Bundle\TestTaskBundle\Entity\Issue'){
-                if ($options['data']->getId() == 0) {
-                    $arr = $options['data']->getParentTypes();
-                    $arr = array_combine($arr, $arr);
+                if ($options['data']->getId() == 0 ) {
+
+                    if ( !empty( $options['data']->getParentIssue() ) ){
+                        //do nothing.
+                        $arr = null;
+                        //var_dump($arr);
+                        //$subtask=1;
+                    }else {
+                        $arr = $options['data']->getParentTypes();
+                        $arr = array_combine($arr, $arr);
+                    }
                 }
             }
 
         }
+
+
         if (!empty($arr)){
             $builder->add('type','choice', array(
                 'choices' => array(
@@ -46,7 +56,7 @@ class IssueType extends AbstractType
             ->add('priority')
             ->add('status')
             ->add('resolution')
-            ->add('parentIssue')
+            //->add('parentIssue')
         ;
     }
     

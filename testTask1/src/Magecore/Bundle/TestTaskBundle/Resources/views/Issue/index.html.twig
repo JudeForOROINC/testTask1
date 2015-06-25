@@ -18,7 +18,7 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('issue_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td><a href="{{ path('magecore_testtask_issue_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.code }}</td>
                 <td>{{ entity.summary }}</td>
                 <td>{{ entity.description }}</td>
@@ -27,7 +27,7 @@
                 <td>
                 <ul>
                     <li>
-                        <a href="{{ path('issue_show', { 'id': entity.id }) }}">show</a>
+                        <a href="{{ path('magecore_testtask_issue_show', { 'id': entity.id }) }}">show</a>
                     </li>
                     <li>
                         <a href="{{ path('issue_edit', { 'id': entity.id }) }}">edit</a>
@@ -41,9 +41,9 @@
 
         <ul>
         <li>
-            <a href="{{ path('issue_new') }}">
+            {#<a href="{{ path('magecore_testtask_issue_new') }}">
                 Create a new entry
-            </a>
+            </a>#}
         </li>
     </ul>
     <p>current time : {{ "now"|date('Y-m-d H:i:s',app.user.gettimezone) }}</p>
