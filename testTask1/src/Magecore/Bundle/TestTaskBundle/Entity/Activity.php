@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Activity
  *
  * @ORM\Table(name="magecore_testtask_activity")
- * @ORM\Entity(repositoryClass="Magecore\Bundle\TestTaskBundle\Entity\ProjectRepository")
+ * @ORM\Entity(repositoryClass="Magecore\Bundle\TestTaskBundle\Entity\ActivityRepository")
  */
 class Activity
 {
