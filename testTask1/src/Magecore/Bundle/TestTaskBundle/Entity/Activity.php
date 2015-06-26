@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Activity
  *
  * @ORM\Table(name="magecore_testtask_activity")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Magecore\Bundle\TestTaskBundle\Entity\ProjectRepository")
  */
 class Activity
 {
@@ -28,9 +28,7 @@ class Activity
     private $user;
 
     /**
-     * @var integer
-     * @ORM\ManyToOne(targetEntity="DicType", )
-     * @ORM\JoinColumn(name="type_id", referencedColumnName="id")
+     * Column(name="type", length = 4)
      */
     private $type;
 
@@ -65,6 +63,14 @@ class Activity
      * @ORM\Column(name="time", type="datetime")
      */
     private $time;
+
+    const ACTIVITY_TYPE_CREATE_ISSUE='CIAT';
+    const ACTIVITY_TYPE_CHANGE_STATUS_ISSUE='CSAT';
+    const ACTIVITY_TYPE_COMMENT_IN_ISSUE='COAT';
+
+    public function __construct(){
+        $this->time = new \DateTime();
+    }
 
 
     /**
@@ -264,10 +270,10 @@ class Activity
     /**
      * Set type
      *
-     * @param \Magecore\Bundle\TestTaskBundle\Entity\DicType $type
+     * @param string $type
      * @return Activity
      */
-    public function setType(\Magecore\Bundle\TestTaskBundle\Entity\DicType $type = null)
+    public function setType( $type = null)
     {
         $this->type = $type;
 

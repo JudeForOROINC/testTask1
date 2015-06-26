@@ -3,6 +3,7 @@
 namespace Magecore\Bundle\TestTaskBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use \Doctrine\Common\Collections\Collection ;
 
 /**
  * Issue
@@ -107,13 +108,13 @@ class Issue
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="Issue", inversedBy="children")
-     * @ORM\JoinColumn(name="parent_issue_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Issue", inversedBy="children", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="parent_issue_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $parentIssue;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Project", inversedBy="issue")
+     * @ORM\ManyToOne(targetEntity="Project", inversedBy="issues")
      * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
      */
     protected $project;
@@ -450,6 +451,7 @@ class Issue
     public function __construct()
     {
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
         //$this->created = new
         $this->created = new \DateTime();
         $this->updated = new \DateTime();

@@ -58,6 +58,14 @@ class Comment
     public function isOwner(User $user){
         return $this->getAuthor()->getID() == $user->getId();
     }
+
+
+    public  function __construct(){
+        $this->created = new \DateTime();
+        $this->updated = new \DateTime();
+    }
+
+
     /**
      * Get id
      *

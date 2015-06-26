@@ -2,3 +2,4 @@ services:
 #    magecore_test_task.example:
 #        class: Magecore\Bundle\TestTaskBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
+

@@ -53,9 +53,10 @@ class Project
      */
     protected $issues;
 
+
     public function __construct(){
         $this->members = new ArrayCollection();
-
+        $this->issues = new ArrayCollection();
     }
 
     /**

@@ -37,7 +37,7 @@
         </a>
     {% endif %}
 
-    {% if app.user and (is_granted( 'ROLE_ADMIN' ) or is_granted('ROLE_MANAGER') or app.user.is_member(project) ) %}
+    {% if app.user and (is_granted( 'ROLE_ADMIN' ) or is_granted('ROLE_MANAGER') or project.member(app.user) ) %}
         <a href="{{ path('magecore_testtask_issue_create', { id: project.id }) }}">
             New Issue
         </a>
@@ -45,16 +45,21 @@
 
     <div>
         <p>Here must be activity</p>
+        {% for project %}
     </div>
 
     <div>
         <p>additional: list of issues of a project;</p>
-        {% if project.issue %}
+        {% if project.issues %}
+            <ul>
             {% for issue in project.issues %}
-                <a>{{ path('magecore_testtask_issue_show',{id : issue.id}) }}
+                <li>
+                <a href="{{ path('magecore_testtask_issue_show',{id : issue.id}) }}">
                     {{ issue }}
                 </a>
+                    </li>
             {% endfor %}
+                </ul>
         {% else %}
             <div>No issues found</div>
         {% endif %}
