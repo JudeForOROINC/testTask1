@@ -81,6 +81,7 @@
     {% block issue_activity_block %}
         <div>
             <p>Here must be an activity</p>
+            {{ include('MagecoreTestTaskBundle:Activity:list_frame.html.twig',{activities : entity.activities}) }}
         </div>
     {% endblock %}
 

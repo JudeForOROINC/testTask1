@@ -136,6 +136,11 @@ class Issue
      */
     protected $collaborators;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Activity", mappedBy="issue")
+     */
+    protected $activities;
+
 
     /**
      * Get id

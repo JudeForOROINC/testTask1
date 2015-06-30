@@ -28,13 +28,13 @@ class Activity
     private $user;
 
     /**
-     * Column(name="type", length = 4)
+     * @ORM\Column(name="activity_type", type="string", length = 8, nullable=false)
      */
     private $type;
 
     /**
      * @var integer
-     * @ORM\ManyToOne(targetEntity="Issue", )
+     * @ORM\ManyToOne(targetEntity="Issue", inversedBy="activities")
      * @ORM\JoinColumn(name="issue_id", referencedColumnName="id")
      */
     private $issue;
@@ -81,75 +81,6 @@ class Activity
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set userId
-     *
-     * @param integer $userId
-     * @return Activity
-     */
-    public function setUserId($userId)
-    {
-        $this->userId = $userId;
-
-        return $this;
-    }
-
-    /**
-     * Get userId
-     *
-     * @return integer 
-     */
-    public function getUserId()
-    {
-        return $this->userId;
-    }
-
-    /**
-     * Set typeId
-     *
-     * @param integer $typeId
-     * @return Activity
-     */
-    public function setTypeId($typeId)
-    {
-        $this->typeId = $typeId;
-
-        return $this;
-    }
-
-    /**
-     * Get typeId
-     *
-     * @return integer 
-     */
-    public function getTypeId()
-    {
-        return $this->typeId;
-    }
-
-    /**
-     * Set issueId
-     *
-     * @param integer $issueId
-     * @return Activity
-     */
-    public function setIssueId($issueId)
-    {
-        $this->issueId = $issueId;
-
-        return $this;
-    }
-
-    /**
-     * Get issueId
-     *
-     * @return integer 
-     */
-    public function getIssueId()
-    {
-        return $this->issueId;
     }
 
     /**
@@ -275,7 +206,9 @@ class Activity
      */
     public function setType( $type = null)
     {
-        $this->type = $type;
+        if (in_array($type,[self::ACTIVITY_TYPE_CHANGE_STATUS_ISSUE,self::ACTIVITY_TYPE_COMMENT_IN_ISSUE,self::ACTIVITY_TYPE_CREATE_ISSUE] )) {
+            $this->type = $type;
+        }
 
         return $this;
     }
