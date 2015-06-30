@@ -25,17 +25,21 @@ class ProjectController extends Controller
     {
         //TODO: add grid to use page + limit;
         $em = $this->getDoctrine()->getManager();
-        //$projects = $em->getRepository('MagecoreTestTaskBundle:Project')->findAll();
+        $projects = $em->getRepository('MagecoreTestTaskBundle:Project')->findAll();
+
+//        $rep = $em->getRepository('MagecoreTestTaskBundle:Activity');
+//        var_dump($rep->findAllByProjectId(43));
+//        die;
 
         //$rep = $em->getRepository('MagecoreTestTaskBundle:Activity');
-        $qu = $em->createQueryBuilder();
-        $qu->select('a')
-            ->from('MagecoreTestTaskBundle:Activity', 'a')
-            ->innerJoin('a.issue','MagecoreTestTaskBundle:Issue')
-            //->where('i.project = :pr')
-        //->setParameter('pr','43')
-;
-        var_dump($qu->getQuery()->getResult());
+//        $qu = $em->createQueryBuilder();
+//        $qu->select('a')
+//            ->from('MagecoreTestTaskBundle:Activity', 'a')
+//            ->innerJoin('a.issue','MagecoreTestTaskBundle:Issue')
+//            //->where('i.project = :pr')
+//        //->setParameter('pr','43')
+//;
+//        var_dump($qu->getQuery()->getResult());
 //$qu = $rep->createQueryBuilder('p')->where('p.issue = :issue')
 //        ->setParameter('issue','102')->getQuery();
 //        var_dump($qu->getResult());
@@ -51,10 +55,15 @@ class ProjectController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function viewAction(Project $project){
+        $em = $this->getDoctrine()->getManager();
+        //$projects = $em->getRepository('MagecoreTestTaskBundle:Project')->findAll();
 
+        $rep = $em->getRepository('MagecoreTestTaskBundle:Activity');
+        $activity = $rep->findAllByProjectId($project->getId());
         return [
             'project' => $project,
             'name'=>$project->getLabel(),
+            'activities' => $activity,
         ];
     }
     /**

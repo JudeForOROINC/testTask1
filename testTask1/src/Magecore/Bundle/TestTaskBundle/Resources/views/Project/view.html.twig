@@ -45,7 +45,34 @@
 
     <div>
         <p>Here must be activity</p>
-        {% for project %}
+
+        {% if activities %}
+        <table>
+            <tr>
+                <th>Issue</th>
+                <th>User</th>
+                <th>TYPE</th>
+                <th>Time</th>
+            </tr>
+            {% for activ in activities %}
+                <tr>
+                    <td>
+                        <a href="{{ path('magecore_testtask_issue_show',{id : activ.issue.id}) }}">{{ activ.issue }}</a>
+                    </td>
+                    <td>
+                        <a href="{{ path('magecore_test_task_user_view',{id : activ.user.id}) }}">{{ activ.user }}</a>
+                    </td>
+                    <td>
+                        {{ activ.type }}
+                    </td>
+                    <td>
+                        {{ activ.time|date }}
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
     </div>
 
     <div>

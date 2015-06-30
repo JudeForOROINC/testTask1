@@ -283,6 +283,20 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 
         $manager->persist($issuesub);
 
+        $project = $manager->getRepository('MagecoreTestTaskBundle:Project')->findOneBy(['code'=>'P1']);
+
+        $issue = new Issue();
+        $issue->setType($issue::ISSUE_TYPE_STORY);
+        $issue->setProject($project);
+        $issue->setReporter($userOperator);
+        $issue->setAssignee($userOperator);
+        $issue->setSummary('TestTask1: made timeing');
+        $issue->setCode('Yo');//TODO fix this field!!!
+        $issue->setDescription('Plan work with a little tasks and add it like subtasks! ' );
+
+        $manager->persist($issue);
+
+
         $manager->flush();
     }
 
@@ -330,28 +344,20 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 
 
         $activity = new Entity\Activity();
-
         $activity->setType($activity::ACTIVITY_TYPE_CREATE_ISSUE);
-
         $activity->setIssue($issue);
         $activity->setUser($user);
-
         $activity->setTime( date_sub($activity->getTime(),\DateInterval::createFromDateString('2 days') ) );
 
         $manager->persist($activity);
 
 
         $activity = new Entity\Activity();
-
         $activity->setType($activity::ACTIVITY_TYPE_CHANGE_STATUS_ISSUE);
-
         $activity->setIssue($issue);
         $activity->setUser($userOperator);
-
         $activity->setFromIssueStstus(null);
-
         $activity->setToIssueStatus($openStatus);
-
         $activity->setTime( date_sub($activity->getTime(),\DateInterval::createFromDateString('1 days') ) );
 
         $manager->persist($activity);
@@ -359,31 +365,32 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 
 
         $activity = new Entity\Activity();
-
         $activity->setType($activity::ACTIVITY_TYPE_COMMENT_IN_ISSUE);
-
         $activity->setIssue($issue);
         $activity->setUser($userOperator);
-        //var_dump($issue->getComments());
-        //var_dump($issue->getComments()->isEmpty());
         $activity->setComment($comment);
 
         $manager->persist($activity);
 
         $activity = new Entity\Activity();
-
         $activity->setType($activity::ACTIVITY_TYPE_CHANGE_STATUS_ISSUE);
-
         $activity->setIssue($issue);
         $activity->setUser($userOperator);
-
         $activity->setFromIssueStstus($openStatus);
-
         $activity->setToIssueStatus($closeStatus);
 
 
         $manager->persist($activity);
 
+        $issue = $manager->getRepository('MagecoreTestTaskBundle:Issue')->findOneBy(['code'=>'Yo']);
+
+        $activity = new Entity\Activity();
+        $activity->setType($activity::ACTIVITY_TYPE_CREATE_ISSUE);
+        $activity->setIssue($issue);
+        $activity->setUser($userOperator);
+        $activity->setTime( date_sub($activity->getTime(),\DateInterval::createFromDateString('1 days') ) );
+
+        $manager->persist($activity);
 
 
 
