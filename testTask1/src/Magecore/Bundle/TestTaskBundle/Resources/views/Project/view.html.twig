@@ -45,7 +45,8 @@
 
     <div>
         <p>Here must be activity</p>
-
+        {{ include('MagecoreTestTaskBundle:Activity:list_frame.html.twig',{activities : activities}) }}
+{#
         {% if activities %}
         <table>
             <tr>
@@ -73,6 +74,7 @@
             {% endfor %}
         </table>
         {% endif %}
+        #}
     </div>
 
     <div>
