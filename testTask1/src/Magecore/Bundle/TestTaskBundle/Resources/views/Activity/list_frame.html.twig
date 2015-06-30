@@ -1,4 +1,5 @@
 {% if activities %}
+    {% import "MagecoreTestTaskBundle:Macro:Macro.html.twig" as frms %}
     <table>
         <tr>
             <th>Issue</th>
@@ -9,16 +10,18 @@
         {% for activ in activities %}
             <tr>
                 <td>
-                    <a href="{{ path('magecore_testtask_issue_show',{id : activ.issue.id}) }}">{{ activ.issue }}</a>
+                    {#<a href="{{ path('magecore_testtask_issue_show',{id : activ.issue.id}) }}">{{ activ.issue }}</a>#}
+                    {{ frms.linkfull(activ.issue) }}
                 </td>
                 <td>
-                    <a href="{{ path('magecore_test_task_user_view',{id : activ.user.id}) }}">{{ activ.user }}</a>
+                    {{ frms.linkfull(activ.user) }}
+                    {#<a href="{{ path('magecore_test_task_user_view',{id : activ.user.id}) }}">{{ activ.user }}</a>#}
                 </td>
                 <td>
                     {{ activ.type }}
                 </td>
                 <td>
-                    {{ activ.time|date }}
+                    {{ activ.time|datertz( app.user) }}
                 </td>
 
             </tr>

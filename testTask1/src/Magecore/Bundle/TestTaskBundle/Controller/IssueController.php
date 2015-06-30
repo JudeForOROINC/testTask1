@@ -129,6 +129,7 @@ class IssueController extends Controller
         $entity = new Issue();
 
         $entity->setParentIssue($story);
+        $entity->setReporter($this->getUser());
         $entity->setProject($project);
         $entity->setType($entity::ISSUE_TYPE_SUBTASK);
 

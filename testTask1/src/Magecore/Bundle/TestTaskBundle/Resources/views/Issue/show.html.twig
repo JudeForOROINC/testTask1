@@ -1,7 +1,12 @@
 {% extends '::base.html.twig' %}
 
+
+
 {% block body -%}
     <h1>Issue</h1>
+    {% import "MagecoreTestTaskBundle:Macro:Macro.html.twig" as frms %}
+
+    {{ '5500'|price }}
 
     <table class="record_properties">
         <tbody>
@@ -27,11 +32,15 @@
             </tr>
             <tr>
                 <th>Reporter</th>
-                <td>{{ entity.reporter }}</td>
+                {#<td>{{ entity.reporter }}</td>#}
+
+                {#<td>{{ frms.link( path( entity.reporter|url , {id : entity.reporter.id} ), entity.reporter ) }}</td>#}
+                <td>{{ frms.linkfull(entity.reporter) }}</td>
             </tr>
             <tr>
                 <th>Assigned</th>
-                <td>{{ entity.assignee }}</td>
+                {#<td>{{ entity.assignee }}</td>#}
+                <td>{{ frms.linkfull(entity.assignee) }}</td>
             </tr>
             <tr>
                 <th>Collaborators</th>
@@ -39,7 +48,8 @@
             </tr>
             <tr>
                 <th>Project</th>
-                <td>{{ entity.project }}</td>
+                {#<td>{{ entity.project }}</td>#}
+                <td>{{ frms.linkfull(entity.project) }}</td>
             </tr>
             <tr>
                 <th>ParentIssue</th>
@@ -55,7 +65,8 @@
             </tr>
             <tr>
                 <th>Created</th>
-                <td>{{ entity.created|date('Y-m-d H:i:s',app.user.gettimezone) }}</td>
+                {#<td>{{ entity.created|date('Y-m-d H:i:s',app.user.gettimezone) }}</td>#}
+                <td>{{ entity.created|datertz(app.user) }}</td>
             </tr>
             <tr>
                 <th>Updated</th>

@@ -43,7 +43,7 @@ class Activity
      * @ORM\ManyToOne(targetEntity="DicStatus", )
      * @ORM\JoinColumn(name="from_issue_ststus_id", referencedColumnName="id")
      */
-    private $fromIssueStstus;
+    private $fromIssueStatus;
 
     /**
      * @ORM\ManyToOne(targetEntity="DicStatus", )
@@ -83,51 +83,6 @@ class Activity
         return $this->id;
     }
 
-    /**
-     * Set fromIssueStstusId
-     *
-     * @param integer $fromIssueStstusId
-     * @return Activity
-     */
-    public function setFromIssueStstusId($fromIssueStstusId)
-    {
-        $this->fromIssueStstusId = $fromIssueStstusId;
-
-        return $this;
-    }
-
-    /**
-     * Get fromIssueStstusId
-     *
-     * @return integer 
-     */
-    public function getFromIssueStstusId()
-    {
-        return $this->fromIssueStstusId;
-    }
-
-    /**
-     * Set toIssueStatusId
-     *
-     * @param integer $toIssueStatusId
-     * @return Activity
-     */
-    public function setToIssueStatusId($toIssueStatusId)
-    {
-        $this->toIssueStatusId = $toIssueStatusId;
-
-        return $this;
-    }
-
-    /**
-     * Get toIssueStatusId
-     *
-     * @return integer 
-     */
-    public function getToIssueStatusId()
-    {
-        return $this->toIssueStatusId;
-    }
 
     /**
      * Set commentId
@@ -252,9 +207,9 @@ class Activity
      * @param \Magecore\Bundle\TestTaskBundle\Entity\DicStatus $fromIssueStstus
      * @return Activity
      */
-    public function setFromIssueStstus(\Magecore\Bundle\TestTaskBundle\Entity\DicStatus $fromIssueStstus = null)
+    public function setFromIssueStatus(\Magecore\Bundle\TestTaskBundle\Entity\DicStatus $fromIssueStatus = null)
     {
-        $this->fromIssueStstus = $fromIssueStstus;
+        $this->fromIssueStatus = $fromIssueStatus;
 
         return $this;
     }
@@ -264,9 +219,9 @@ class Activity
      *
      * @return \Magecore\Bundle\TestTaskBundle\Entity\DicStatus 
      */
-    public function getFromIssueStstus()
+    public function getFromIssueStatus()
     {
-        return $this->fromIssueStstus;
+        return $this->fromIssueStatus;
     }
 
     /**

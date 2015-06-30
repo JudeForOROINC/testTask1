@@ -679,4 +679,37 @@ class Issue
     {
         return $this->collaborators;
     }
+
+    /**
+     * Add activities
+     *
+     * @param \Magecore\Bundle\TestTaskBundle\Entity\Activity $activities
+     * @return Issue
+     */
+    public function addActivity(\Magecore\Bundle\TestTaskBundle\Entity\Activity $activities)
+    {
+        $this->activities[] = $activities;
+
+        return $this;
+    }
+
+    /**
+     * Remove activities
+     *
+     * @param \Magecore\Bundle\TestTaskBundle\Entity\Activity $activities
+     */
+    public function removeActivity(\Magecore\Bundle\TestTaskBundle\Entity\Activity $activities)
+    {
+        $this->activities->removeElement($activities);
+    }
+
+    /**
+     * Get activities
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getActivities()
+    {
+        return $this->activities;
+    }
 }

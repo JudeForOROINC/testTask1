@@ -1,0 +1,7 @@
+{% macro link(url, text) %}
+    <a href="{{ url }}"> {{ text }}</a>
+{% endmacro %}
+
+{% macro linkfull(entity) %}
+    <a href="{{ path(entity|url, {id: entity|id}) }}{{ entity|anchor }}"> {{ entity }}</a>
+{% endmacro %}
