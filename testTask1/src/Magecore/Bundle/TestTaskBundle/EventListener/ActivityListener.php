@@ -56,7 +56,7 @@ class ActivityListener{
         }
     }
 
-    public function postUpdate(LifecycleEventArgs $args){
+    public function postUpdate(LifecycleEventArgs $args){//TODO use postflush
         $entity = $args->getEntity();
         $entityManager = $args->getEntityManager();
 
@@ -72,7 +72,6 @@ class ActivityListener{
             }
         }
     }
-
 
 
 }

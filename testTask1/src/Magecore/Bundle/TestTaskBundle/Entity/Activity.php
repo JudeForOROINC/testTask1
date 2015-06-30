@@ -269,4 +269,14 @@ class Activity
     {
         return $this->comment;
     }
+
+    public function isNewIssueType(){
+        return $this->getType() == self::ACTIVITY_TYPE_CREATE_ISSUE;
+    }
+    public function isChangeStatusType(){
+        return $this->getType() == self::ACTIVITY_TYPE_CHANGE_STATUS_ISSUE;
+    }
+    public function isCommentType(){
+        return $this->getType() == self::ACTIVITY_TYPE_COMMENT_IN_ISSUE;
+    }
 }

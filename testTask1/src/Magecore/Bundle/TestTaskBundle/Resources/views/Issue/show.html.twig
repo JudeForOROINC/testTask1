@@ -6,7 +6,11 @@
     <h1>Issue</h1>
     {% import "MagecoreTestTaskBundle:Macro:Macro.html.twig" as frms %}
 
-    {{ '5500'|price }}
+    {#{ frms.linkParams(route_helper.Route(app.user)) }#}
+
+
+    {{ frms.linkEnt(app.user) }}
+
 
     <table class="record_properties">
         <tbody>
@@ -35,12 +39,13 @@
                 {#<td>{{ entity.reporter }}</td>#}
 
                 {#<td>{{ frms.link( path( entity.reporter|url , {id : entity.reporter.id} ), entity.reporter ) }}</td>#}
-                <td>{{ frms.linkfull(entity.reporter) }}</td>
+                {#<td>{{ frms.linkfull(entity.reporter) }}</td>#}
+                <td>{{ frms.linkEnt(entity.reporter) }}</td>
             </tr>
             <tr>
                 <th>Assigned</th>
                 {#<td>{{ entity.assignee }}</td>#}
-                <td>{{ frms.linkfull(entity.assignee) }}</td>
+                <td>{{ frms.linkEnt(entity.assignee) }}</td>
             </tr>
             <tr>
                 <th>Collaborators</th>
@@ -49,11 +54,11 @@
             <tr>
                 <th>Project</th>
                 {#<td>{{ entity.project }}</td>#}
-                <td>{{ frms.linkfull(entity.project) }}</td>
+                <td>{{ frms.linkEnt(entity.project) }}</td>
             </tr>
             <tr>
                 <th>ParentIssue</th>
-                <td>{{ entity.parentIssue }}</td>
+                <td>{{ frms.linkEnt(entity.parentIssue) }}</td>
             </tr>
             <tr>
                 <th>Status</th>

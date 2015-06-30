@@ -6,15 +6,18 @@
             <th>User</th>
             <th>TYPE</th>
             <th>Time</th>
+            <th>Message</th>
         </tr>
         {% for activ in activities %}
             <tr>
                 <td>
                     {#<a href="{{ path('magecore_testtask_issue_show',{id : activ.issue.id}) }}">{{ activ.issue }}</a>#}
-                    {{ frms.linkfull(activ.issue) }}
+                    {#{{ frms.linkfull(activ.issue) }}#}
+                    {{ frms.linkEnt(activ.issue) }}
                 </td>
                 <td>
-                    {{ frms.linkfull(activ.user) }}
+                    {#{{ frms.linkfull(activ.user) }}#}
+                    {{ frms.linkEnt(activ.user) }}
                     {#<a href="{{ path('magecore_test_task_user_view',{id : activ.user.id}) }}">{{ activ.user }}</a>#}
                 </td>
                 <td>
@@ -22,6 +25,15 @@
                 </td>
                 <td>
                     {{ activ.time|datertz( app.user) }}
+                </td>
+                <td>
+                    {% if activ.isNewIssueType %}
+                   Create New Issue
+                    {% endif %}
+                    {% if activ.isChangeStatusType %}
+                       Change status from "{{ activ.FromIssueStatus }}" to "{{ activ.ToIssueStatus }}"
+                    {% endif %}
+
                 </td>
 
             </tr>

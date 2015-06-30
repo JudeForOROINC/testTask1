@@ -1,7 +1,18 @@
-{% macro link(url, text) %}
+{#{% macro link(url, text) %}
     <a href="{{ url }}"> {{ text }}</a>
 {% endmacro %}
 
 {% macro linkfull(entity) %}
     <a href="{{ path(entity|url, {id: entity|id}) }}{{ entity|anchor }}"> {{ entity }}</a>
+{% endmacro %}
+
+{% macro linkParams(route,route_params,anchor,text) %}
+    <a href="{{ path(route, route_params) }}{{ anchor }}"> {{ text }}</a>
+{% endmacro %}#}
+
+{% macro linkEnt(entity) %}
+    {% if entity %}
+    {% set arr = route_helper.Route(entity) %}
+    <a href="{{ path(arr.route, arr.route_params) }}{{ arr.anchor }}"> {{ arr.text }}</a>
+    {% endif %}
 {% endmacro %}
