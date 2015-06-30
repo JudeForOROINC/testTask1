@@ -147,6 +147,7 @@
 
     {% block comments %}
         <p> Here must be an comments + button</p>
+        {{ include('MagecoreTestTaskBundle:Comment:index.html.twig',{entities: entity.comments}) }}
     {% endblock %}
 
 {% endblock %}

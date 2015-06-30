@@ -1,0 +1,52 @@
+
+
+{% block body -%}
+{% if entities %}
+    {% import "MagecoreTestTaskBundle:Macro:Macro.html.twig" as frms %}
+    <div>
+
+        <table class="records_list">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Body</th>
+                <th>Author</th>
+                <th>Created</th>
+                <th>Updated</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for entity in entities %}
+                <tr>
+                    <td><a name="comment-{{ entity.id }}"> {{ frms.linkEnt(entity) }}</td>
+                <td>{{ entity.body }}</td>
+                <td>{{ frms.linkEnt(entity.author) }}</td>
+                <td>{{ entity.created|datertz(app.user) }}</td>
+                <td>{{ entity.updated|datertz(app.user) }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{#{{ path('comment_show', { 'id': entity.id }) }}#}">remove</a>
+                    </li>
+                    <li>
+                        <a href="{#{{ path('comment_edit', { 'id': entity.id }) }}#}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{#{{ path('comment_new') }}#}">
+                Add new Comment
+            </a>
+        </li>
+    </ul>
+        </div>
+{% endif %}
+    {% endblock %}

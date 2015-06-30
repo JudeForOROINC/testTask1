@@ -356,7 +356,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $activity->setType($activity::ACTIVITY_TYPE_CHANGE_STATUS_ISSUE);
         $activity->setIssue($issue);
         $activity->setUser($userOperator);
-        $activity->setFromIssueStstus(null);
+        $activity->setFromIssueStatus(null);
         $activity->setToIssueStatus($openStatus);
         $activity->setTime( date_sub($activity->getTime(),\DateInterval::createFromDateString('1 days') ) );
 
@@ -376,7 +376,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $activity->setType($activity::ACTIVITY_TYPE_CHANGE_STATUS_ISSUE);
         $activity->setIssue($issue);
         $activity->setUser($userOperator);
-        $activity->setFromIssueStstus($openStatus);
+        $activity->setFromIssueStatus($openStatus);
         $activity->setToIssueStatus($closeStatus);
 
 

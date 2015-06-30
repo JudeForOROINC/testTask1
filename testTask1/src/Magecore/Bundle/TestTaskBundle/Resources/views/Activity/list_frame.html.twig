@@ -33,6 +33,9 @@
                     {% if activ.isChangeStatusType %}
                        Change status from "{{ activ.FromIssueStatus }}" to "{{ activ.ToIssueStatus }}"
                     {% endif %}
+                    {% if activ.isCommentType %}
+                       Add comment in issue {{ frms.linkEnt(activ.comment) }}
+                    {% endif %}
 
                 </td>
 

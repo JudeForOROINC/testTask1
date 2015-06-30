@@ -132,7 +132,7 @@
             "%kernel.root_dir%/Resources/assets/js/highlight.pack.js" %}
             <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
-    #}
+    {##}
 {#
     <script src="{{ asset('js/app.js') }}"></script>
 
@@ -140,7 +140,10 @@
         $(document).ready(function() {
             hljs.initHighlightingOnLoad();
         });
-    </script>#}
+    </script>{##}
+
+    <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
+
 {% endblock %}
 
 </body>

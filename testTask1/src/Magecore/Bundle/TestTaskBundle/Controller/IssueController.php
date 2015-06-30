@@ -217,6 +217,8 @@ class IssueController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
+        //$addCommentForm = $this->createForm('CommentType');
+
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
