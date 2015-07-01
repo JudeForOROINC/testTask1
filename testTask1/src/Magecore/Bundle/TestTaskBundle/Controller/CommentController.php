@@ -88,7 +88,7 @@ class CommentController extends Controller
                 )),
             ),200);
 
-            return new JsonResponse(array('message'=>'Success!'),200);#$this->redirect($this->generateUrl('comment_show', array('id' => $entity->getId())));
+            #return new JsonResponse(array('message'=>'Success!'),200);#$this->redirect($this->generateUrl('comment_show', array('id' => $entity->getId())));
         }
         $responce = new JsonResponse(
             array(
@@ -185,13 +185,35 @@ class CommentController extends Controller
 
     /**
      * Displays a form to edit an existing Comment entity.
+     * This method MUST reload page to made Post form like an Edit form of a special comment
      *
-     * @Route("/{id}/edit", name="comment_edit")
-     * @Method("GET")
+     * @Route("/{id}/edit", name="magecore_testtask_comment_edit", requirements={"id"="\d+"})
+     * @Method("POST")
      * @Template()
      */
-    public function editAction($id)
+    public function editAction(Comment $comment)
     {
+        $issue = $comment->getIssue();
+
+        $entity = new Comment();
+        $entity->setIssue($issue);
+        $entity->setAuthor($this->getUser());
+        $form = $this->createCreateForm($entity);
+
+        return new JsonResponse(array('message'=>
+            $this->renderView('MagecoreTestTaskBundle:Comment:index.html.twig',
+                array(
+                    #entities: entity.comments, addComment: addComment
+                    'entities'=>$issue->getComments(),
+                    'addComment'=>$form->createView(),
+                    'issue_id'=>$issue->getId(),
+                    'edit_id'=>$comment->getId(),
+                )),
+        ),200);
+
+        return new JsonResponse(array('message'=>'Success! '.$id),200);
+
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('MagecoreTestTaskBundle:Comment')->find($id);

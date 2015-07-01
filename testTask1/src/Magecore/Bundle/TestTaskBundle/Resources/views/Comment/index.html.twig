@@ -19,7 +19,9 @@
 
             <tbody>
             {% for entity in entities %}
-                <tr>
+                <tr {% if edit_id is defined %}
+                        {% if entity.id == edit_id %}style="background-color: #003bb3"{% endif %}
+                    {% endif %}>
                     <td><a name="comment-{{ entity.id }}"> {{ frms.linkEnt(entity) }}</td>
                 <td>{{ entity.body }}</td>
                 <td>{{ frms.linkEnt(entity.author) }}</td>
@@ -28,10 +30,10 @@
                 <td>
                 <ul>
                     <li>
-                        <a href="{#{{ path('comment_show', { 'id': entity.id }) }}#}">remove</a>
+                        <a href="#{#{{ path('comment_show', { 'id': entity.id }) }}#}  ">remove</a>
                     </li>
                     <li>
-                        <a href="{#{{ path('comment_edit', { 'id': entity.id }) }}#}">edit</a>
+                        <a href="#{#{{ path('comment_edit', { 'id': entity.id }) }}#}" class="comment_edit_action" data-content="{{ path('magecore_testtask_comment_edit', {id: entity.id}) }}">edit</a>
                     </li>
                 </ul>
                 </td>
