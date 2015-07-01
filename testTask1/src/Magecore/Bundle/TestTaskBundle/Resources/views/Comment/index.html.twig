@@ -43,7 +43,7 @@
     </table>
 
         <div class="form_error"></div>
-        <form method="POST" class="ajaxForm" action="{{path('magecore_testtask_comment_create',{id: issue_id })}}" {{ form_enctype(addComment) }}>
+        <form method="POST" class="ajaxForm" action="{% if edit_id is defined %}{{path('magecore_testtask_comment_edit',{id: edit_id })}}" {{ form_enctype(addComment) }}{% else  %}{{path('magecore_testtask_comment_create',{id: issue_id })}}" {{ form_enctype(addComment) }}{% endif %}>
             <div id="form_body">
                 {% include 'MagecoreTestTaskBundle:Comment:form.html.twig' with {'form': addComment} %}
             </div>

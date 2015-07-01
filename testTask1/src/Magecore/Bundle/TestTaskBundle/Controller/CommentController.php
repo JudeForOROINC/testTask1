@@ -127,6 +127,19 @@ class CommentController extends Controller
         return $form;
     }
 
+    private function createEditForm(Comment $entity)
+    {
+
+        $form = $this->createForm(new CommentType(), $entity, array(
+            'action' => $this->generateUrl('magecore_testtask_comment_edit',array('id' => $entity->getId())),
+            'method' => 'POST',
+        ));
+
+        //$form->add('submit', 'submit', array('label' => 'Create'));
+
+        return $form;
+    }
+
     private function createNewForm(Comment $entity)
     {
         $form = $this->createForm(new CommentType(), $entity, array(
@@ -193,12 +206,69 @@ class CommentController extends Controller
      */
     public function editAction(Comment $comment)
     {
+        if (!$request->isXmlHttpRequest()){
+            return new JsonResponse(array('message'=>'You can access this only using Ajax!'), 400);
+        }
+
         $issue = $comment->getIssue();
 
-        $entity = new Comment();
+        //$entity = new Comment();
+        $entity = $comment;
         $entity->setIssue($issue);
         $entity->setAuthor($this->getUser());
-        $form = $this->createCreateForm($entity);
+        $form = $this->createEditForm($entity);
+
+        $form->handleRequest($request);
+        //return new Response(var_dump($form->isValid()),200);
+        #return new Response(var_dump($entity),200);
+        //return new JsonResponse(array('message'=>'Success!'),200);
+        if(!$form->isSubmitted()){
+            return new JsonResponse(array('message'=>
+                $this->renderView('MagecoreTestTaskBundle:Comment:index.html.twig',
+                    array(
+                        #entities: entity.comments, addComment: addComment
+                        'entities'=>$issue->getComments(),
+                        'addComment'=>$form->createView(),
+                        'issue_id'=>$issue->getId(),
+                        'edit_id'=>$comment->getId(),
+                    )),
+            ),200);
+        }
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+
+            #return $this->redirect($this->generateUrl('comment_show', array('id' => $entity->getId())));
+            $entity = new Comment();
+            $entity->setIssue($issue);
+            $entity->setAuthor($this->getUser());
+            $form = $this->createCreateForm($entity);
+
+            return new JsonResponse(array('message'=>
+                $this->renderView('MagecoreTestTaskBundle:Comment:index.html.twig',
+                    array(
+                        #entities: entity.comments, addComment: addComment
+                        'entities'=>$issue->getComments(),
+                        'addComment'=>$form->createView(),
+                        'issue_id'=>$issue->getId(),
+                    )),
+            ),200);
+
+            #return new JsonResponse(array('message'=>'Success!'),200);#$this->redirect($this->generateUrl('comment_show', array('id' => $entity->getId())));
+        }
+//        $responce = new JsonResponse(
+//            array(
+//                'message'=>'Error',
+//                'form'=>$this->renderView('MagecoreTestTaskBundle:Comment:show.html.twig',
+//                    array(
+//                        'entity'=>$entity,
+//                        'form'=>$form->createView(),
+//                    )),
+//
+//            ), 400);
+//        return $responce;
 
         return new JsonResponse(array('message'=>
             $this->renderView('MagecoreTestTaskBundle:Comment:index.html.twig',
@@ -239,17 +309,17 @@ class CommentController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Comment $entity)
-    {
-        $form = $this->createForm(new CommentType(), $entity, array(
-            'action' => $this->generateUrl('comment_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
-        return $form;
-    }
+//    private function createEditForm(Comment $entity)
+//    {
+//        $form = $this->createForm(new CommentType(), $entity, array(
+//            'action' => $this->generateUrl('comment_update', array('id' => $entity->getId())),
+//            'method' => 'PUT',
+//        ));
+//
+//        $form->add('submit', 'submit', array('label' => 'Update'));
+//
+//        return $form;
+//    }
     /**
      * Edits an existing Comment entity.
      *
