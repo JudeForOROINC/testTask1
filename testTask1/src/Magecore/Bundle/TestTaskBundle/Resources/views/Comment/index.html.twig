@@ -3,7 +3,7 @@
 {% block body -%}
 {% if entities %}
     {% import "MagecoreTestTaskBundle:Macro:Macro.html.twig" as frms %}
-    <div>
+
 
         <table class="records_list">
             <thead>
@@ -40,13 +40,15 @@
         </tbody>
     </table>
 
-        <ul>
-        <li>
-            <a href="{#{{ path('comment_new') }}#}">
-                Add new Comment
-            </a>
-        </li>
-    </ul>
+        <div class="form_error"></div>
+        <form method="POST" class="ajaxForm" action="{{path('magecore_testtask_comment_create',{id: issue_id })}}" {{ form_enctype(addComment) }}>
+            <div id="form_body">
+                {% include 'MagecoreTestTaskBundle:Comment:form.html.twig' with {'form': addComment} %}
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="button_submit" >Submit</button>
+            {{form_rest(addComment)}}
+        </form>
         </div>
 {% endif %}
     {% endblock %}

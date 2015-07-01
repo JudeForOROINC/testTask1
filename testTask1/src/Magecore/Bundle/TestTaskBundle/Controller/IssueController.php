@@ -2,7 +2,9 @@
 
 namespace Magecore\Bundle\TestTaskBundle\Controller;
 
+use Magecore\Bundle\TestTaskBundle\Entity\Comment;
 use Magecore\Bundle\TestTaskBundle\Entity\Project;
+use Magecore\Bundle\TestTaskBundle\Form\CommentType;
 use Symfony\Component\Form\Extension\Core\Type\TimezoneType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -13,7 +15,9 @@ use Magecore\Bundle\TestTaskBundle\Entity\Issue;
 use Magecore\Bundle\TestTaskBundle\Form\IssueType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-
+use Magecore\Bundle\TestTaskBundle\Controller\CommentController;
+//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 /**
  * Issue controller.
  *
@@ -207,6 +211,7 @@ class IssueController extends Controller
      */
     public function showAction($id)
     {
+        //TODO check access
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('MagecoreTestTaskBundle:Issue')->find($id);
@@ -217,11 +222,21 @@ class IssueController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
-        //$addCommentForm = $this->createForm('CommentType');
+//        $CommentController = new CommentController();
+//        $CommentController->showAction()
+//
+        $comment = new Comment();
+        $comment->setIssue($entity);
+        $comment->setAuthor($this->getUser());
+        $addCommentForm = $this->createForm( new CommentType(),$comment,
+            array(
+                'action' => $this->generateUrl('magecore_testtask_comment_create',array('id'=>$entity->getId()))
+            ))->add('submit', 'submit', array('label' => 'Create'));
 
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'addComment'  => $addCommentForm->createView(),
         );
     }
 
