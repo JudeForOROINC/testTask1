@@ -87,7 +87,7 @@
         </a>
     </li>
     <li>
-        <a href="{{ path('issue_edit', { 'id': entity.id }) }}">
+        <a href="{{ path('magcore_testtask_issue_edit', { 'id': entity.id }) }}">
             Edit
         </a>
     </li>
@@ -95,15 +95,25 @@
 </ul>
 
     {% block issue_activity_block %}
-        <div>
-            <p>Here must be an activity</p>
+        <div id="issue_activity_block">
+            {#<p>Here must be an activity</p>#}
             {{ include('MagecoreTestTaskBundle:Activity:list_frame.html.twig',{activities : entity.activities}) }}
         </div>
     {% endblock %}
 
     {% block issue_coloborators_block %}
-        <div>
-            <p>Here must be issue_coloborators_block</p>
+        <div id="issue_activity_block">
+            {#<p>Here must be issue_coloborators_block</p>#}
+            <h4>Collaborators</h4>
+            {% if entity.collaborators %}
+                <ul>
+                {% for collaborator in entity.collaborators %}
+                    <li>
+                    {{ frms.linkEnt(collaborator) }}
+                        </li>
+                {% endfor %}
+                    </ul>
+            {% endif %}
         </div>
     {% endblock %}
 

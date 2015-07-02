@@ -259,7 +259,10 @@ class User extends BaseUser
      */
     public function addIssue(\Magecore\Bundle\TestTaskBundle\Entity\Issue $issues)
     {
-        $this->issues[] = $issues;
+        if (!$this->getIssues()->contains($issues)) {
+            $this->issues[] = $issues;
+            $issues->addCollaborator($this);
+        }
 
         return $this;
     }

@@ -101,6 +101,11 @@ class IssueController extends Controller
             $entity->setCreated(new \DateTime('now'));
             $entity->setUpdated($entity->getCreated());
 
+            //add coloboretors: Reporter,Assignee;==begin
+            $entity->addCollaborator($entity->getReporter());
+            $entity->addCollaborator($entity->getAssignee());
+            //===add coloboretors: Reporter,Assignee;==end;
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
@@ -144,6 +149,8 @@ class IssueController extends Controller
             //set time
             $entity->setCreated(new \DateTime('now'));
             $entity->setUpdated($entity->getCreated());
+            $entity->addCollaborator($entity->getReporter());
+            $entity->addCollaborator($entity->getAssignee());
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
@@ -220,6 +227,8 @@ class IssueController extends Controller
             throw $this->createNotFoundException('Unable to find Issue entity.');
         }
 
+        $this->checkProjectAccess($entity->getProject());
+
         $deleteForm = $this->createDeleteForm($id);
 
 //        $CommentController = new CommentController();
@@ -243,7 +252,7 @@ class IssueController extends Controller
     /**
      * Displays a form to edit an existing Issue entity.
      *
-     * @Route("/{id}/edit", name="issue_edit")
+     * @Route("/{id}/edit", name="magcore_testtask_issue_edit")
      * @Method("GET")
      * @Template()
      */
@@ -256,6 +265,8 @@ class IssueController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Issue entity.');
         }
+
+        $this->checkProjectAccess($entity->getProject());
 
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
@@ -302,12 +313,19 @@ class IssueController extends Controller
             throw $this->createNotFoundException('Unable to find Issue entity.');
         }
 
+        $this->checkProjectAccess($entity->getProject());
+
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $entity->setUpdated(new \DateTime('now'));
+
+//            $entity->addCollaborator($entity->getReporter());
+ //           $entity->addCollaborator($entity->getAssignee());
+            $this->setCollaborators($entity);
+
             $em->flush();
 
             //return $this->redirect($this->generateUrl('issue_edit', array('id' => $id)));
@@ -338,6 +356,7 @@ class IssueController extends Controller
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Issue entity.');
             }
+            $this->checkProjectAccess($entity->getProject());
 
             $em->remove($entity);
             $em->flush();
@@ -361,6 +380,11 @@ class IssueController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+
+    protected function setCollaborators(Issue &$issue){
+        $issue->addCollaborator($issue->getReporter());
+        $issue->addCollaborator($issue->getAssignee());
     }
 
     //protected function CreateIssue

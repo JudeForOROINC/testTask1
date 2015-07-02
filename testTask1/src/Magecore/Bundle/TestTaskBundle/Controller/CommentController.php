@@ -98,7 +98,7 @@ class CommentController extends Controller
             return new JsonResponse(array('message'=>'You can access this only using Ajax!'), 400);
         }
 
-        if ($this->isProjectAccessAllowed($issue->getProject())){
+        if (!$this->isProjectAccessAllowed($issue->getProject())){
             return new JsonResponse(array('message'=>'You have no permissons to create a comment!'), 403);
         };
 
@@ -113,6 +113,8 @@ class CommentController extends Controller
         #return new Response(var_dump($entity),200);
         //return new JsonResponse(array('message'=>'Success!'),200);
         if ($form->isValid()) {
+            $issue->addCollaborator($this->getUser());
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
@@ -414,4 +416,8 @@ class CommentController extends Controller
 //            ->getForm()
 //        ;
 //    }
+
+    protected function addCollaborators(Comment &$comment){
+        //todo use builder
+    }
 }

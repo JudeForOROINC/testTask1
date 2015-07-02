@@ -653,9 +653,13 @@ class Issue
      * @param \Magecore\Bundle\TestTaskBundle\Entity\User $collaborators
      * @return Issue
      */
-    public function addCollaborator(\Magecore\Bundle\TestTaskBundle\Entity\User $collaborators)
+    public function addCollaborator(\Magecore\Bundle\TestTaskBundle\Entity\User $collaborator)
     {
-        $this->collaborators[] = $collaborators;
+        if (!$this->getCollaborators()->contains($collaborator)){
+            $this->collaborators[] = $collaborator;
+            $collaborator->addIssue($this);
+        }
+
 
         return $this;
     }

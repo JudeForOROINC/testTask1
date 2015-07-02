@@ -11,6 +11,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Magecore\Bundle\TestTaskBundle\Entity\Activity;
 use Magecore\Bundle\TestTaskBundle\Entity\Issue;
+use Magecore\Bundle\TestTaskBundle\Entity\Comment;
 
 class ActivityListener{
 
@@ -24,15 +25,27 @@ class ActivityListener{
         $entity = $args->getEntity();
         $entityManager = $args->getEntityManager();
 
-        // perhaps you only want to act on some "Product" entity
+        // new entity inserted in database. may be a Issue.
         if ($entity instanceof Issue) {
-            // ... do something with the Product
+
             $active = new Activity();
             $active->setType($active::ACTIVITY_TYPE_CREATE_ISSUE);
             $active->setIssue($entity);
             $active->setUser($entity->getReporter());//Here is dangerous: Reporter is not User - if we change logic. but until we controlling code we hope it is.
             $entityManager->persist( $active);
             $entityManager->flush();
+        }
+
+        // new entity inserted in database. may be a Comment.
+        if ($entity instanceof Comment) {
+            $active = new Activity();
+            $active->setType($active::ACTIVITY_TYPE_COMMENT_IN_ISSUE);
+            $active->setIssue($entity->getIssue());
+            $active->setUser($entity->getAuthor());//Here is dangerous: Reporter is not User - if we change logic. but until we controlling code we hope it is.
+            $active->setComment($entity);
+            $entityManager->persist( $active);
+            $entityManager->flush();
+
         }
     }
 
@@ -41,9 +54,9 @@ class ActivityListener{
         $entityManager = $args->getEntityManager();
         $ch = $args->getEntityChangeSet();
 
-        // perhaps you only want to act on some "Product" entity
+        // updates some data in Issue entity
         if ($entity instanceof Issue) {
-            // ... do something with the Product
+            // if status was changed log event;
             if ($args->hasChangedField('status')) {
                 $active = new Activity();
                 $active->setType($active::ACTIVITY_TYPE_CHANGE_STATUS_ISSUE);
@@ -60,9 +73,9 @@ class ActivityListener{
         $entity = $args->getEntity();
         $entityManager = $args->getEntityManager();
 
-        // perhaps you only want to act on some "Product" entity
+        // if event was enabled - try to insert log record;
         if ($entity instanceof Issue) {
-            // ... do something with the Product
+            // event list is not empty
             if ( count ($this->notifer) ) {
                 foreach($this->notifer as $line){
                     $entityManager->persist($line);
