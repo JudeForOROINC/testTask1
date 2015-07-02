@@ -2,6 +2,7 @@
 
 namespace Magecore\Bundle\TestTaskBundle\Controller;
 
+use Magecore\Bundle\TestTaskBundle\Entity\Project;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -21,10 +22,46 @@ use Magecore\Bundle\TestTaskBundle\Entity\Issue;
 class CommentController extends Controller
 {
 
+    protected function isPermissoinAllowed(Comment $comment){
+
+        $current_user =  $this->getUser();
+        //user can edit its own comment
+        if ($comment->isOwner($current_user)){
+            return true;
+        }
+
+        //admin may edit every comment
+        if ($current_user->hasRole('ROLE_ADMIN')){
+            return true;
+        }
+
+        return false;
+    }
+
+/**
+ * This must by in secure lair, and it is bad, that use it here.
+ * */
+    protected function isProjectAccessAllowed(Project $project)
+    {
+        $currentUser = $this->getUser();
+
+        // member must have access
+        if ($project->isMember($currentUser)) {
+            return true;
+        }
+
+        // any admin or manager must have access too
+        if ($currentUser->hasRole('ROLE_ADMIN') || $currentUser->hasRole('ROLE_MANAGER'))  {
+            return true;
+        }
+
+        return false;
+    }
+
+
     /**
      * Lists all Comment entities.
      *
-
      */
     protected function listAction(Issue $issue)
     {
@@ -55,12 +92,15 @@ class CommentController extends Controller
        // return new Response('kill pigs!!!',200);
         //return new Response(var_dump($request->isXmlHttpRequest()),200);
         //return new Response(var_dump($request),200);
-         //TODO check secure;
 
 
         if (!$request->isXmlHttpRequest()){
             return new JsonResponse(array('message'=>'You can access this only using Ajax!'), 400);
         }
+
+        if ($this->isProjectAccessAllowed($issue->getProject())){
+            return new JsonResponse(array('message'=>'You have no permissons to create a comment!'), 403);
+        };
 
         $entity = new Comment();
         $entity->setIssue($issue);
@@ -142,17 +182,17 @@ class CommentController extends Controller
         return $form;
     }
 
-    private function createNewForm(Comment $entity)
-    {
-        $form = $this->createForm(new CommentType(), $entity, array(
-            'action' => $this->generateUrl('magecore_testtask_comment_create', array('id'=>$entity->getIssue())),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
-        return $form;
-    }
+//    private function createNewForm(Comment $entity)
+//    {
+//        $form = $this->createForm(new CommentType(), $entity, array(
+//            'action' => $this->generateUrl('magecore_testtask_comment_create', array('id'=>$entity->getIssue())),
+//            'method' => 'POST',
+//        ));
+//
+//        $form->add('submit', 'submit', array('label' => 'Create'));
+//
+//        return $form;
+//    }
 
 
     /**
@@ -167,6 +207,10 @@ class CommentController extends Controller
     {
         if (!$request->isXmlHttpRequest()){
             return new JsonResponse(array('message'=>'You can access this only using Ajax!'), 400);
+        }
+
+        if (!$this->isPermissoinAllowed($comment)){
+            return new JsonResponse(array('message'=>'You can not edit this comment !'), 403);
         }
 
         $issue = $comment->getIssue();
@@ -304,13 +348,18 @@ class CommentController extends Controller
             return new JsonResponse(array('message'=>'You can access this only using Ajax!'), 400);
         }
 
-        //TODO check permission;
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('MagecoreTestTaskBundle:Comment')->find($id);
+
         if (!empty($entity)){
+            if (!$this->isPermissoinAllowed($entity)){
+                return new JsonResponse(array('message'=>'You can not remove this comment !'), 403);
+            }
             $issue = $entity->getIssue();
             $em->remove($entity);
             $em->flush();
+        } else {
+            //TODO error message for not found with 400.
         }
 
         //redraw form
