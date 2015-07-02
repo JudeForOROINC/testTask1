@@ -21,7 +21,7 @@
                     {#<a href="{{ path('magecore_test_task_user_view',{id : activ.user.id}) }}">{{ activ.user }}</a>#}
                 </td>
                 <td>
-                    {{ activ.type }}
+                    {{ activ.type|trans }}
                 </td>
                 <td>
                     {{ activ.time|datertz }}

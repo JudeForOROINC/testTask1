@@ -51,7 +51,7 @@
                 {% include 'MagecoreTestTaskBundle:Comment:form.html.twig' with {'form': addComment} %}
             </div>
 
-            <button type="submit" class="btn btn-primary" id="button_submit" >Submit</button>
+            <button type="submit" class="btn btn-primary" id="button_submit" >{{ 'button.submit'|trans }}</button>
             {{form_rest(addComment)}}
         </form>
         </div>

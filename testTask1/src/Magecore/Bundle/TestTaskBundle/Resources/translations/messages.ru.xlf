@@ -18,6 +18,14 @@
                 <source>action.remove</source>
                 <target>Убить</target>
             </trans-unit>
+            <trans-unit id="5">
+                <source>button.submit</source>
+                <target>Отправить</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>CIAT</source>
+                <target>Создана Проблема</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

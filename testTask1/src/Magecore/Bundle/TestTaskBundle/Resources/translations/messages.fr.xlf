@@ -18,6 +18,14 @@
                 <source>action.remove</source>
                 <target>Remove</target>
             </trans-unit>
+            <trans-unit id="5">
+                <source>button.submit</source>
+                <target>Submit</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>CIAT</source>
+                <target>Issue Created</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
