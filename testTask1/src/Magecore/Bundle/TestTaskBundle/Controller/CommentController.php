@@ -204,7 +204,7 @@ class CommentController extends Controller
      * @Method("POST")
      * @Template()
      */
-    public function editAction(Comment $comment)
+    public function editAction(Request $request, Comment $comment)
     {
         if (!$request->isXmlHttpRequest()){
             return new JsonResponse(array('message'=>'You can access this only using Ajax!'), 400);
@@ -356,11 +356,42 @@ class CommentController extends Controller
     /**
      * Deletes a Comment entity.
      *
-     * @Route("/{id}", name="comment_delete")
-     * @Method("DELETE")
+     * @Route("/remove/{id}", name="magecore_testtask_comment_delete", requirements={"id"="\d+"})
+     * @Method("POST")
      */
     public function deleteAction(Request $request, $id)
     {
+        if (!$request->isXmlHttpRequest()){
+            return new JsonResponse(array('message'=>'You can access this only using Ajax!'), 400);
+        }
+
+        //TODO check permission;
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('MagecoreTestTaskBundle:Comment')->find($id);
+        if (!empty($entity)){
+            $issue = $entity->getIssue();
+            $em->remove($entity);
+            $em->flush();
+        }
+
+        //redraw form
+        $entity = new Comment();
+        $entity->setIssue($issue);
+        $entity->setAuthor($this->getUser());
+        $form = $this->createCreateForm($entity);
+
+        return new JsonResponse(array('message'=>
+            $this->renderView('MagecoreTestTaskBundle:Comment:index.html.twig',
+                array(
+                    #entities: entity.comments, addComment: addComment
+                    'entities'=>$issue->getComments(),
+                    'addComment'=>$form->createView(),
+                    'issue_id'=>$issue->getId(),
+                )),
+        ),200);
+
+
+
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
 
