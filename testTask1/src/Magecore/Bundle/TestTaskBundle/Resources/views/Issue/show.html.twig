@@ -12,7 +12,7 @@
     {{ frms.linkEnt(app.user) }}
 
 
-    <table class="record_properties">
+    <table class="table table-striped">
         <tbody>
             <tr>
                 <th>Id</th>
@@ -47,26 +47,26 @@
                 {#<td>{{ entity.assignee }}</td>#}
                 <td>{{ frms.linkEnt(entity.assignee) }}</td>
             </tr>
-            <tr>
-                <th>Collaborators</th>
-                <td>Become soon..{#{ entity.assignee }#}</td>
-            </tr>
+            {#<tr>#}
+                {#<th>Collaborators</th>#}
+                {#<td>Become soon..&#123;&#35;{ entity.assignee }&#35;&#125;</td>#}
+            {#</tr>#}
             <tr>
                 <th>Project</th>
                 {#<td>{{ entity.project }}</td>#}
                 <td>{{ frms.linkEnt(entity.project) }}</td>
             </tr>
-            <tr>
-                <th>ParentIssue</th>
-                <td>{{ frms.linkEnt(entity.parentIssue) }}</td>
-            </tr>
+            {#<tr>#}
+                {#<th>ParentIssue</th>#}
+                {#<td>{{ frms.linkEnt(entity.parentIssue) }}</td>#}
+            {#</tr>#}
             <tr>
                 <th>Status</th>
                 <td>{{ entity.status }}</td>
             </tr>
             <tr>
                 <th>Resolution</th>
-                <td>{{ entity.resolution }}</td>
+                <td>{% if entity.resolution %}{{ entity.resolution }}{% else %}UnResolved{% endif %}</td>
             </tr>
             <tr>
                 <th>Created</th>
