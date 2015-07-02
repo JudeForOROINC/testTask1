@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 /**
  * @ORM\Entity
  * @ORM\Table(name="magecore_testtask_user")
+ * @ORM\Entity(repositoryClass="Magecore\Bundle\TestTaskBundle\Entity\UserRepository")
  */
 class User extends BaseUser
 {
@@ -62,6 +63,11 @@ class User extends BaseUser
      */
 
     protected $issues;
+
+    /**
+    * @ORM\OneToMany(targetEntity="Activity", mappedBy="user" )
+    */
+    protected $activity;
 
     public function getRemoveAva()
     {
@@ -249,6 +255,7 @@ class User extends BaseUser
     {
         parent::__construct();
         $this->issues = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->activity = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -285,5 +292,39 @@ class User extends BaseUser
     public function getIssues()
     {
         return $this->issues;
+    }
+
+
+    /**
+     * Add activities
+     *
+     * @param \Magecore\Bundle\TestTaskBundle\Entity\Activity $activities
+     * @return Issue
+     */
+    public function addActivity(\Magecore\Bundle\TestTaskBundle\Entity\Activity $activity)
+    {
+        $this->activity[] = $activity;
+
+        return $this;
+    }
+
+    /**
+     * Remove activities
+     *
+     * @param \Magecore\Bundle\TestTaskBundle\Entity\Activity $activities
+     */
+    public function removeActivity(\Magecore\Bundle\TestTaskBundle\Entity\Activity $activities)
+    {
+        $this->activity->removeElement($activities);
+    }
+
+    /**
+     * Get activities
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getActivity()
+    {
+        return $this->activity;
     }
 }

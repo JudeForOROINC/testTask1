@@ -52,9 +52,13 @@ class UserController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function viewAction(User $user){
+        $em = $this->getDoctrine()->getEntityManager();
+        $rep = $em->getRepository('MagecoreTestTaskBundle:User');
+        $issues = $rep->findOpenByUserId($user->getId());
+//        return new Response(var_dump($activity),200);
         return [
             'user' => $user,
-            'name'=>$user->getUsername(),
+            'issues'=>$issues,
         ];
     }
     /**

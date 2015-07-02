@@ -1,0 +1,16 @@
+{% if issues %}
+
+    {% import "MagecoreTestTaskBundle:Macro:Macro.html.twig" as frms %}
+        <ul>
+            {% for issue in issues %}
+                <li>
+                    <a href="{{ path('magecore_testtask_issue_show',{id : issue.id}) }}">
+                        {{ frms.linkEnt(issue) }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+{% else %}
+    <div>No issues found</div>
+{% endif %}
+
