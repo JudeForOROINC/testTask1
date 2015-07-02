@@ -22,8 +22,8 @@
                 <td>{{ entity.code }}</td>
                 <td>{{ entity.summary }}</td>
                 <td>{{ entity.description }}</td>
-                <td>{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s',app.user.gettimezone) }}{% endif %}</td>
-                <td>{% if entity.updated %}{{ entity.updated|date('Y-m-d H:i:s',app.user.gettimezone) }}{% endif %}</td>
+                <td>{% if entity.created %}{{ entity.created|datertz }}{% endif %}</td>
+                <td>{% if entity.updated %}{{ entity.updated|datertz }}{% endif %}</td>
                 <td>
                 <ul>
                     <li>

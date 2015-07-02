@@ -12,9 +12,14 @@ use Magecore\Bundle\TestTaskBundle\Entity\Comment;
 use Magecore\Bundle\TestTaskBundle\Entity\Issue;
 use Magecore\Bundle\TestTaskBundle\Entity\Project;
 use Magecore\Bundle\TestTaskBundle\Entity\User;
+use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Core\SecurityContext;
 
 class AppExtension extends \Twig_Extension
 {
+    protected $context;
+
     public function getFilters()
     {
         return array(
@@ -42,8 +47,17 @@ class AppExtension extends \Twig_Extension
         return $price;
     }
 
-    public function datertzFilter(\DateTime $date, User $user){
+    protected function getCurrentUser(){
+
+        return $this->context->getToken()->getUser();
+
+    }
+
+
+    public function datertzFilter(\DateTime $date){
         //code
+        //$this->getNodeVisitors();
+        $user= $this->getCurrentUser();
         $tz = $user->getTimezone();
         $date->setTimezone(new \DateTimeZone($tz));
         return $date->format('Y.m.d H:i:s');
@@ -101,6 +115,9 @@ class AppExtension extends \Twig_Extension
         return $id;
     }
 
+    public function __construct(ContainerInterface $container, SecurityContext $context) {
+        $this->context = $context;
+    }
 
     public function getName()
     {
