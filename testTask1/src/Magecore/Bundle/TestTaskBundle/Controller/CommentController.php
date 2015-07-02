@@ -24,19 +24,24 @@ class CommentController extends Controller
     /**
      * Lists all Comment entities.
      *
-     * @Route("/", name="comment")
-     * @Method("GET")
-     * @Template()
+
      */
-    public function indexAction()
+    protected function listAction(Issue $issue)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entity = new Comment();
+        $entity->setIssue($issue);
+        $entity->setAuthor($this->getUser());
+        $form = $this->createCreateForm($entity);
 
-        $entities = $em->getRepository('MagecoreTestTaskBundle:Comment')->findAll();
-
-        return array(
-            'entities' => $entities,
-        );
+        return new JsonResponse(array('message'=>
+            $this->renderView('MagecoreTestTaskBundle:Comment:index.html.twig',
+                array(
+                    #entities: entity.comments, addComment: addComment
+                    'entities'=>$issue->getComments(),
+                    'addComment'=>$form->createView(),
+                    'issue_id'=>$issue->getId(),
+                )),
+        ),200);
     }
     /**
      * Creates a new Comment entity.
@@ -73,20 +78,21 @@ class CommentController extends Controller
             $em->flush();
 
             #return $this->redirect($this->generateUrl('comment_show', array('id' => $entity->getId())));
-            $entity = new Comment();
-            $entity->setIssue($issue);
-            $entity->setAuthor($this->getUser());
-            $form = $this->createCreateForm($entity);
-
-            return new JsonResponse(array('message'=>
-                $this->renderView('MagecoreTestTaskBundle:Comment:index.html.twig',
-                array(
-                    #entities: entity.comments, addComment: addComment
-                    'entities'=>$issue->getComments(),
-                    'addComment'=>$form->createView(),
-                    'issue_id'=>$issue->getId(),
-                )),
-            ),200);
+//            $entity = new Comment();
+//            $entity->setIssue($issue);
+//            $entity->setAuthor($this->getUser());
+//            $form = $this->createCreateForm($entity);
+//
+//            return new JsonResponse(array('message'=>
+//                $this->renderView('MagecoreTestTaskBundle:Comment:index.html.twig',
+//                array(
+//                    #entities: entity.comments, addComment: addComment
+//                    'entities'=>$issue->getComments(),
+//                    'addComment'=>$form->createView(),
+//                    'issue_id'=>$issue->getId(),
+//                )),
+//            ),200);
+            return $this->listAction($issue);
 
             #return new JsonResponse(array('message'=>'Success!'),200);#$this->redirect($this->generateUrl('comment_show', array('id' => $entity->getId())));
         }
@@ -101,12 +107,8 @@ class CommentController extends Controller
 
             ), 400);
         return $responce;
-//
-//        return array(
-//            'entity' => $entity,
-//            'form'   => $form->createView(),
-//        );
     }
+
 
     /**
      * Creates a form to create a Comment entity.
@@ -151,50 +153,7 @@ class CommentController extends Controller
 
         return $form;
     }
-    /**
-     * Displays a form to create a new Comment entity.
-     *
-     * @Route("/new", name="comment_new")
-     * @Method("GET")
-     * @Template()
-     */
-    public function newAction()
-    {
-        $entity = new Comment();
-        $form   = $this->createCreateForm($entity);
 
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
-
-    /**
-     * Finds and displays a Comment entity.
-     *
-     * @Route("/{id}", name="comment_show")
-     * @Method("GET")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-
-
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('MagecoreTestTaskBundle:Comment')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Comment entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
 
     /**
      * Displays a form to edit an existing Comment entity.
@@ -219,9 +178,6 @@ class CommentController extends Controller
         $form = $this->createEditForm($entity);
 
         $form->handleRequest($request);
-        //return new Response(var_dump($form->isValid()),200);
-        #return new Response(var_dump($entity),200);
-        //return new JsonResponse(array('message'=>'Success!'),200);
         if(!$form->isSubmitted()){
             return new JsonResponse(array('message'=>
                 $this->renderView('MagecoreTestTaskBundle:Comment:index.html.twig',
@@ -241,21 +197,21 @@ class CommentController extends Controller
             $em->flush();
 
             #return $this->redirect($this->generateUrl('comment_show', array('id' => $entity->getId())));
-            $entity = new Comment();
-            $entity->setIssue($issue);
-            $entity->setAuthor($this->getUser());
-            $form = $this->createCreateForm($entity);
-
-            return new JsonResponse(array('message'=>
-                $this->renderView('MagecoreTestTaskBundle:Comment:index.html.twig',
-                    array(
-                        #entities: entity.comments, addComment: addComment
-                        'entities'=>$issue->getComments(),
-                        'addComment'=>$form->createView(),
-                        'issue_id'=>$issue->getId(),
-                    )),
-            ),200);
-
+        //            $entity = new Comment();
+        //            $entity->setIssue($issue);
+        //            $entity->setAuthor($this->getUser());
+        //            $form = $this->createCreateForm($entity);
+        //
+        //            return new JsonResponse(array('message'=>
+        //                $this->renderView('MagecoreTestTaskBundle:Comment:index.html.twig',
+        //                    array(
+        //                        #entities: entity.comments, addComment: addComment
+        //                        'entities'=>$issue->getComments(),
+        //                        'addComment'=>$form->createView(),
+        //                        'issue_id'=>$issue->getId(),
+        //                    )),
+        //            ),200);
+            return $this->listAction($issue);
             #return new JsonResponse(array('message'=>'Success!'),200);#$this->redirect($this->generateUrl('comment_show', array('id' => $entity->getId())));
         }
 //        $responce = new JsonResponse(
@@ -281,78 +237,61 @@ class CommentController extends Controller
                 )),
         ),200);
 
-        return new JsonResponse(array('message'=>'Success! '.$id),200);
-
-
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('MagecoreTestTaskBundle:Comment')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Comment entity.');
-        }
-
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
+//        return new JsonResponse(array('message'=>'Success! '.$id),200);
+//
+//
+//        $em = $this->getDoctrine()->getManager();
+//
+//        $entity = $em->getRepository('MagecoreTestTaskBundle:Comment')->find($id);
+//
+//        if (!$entity) {
+//            throw $this->createNotFoundException('Unable to find Comment entity.');
+//        }
+//
+//        $editForm = $this->createEditForm($entity);
+//        $deleteForm = $this->createDeleteForm($id);
+//
+//        return array(
+//            'entity'      => $entity,
+//            'edit_form'   => $editForm->createView(),
+//            'delete_form' => $deleteForm->createView(),
+//        );
     }
 
-    /**
-    * Creates a form to edit a Comment entity.
-    *
-    * @param Comment $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-//    private function createEditForm(Comment $entity)
+//    /**
+//     * Edits an existing Comment entity.
+//     *
+//     * @Route("/{id}", name="comment_update")
+//     * @Method("PUT")
+//     * @Template("MagecoreTestTaskBundle:Comment:edit.html.twig")
+//     */
+//    public function updateAction(Request $request, $id)
 //    {
-//        $form = $this->createForm(new CommentType(), $entity, array(
-//            'action' => $this->generateUrl('comment_update', array('id' => $entity->getId())),
-//            'method' => 'PUT',
-//        ));
+//        $em = $this->getDoctrine()->getManager();
 //
-//        $form->add('submit', 'submit', array('label' => 'Update'));
+//        $entity = $em->getRepository('MagecoreTestTaskBundle:Comment')->find($id);
 //
-//        return $form;
+//        if (!$entity) {
+//            throw $this->createNotFoundException('Unable to find Comment entity.');
+//        }
+//
+//        $deleteForm = $this->createDeleteForm($id);
+//        $editForm = $this->createEditForm($entity);
+//        $editForm->handleRequest($request);
+//
+//        if ($editForm->isValid()) {
+//            $em->flush();
+//
+//            return $this->redirect($this->generateUrl('comment_edit', array('id' => $id)));
+//        }
+//
+//        return array(
+//            'entity'      => $entity,
+//            'edit_form'   => $editForm->createView(),
+//            'delete_form' => $deleteForm->createView(),
+//        );
 //    }
-    /**
-     * Edits an existing Comment entity.
-     *
-     * @Route("/{id}", name="comment_update")
-     * @Method("PUT")
-     * @Template("MagecoreTestTaskBundle:Comment:edit.html.twig")
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('MagecoreTestTaskBundle:Comment')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Comment entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('comment_edit', array('id' => $id)));
-        }
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
     /**
      * Deletes a Comment entity.
      *
@@ -375,55 +314,55 @@ class CommentController extends Controller
         }
 
         //redraw form
-        $entity = new Comment();
-        $entity->setIssue($issue);
-        $entity->setAuthor($this->getUser());
-        $form = $this->createCreateForm($entity);
+//        $entity = new Comment();
+//        $entity->setIssue($issue);
+//        $entity->setAuthor($this->getUser());
+//        $form = $this->createCreateForm($entity);
+//
+//        return new JsonResponse(array('message'=>
+//            $this->renderView('MagecoreTestTaskBundle:Comment:index.html.twig',
+//                array(
+//                    #entities: entity.comments, addComment: addComment
+//                    'entities'=>$issue->getComments(),
+//                    'addComment'=>$form->createView(),
+//                    'issue_id'=>$issue->getId(),
+//                )),
+//        ),200);
 
-        return new JsonResponse(array('message'=>
-            $this->renderView('MagecoreTestTaskBundle:Comment:index.html.twig',
-                array(
-                    #entities: entity.comments, addComment: addComment
-                    'entities'=>$issue->getComments(),
-                    'addComment'=>$form->createView(),
-                    'issue_id'=>$issue->getId(),
-                )),
-        ),200);
+        return $this->listAction($issue);
 
-
-
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('MagecoreTestTaskBundle:Comment')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Comment entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
-        }
-
-        return $this->redirect($this->generateUrl('comment'));
+//        $form = $this->createDeleteForm($id);
+//        $form->handleRequest($request);
+//
+//        if ($form->isValid()) {
+//            $em = $this->getDoctrine()->getManager();
+//            $entity = $em->getRepository('MagecoreTestTaskBundle:Comment')->find($id);
+//
+//            if (!$entity) {
+//                throw $this->createNotFoundException('Unable to find Comment entity.');
+//            }
+//
+//            $em->remove($entity);
+//            $em->flush();
+//        }
+//
+//        return $this->redirect($this->generateUrl('comment'));
     }
 
-    /**
-     * Creates a form to delete a Comment entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('comment_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
-    }
+//    /**
+//     * Creates a form to delete a Comment entity by id.
+//     *
+//     * @param mixed $id The entity id
+//     *
+//     * @return \Symfony\Component\Form\Form The form
+//     */
+//    private function createDeleteForm($id)
+//    {
+//        return $this->createFormBuilder()
+//            ->setAction($this->generateUrl('comment_delete', array('id' => $id)))
+//            ->setMethod('DELETE')
+//            ->add('submit', 'submit', array('label' => 'Delete'))
+//            ->getForm()
+//        ;
+//    }
 }
