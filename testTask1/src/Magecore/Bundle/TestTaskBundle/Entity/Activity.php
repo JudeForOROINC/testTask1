@@ -3,6 +3,7 @@
 namespace Magecore\Bundle\TestTaskBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Magecore\Bundle\TestTaskBundle\Helper\DoctrineHelper;
 
 /**
  * Activity
@@ -12,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Activity
 {
+    private $helper=null;
     /**
      * @var integer
      *
@@ -69,7 +71,8 @@ class Activity
     const ACTIVITY_TYPE_COMMENT_IN_ISSUE='COAT';
 
     public function __construct(){
-        $this->time = new \DateTime();
+        $this->helper = new DoctrineHelper();
+        $this->time = $this->helper->setDatetime(new \DateTime());
     }
 
 
@@ -84,28 +87,7 @@ class Activity
     }
 
 
-    /**
-     * Set commentId
-     *
-     * @param integer $commentId
-     * @return Activity
-     */
-    public function setCommentId($commentId)
-    {
-        $this->commentId = $commentId;
 
-        return $this;
-    }
-
-    /**
-     * Get commentId
-     *
-     * @return integer 
-     */
-    public function getCommentId()
-    {
-        return $this->commentId;
-    }
 
     /**
      * Set time
@@ -115,7 +97,7 @@ class Activity
      */
     public function setTime($time)
     {
-        $this->time = $time;
+        $this->time = $this->helper->setDatetime($time);
 
         return $this;
     }
@@ -127,7 +109,7 @@ class Activity
      */
     public function getTime()
     {
-        return $this->time;
+        return $this->helper->setDatetime($this->time);
     }
 
     /**
