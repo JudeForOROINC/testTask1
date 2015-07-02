@@ -29,4 +29,25 @@ class ActivityRepository extends EntityRepository
         return $rep->getQuery()
             ->getResult();
     }
+
+    public function findAllByUserMemberId($id)
+    {
+        $em = $this->getEntityManager();
+
+        $rep = $em->createQueryBuilder()
+            ->select('a')
+            ->from('MagecoreTestTaskBundle:Activity','a')
+            ->innerJoin('a.user', 'u','WITH', 'u.id = :id')
+            ->innerJoin('a.issue', 'i')
+            ->innerJoin('i.project', 'p')
+            ->innerJoin('p.members', 'm', 'WITH','m.id=u.id')
+            ->setParameter('id',$id);
+
+
+
+
+        return $rep->getQuery()
+            ->getResult();
+    }
+
 }

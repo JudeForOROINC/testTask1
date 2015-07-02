@@ -22,18 +22,24 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class MainController extends Controller
 {
-
+    /**
+     * @Route("/", name="magecore_testtask_main_view")
+     * @Template
+     */
     public function viewAction()
     {
         $em = $this->getDoctrine()->getManager();
         //$projects = $em->getRepository('MagecoreTestTaskBundle:Project')->findAll();
 
         $rep = $em->getRepository('MagecoreTestTaskBundle:Activity');
-        $activity = $rep->findAllByProjectId($project->getId());
+        $activity = $rep->findAllByUserMemberId( $this->getUser() );
+
+        $rep = $em->getRepository('MagecoreTestTaskBundle:User');
+        $issues = $rep->findOpenByCollaboratorId( $this->getUser()->getId() );
+
         return [
-            'project' => $project,
-            'name' => $project->getLabel(),
             'activities' => $activity,
+            'issues' => $issues,
         ];
     }
 }

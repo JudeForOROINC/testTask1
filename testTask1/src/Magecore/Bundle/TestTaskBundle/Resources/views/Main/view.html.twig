@@ -3,84 +3,18 @@
 
 {% block body %}
     {% import "MagecoreTestTaskBundle:Macro:Macro.html.twig" as frms %}
-    <h2>View project :{{ project.code }}</h2>
 <div>
-    <h3>label:</h3>
-    <h1>{{ project.label }}</h1>
-    <h3>summary:</h3>
-    <div style="background-color: #8888BB; width: 400px; color: #66dd66; border-radius: 7px">
-        <textarea readonly rows="20" cols="50" align="center">{{ project.summary }}</textarea>
-    </div>
-    <div>
-        <p>Here must be members list</p>
-        <div style="width: 350px">
-
-        {% if not project.members.isEmpty %}
-            <ul>
-            {% for member in project.members %}
-                <li>
-                <div style="border-radius: 3px; background-color: #0081c2;width: auto">
-                    {{ frms.linkEnt(member) }}
-                </div>
-                </li>
-            {% endfor %}
-            </ul>
-        {% endif %}
-        </div>
-    </div>
-
-    {% if app.user and (is_granted( 'ROLE_ADMIN' ) or is_granted('ROLE_MANAGER') ) %}
-        <a href="{{ path('magecore_test_task_project_update', { id: project.id }) }}">
-            edit
-        </a>
-        <a href="{{ path('magecore_test_task_project_create') }}">
-            New Project
-        </a>
-    {% endif %}
-
-    {% if app.user and (is_granted( 'ROLE_ADMIN' ) or is_granted('ROLE_MANAGER') or project.member(app.user) ) %}
-        <a href="{{ path('magecore_testtask_issue_create', { id: project.id }) }}">
-            New Issue
-        </a>
-    {% endif %}
+    <h2>Welcome, {{ app.user }}!</h2>
 
     <div>
         <p>Here must be activity</p>
         {{ include('MagecoreTestTaskBundle:Activity:list_frame.html.twig',{activities : activities}) }}
-{#
-        {% if activities %}
-        <table>
-            <tr>
-                <th>Issue</th>
-                <th>User</th>
-                <th>TYPE</th>
-                <th>Time</th>
-            </tr>
-            {% for activ in activities %}
-                <tr>
-                    <td>
-                        <a href="{{ path('magecore_testtask_issue_show',{id : activ.issue.id}) }}">{{ activ.issue }}</a>
-                    </td>
-                    <td>
-                        <a href="{{ path('magecore_test_task_user_view',{id : activ.user.id}) }}">{{ activ.user }}</a>
-                    </td>
-                    <td>
-                        {{ activ.type }}
-                    </td>
-                    <td>
-                        {{ activ.time|date }}
-                    </td>
-
-                </tr>
-            {% endfor %}
-        </table>
-        {% endif %}
-        #}
     </div>
 
-    <div id="project_issue_list">
+    <div id="main_issue_list">
         {#<p>additional: list of issues of a project;</p>#}
-        {{ include('MagecoreTestTaskBundle:Issue:list_frame.html.twig',{issues : project.issues}) }}
+        <p>open issues</p>
+        {{ include('MagecoreTestTaskBundle:Issue:list_frame.html.twig',{issues : issues}) }}
     </div>
 
 

@@ -17,3 +17,9 @@ magecore_test_task_comment:
     resource: "@MagecoreTestTaskBundle/Controller/CommentController.php"
     type:     annotation
     prefix: /
+
+magecore_test_task_main:
+    resource: "@MagecoreTestTaskBundle/Controller/MainController.php"
+    type:     annotation
+    prefix: /
+

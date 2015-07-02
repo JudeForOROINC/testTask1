@@ -41,4 +41,37 @@ class UserRepository extends EntityRepository
         return $rep->getQuery()
             ->getResult();
     }
+
+    public function findOpenByCollaboratorId($id)
+    {
+        $em = $this->getEntityManager();
+
+
+
+        $rep = $em->createQueryBuilder()
+            ->select('i')
+            ->from('MagecoreTestTaskBundle:Issue','i')
+//            ->from('MagecoreTestTaskBundle:DicStatus','ds')
+            ->innerJoin('i.collaborators','c','WITH','c.id = :id' )
+            ->innerJoin('i.status','ds','WITH','ds.value = :val')
+        ;
+
+//        $rep->add('where', $rep->expr()->andX(
+////            $rep->expr()->eq('i.assignee',(string)$id ),
+////            $rep->expr()->andX($rep->expr()->eq('i.status','ds.id'),
+////                $rep->expr()->eq('ds.value','"Open"')
+////            )
+//            $rep->expr()->eq('i.assignee',(string)$id ),
+//            $rep->expr()->eq('ds.value',':val')
+//
+//        ))
+//;
+        $rep->setParameter('val','Open');
+        $rep->setParameter('id',$id);
+
+
+
+        return $rep->getQuery()
+            ->getResult();
+    }
 }
