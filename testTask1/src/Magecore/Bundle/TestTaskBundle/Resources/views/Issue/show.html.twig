@@ -166,29 +166,18 @@
 
 {% block sidebar %}
     <div class="section actions">
-            {#<ul class="record_actions">#}
-                {#<li>#}
-                    <a href="{{ path('magecore_testtask_issue') }}" class="btn btn-lg btn-block btn-success" >
-                        Back to the list
-                    </a>
-                {#</li>#}
-                {#<li>#}
-                    <a href="{{ path('magcore_testtask_issue_edit', { 'id': entity.id }) }}" class="btn btn-lg btn-block btn-success">
-                        Edit
-                    </a>
-                {#</li>#}
-                {#<li>{{ form(delete_form) }}</li>#}
-            {#</ul>#}
-        {##}
-        {#<a href="{{ path('admin_post_new') }}" class="btn btn-lg btn-block btn-success">#}
-            {#<i class="fa fa-plus"></i> {{ 'action.create_post'|trans }}#}
-        {#</a>#}
+        <a href="{{ path('magecore_testtask_issue') }}" class="btn btn-lg btn-block btn-success" >
+            Back to the list
+        </a>
+        <a href="{{ path('magcore_testtask_issue_edit', { 'id': entity.id }) }}" class="btn btn-lg btn-block btn-success">
+            {{ 'action.edit'|trans }}
+        </a>
     </div>
 
     <div class="section actions">
         {% if entity.isStory %}
-            <a href={{ path('magecore_testtask_issue_subtask_create',{id : entity.id}) }} class="btn btn-lg btn-block btn-success">
-                add child
+            <a href="{{ path('magecore_testtask_issue_subtask_create',{id : entity.id}) }}" class="btn btn-lg btn-block btn-success">
+                {{ 'action.add.child'|trans }}
             </a>
         {% endif %}
     </div>

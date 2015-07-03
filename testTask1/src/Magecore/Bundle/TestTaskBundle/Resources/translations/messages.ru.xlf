@@ -126,6 +126,22 @@
                 <source>field.updated.comment</source>
                 <target>Обновлена</target>
             </trans-unit>
+            <trans-unit id="32">
+                <source>action.add.child</source>
+                <target>Добавить проблему</target>
+            </trans-unit>
+            <trans-unit id="33">
+                <source>field.user</source>
+                <target>Пользователь</target>
+            </trans-unit>
+            <trans-unit id="34">
+                <source>field.time</source>
+                <target>Время</target>
+            </trans-unit>
+            <trans-unit id="35">
+                <source>field.message</source>
+                <target>Сообщение</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
