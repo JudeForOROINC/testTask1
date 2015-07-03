@@ -2,8 +2,8 @@
 
 
 
-{% block body -%}
-    <h1>Issue</h1>
+{% block main %}
+    <h1>{{ 'issue.title'|trans }}</h1>
     {% import "MagecoreTestTaskBundle:Macro:Macro.html.twig" as frms %}
 
     {#{ frms.linkParams(route_helper.Route(app.user)) }#}
@@ -23,23 +23,23 @@
     <table class="table table-striped">
         <tbody>
             <tr>
-                <th>Id</th>
+                <th>{{ 'field.id'|trans }}</th>
                 <td>{{ entity.id }}</td>
             </tr>
             <tr>
-                <th>Summary</th>
+                <th>{{ 'field.summary.issue'|trans }}</th>
                 <td>{{ entity.summary }}</td>
             </tr>
             <tr>
-                <th>Code</th>
+                <th>{{ 'field.code'|trans }}</th>
                 <td>{{ entity.code }}</td>
             </tr>
             <tr>
-                <th>Description</th>
+                <th>{{ 'field.description'|trans }}</th>
                 <td>{{ entity.description }}</td>
             </tr>
             <tr>
-                <th>Type</th>
+                <th>{{ 'field.type'|trans }}Type</th>
                 <td>{{ entity.type }}</td>
             </tr>
             <tr>
@@ -90,19 +90,7 @@
         </tbody>
     </table>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('magecore_testtask_issue') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('magcore_testtask_issue_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+
 
     {% block issue_activity_block %}
         <div id="issue_activity_block">
@@ -145,9 +133,7 @@
                     {% endfor %}
                         </ul>
                     </div>
-                <a href={{ path('magecore_testtask_issue_subtask_create',{id : entity.id}) }}>
-                    add child
-                    </a>
+
             {% endif %}
         </div>
     {% endblock %}
@@ -167,180 +153,164 @@
     {% endblock %}
 
     {% block comments %}
-        {#<p> Here must be an comments + button</p>#}
         <h4>Comments</h4>
         <div id="comments_list_div">
         {{ include('MagecoreTestTaskBundle:Comment:index.html.twig',{entities: entity.comments, addComment: addComment, issue_id:entity.id}) }}
         </div>
 
-        {#<p>form:</p>#}
-        {#&#123;&#35;{{ dump(addComment) }}&#35;&#125;#}
-        {#<p>form:</p>#}
-        {#&#123;&#35;{{ form(addComment) }}&#35;&#125;#}
-        {#{% block Formbody -%}#}
-
-            {#<h1>Demo creation</h1>#}
-            {#<div id="myajax">#}
-                {#Here must be anser#}
-                {#</div>#}
-
-            {#<div class="form_error"></div>#}
-            {#<form method="POST" class="ajaxForm" action="{{path('magecore_testtask_comment_create',{id: entity.id })}}" {{ form_enctype(addComment) }}>#}
-                {#<div id="form_body">#}
-                    {#{% include 'MagecoreTestTaskBundle:Comment:form.html.twig' with {'form': addComment} %}#}
-                {#</div>#}
-
-                {#<button type="submit" class="btn btn-primary" id="button_submit" >Submit</button>#}
-                {#{{form_rest(addComment)}}#}
-            {#</form>#}
-
-            {#<ul class="record_actions">#}
-                {#<li>#}
-                    {#<a href="{{ path('demo') }}">#}
-                        {#Back to the list#}
-                    {#</a>#}
-                {#</li>#}
-            {#</ul>#}
-            {#<h1>JavaScript in Body</h1>#}
-
-            {#<p id="demo">A Paragraph.</p>#}
-
-            {#<button type="button" onclick="myFunction()">Try it</button>#}
-
-
-
-            {#<button type="button" onclick="sendAjax()">hiddensubmint</button>#}
-
-                {#&#123;&#35;<form method="POST" class="myajaxForm" action="{{path('magecore_testtask_comment_create')}}" >&#35;&#125;#}
-                    {#&#123;&#35;<div id="form_body">&#35;&#125;#}
-                        {#&#123;&#35;<input name="body">&#35;&#125;#}
-                    {#&#123;&#35;</div>&#35;&#125;#}
-
-
-
-                {#&#123;&#35;</form>&#35;&#125;#}
-                {#<button type="button"  onclick="sendmyAjax()" >K8ill dirty pigs|!!!!!</button>#}
-
-                {#{% endblock %}#}
-
-
-
     {% endblock %}
 
 {% endblock %}
+
+
+{% block sidebar %}
+    <div class="section actions">
+            {#<ul class="record_actions">#}
+                {#<li>#}
+                    <a href="{{ path('magecore_testtask_issue') }}" class="btn btn-lg btn-block btn-success" >
+                        Back to the list
+                    </a>
+                {#</li>#}
+                {#<li>#}
+                    <a href="{{ path('magcore_testtask_issue_edit', { 'id': entity.id }) }}" class="btn btn-lg btn-block btn-success">
+                        Edit
+                    </a>
+                {#</li>#}
+                {#<li>{{ form(delete_form) }}</li>#}
+            {#</ul>#}
+        {##}
+        {#<a href="{{ path('admin_post_new') }}" class="btn btn-lg btn-block btn-success">#}
+            {#<i class="fa fa-plus"></i> {{ 'action.create_post'|trans }}#}
+        {#</a>#}
+    </div>
+
+    <div class="section actions">
+        {% if entity.isStory %}
+            <a href={{ path('magecore_testtask_issue_subtask_create',{id : entity.id}) }} class="btn btn-lg btn-block btn-success">
+                add child
+            </a>
+        {% endif %}
+    </div>
+
+    {{ parent() }}
+
+
+
+{% endblock %}
+
         {% block javascripts %}
             {{ parent() }}
             <script type="text/javascript" src="{{ asset('bundles/magecoretesttask/js/main.js') }}"></script>
             <script type="text/javascript" src="{{ asset('bundles/magecoretesttask/js/jquery-2.1.4.min.js') }}"></script>
             <script>
                 initAjaxForm();
-//                initmyAjaxForm();
+                //                initmyAjaxForm();
             </script>
             {#<script>#}
-                {#function myFunction() {#}
-                    {#document.getElementById("demo").innerHTML = "Paragraph changed.";#}
-                {#}#}
+            {#function myFunction() {#}
+            {#document.getElementById("demo").innerHTML = "Paragraph changed.";#}
+            {#}#}
             {#</script>#}
             {#<script>function initmyAjaxForm()#}
-                {#{#}
-                    {#$('body').on('submit', '.myajaxForm', function (e) {#}
+            {#{#}
+            {#$('body').on('submit', '.myajaxForm', function (e) {#}
 
-                        {#e.preventDefault();#}
+            {#e.preventDefault();#}
 
-                        {#$.ajax({#}
-                            {#type: $(this).attr('method'),#}
-                            {#url: $(this).attr('action'),#}
-                            {#data: $(this).serialize()#}
-                        {#})#}
-                                {#.done(function (data) {#}
-                                    {#if (typeof data.message !== 'undefined') {#}
-                                        {#alert(data.message);#}
-                                    {#}#}
-                                {#})#}
-                                {#.fail(function (jqXHR, textStatus, errorThrown) {#}
-                                    {#if (typeof jqXHR.responseJSON !== 'undefined') {#}
-                                        {#if (jqXHR.responseJSON.hasOwnProperty('form')) {#}
-                                            {#$('#form_body').html(jqXHR.responseJSON.form);#}
-                                        {#}#}
+            {#$.ajax({#}
+            {#type: $(this).attr('method'),#}
+            {#url: $(this).attr('action'),#}
+            {#data: $(this).serialize()#}
+            {#})#}
+            {#.done(function (data) {#}
+            {#if (typeof data.message !== 'undefined') {#}
+            {#alert(data.message);#}
+            {#}#}
+            {#})#}
+            {#.fail(function (jqXHR, textStatus, errorThrown) {#}
+            {#if (typeof jqXHR.responseJSON !== 'undefined') {#}
+            {#if (jqXHR.responseJSON.hasOwnProperty('form')) {#}
+            {#$('#form_body').html(jqXHR.responseJSON.form);#}
+            {#}#}
 
-                                        {#$('.form_error').html(jqXHR.responseJSON.message);#}
+            {#$('.form_error').html(jqXHR.responseJSON.message);#}
 
-                                    {#} else {#}
-                                        {#alert(errorThrown);#}
-                                    {#}#}
+            {#} else {#}
+            {#alert(errorThrown);#}
+            {#}#}
 
-                                {#});#}
-                    {#});#}
-                {#}#}
+            {#});#}
+            {#});#}
+            {#}#}
             {#</script>#}
             {#<script>function sendAjax()#}
-                {#{#}
-                    {#var xmlhttp;#}
-                    {#if (window.XMLHttpRequest)#}
-                    {#{// code for IE7+, Firefox, Chrome, Opera, Safari#}
-                        {#xmlhttp=new XMLHttpRequest();#}
-                    {#}#}
-                    {#else#}
-                    {#{// code for IE6, IE5#}
-                        {#xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");#}
-                    {#}#}
-                    {#xmlhttp.onreadystatechange=function()#}
-                    {#{#}
-                        {#if (xmlhttp.readyState==4 && xmlhttp.status==200)#}
-                        {#{#}
-                            {#document.getElementById("myajax").innerHTML=xmlhttp.responseText;#}
-                        {#}#}
-                    {#}#}
+            {#{#}
+            {#var xmlhttp;#}
+            {#if (window.XMLHttpRequest)#}
+            {#{// code for IE7+, Firefox, Chrome, Opera, Safari#}
+            {#xmlhttp=new XMLHttpRequest();#}
+            {#}#}
+            {#else#}
+            {#{// code for IE6, IE5#}
+            {#xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");#}
+            {#}#}
+            {#xmlhttp.onreadystatechange=function()#}
+            {#{#}
+            {#if (xmlhttp.readyState==4 && xmlhttp.status==200)#}
+            {#{#}
+            {#document.getElementById("myajax").innerHTML=xmlhttp.responseText;#}
+            {#}#}
+            {#}#}
 
-                    {#xmlhttp.open("POST","{{ path('magecore_testtask_comment_create') }}",true);#}
-                    {#xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");#}
-                    {#xmlhttp.send("body=" + 1 );#}
-                {#}#}
+            {#xmlhttp.open("POST","{{ path('magecore_testtask_comment_create') }}",true);#}
+            {#xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");#}
+            {#xmlhttp.send("body=" + 1 );#}
+            {#}#}
             {#</script>#}
-                {#<script>function sendmyAjax()#}
-                    {#{#}
-                        {#//alert('ok!');#}
-                        {#$.ajax({#}
-                            {#url: "{{ path('magecore_testtask_comment_create',{id : entity.id}) }}",#}
-                            {#type: 'post',#}
-{#//                            data: $('.myajaxForm').serialize(),#}
-                            {#data: $('.ajaxForm').serialize(),#}
-                            {#success: function(data, status) {#}
-                                 {#$('#myajax').html(data);#}
-                                {#//console.log(data);#}
-                            {#},#}
-                            {#error: function(xhr, desc, err) {#}
-                                        {#console.log(xhr);#}
-                                        {#console.log("Details: " + desc + "\nError:" + err);#}
-                            {#}#}
+            {#<script>function sendmyAjax()#}
+            {#{#}
+            {#//alert('ok!');#}
+            {#$.ajax({#}
+            {#url: "{{ path('magecore_testtask_comment_create',{id : entity.id}) }}",#}
+            {#type: 'post',#}
+            {#//                            data: $('.myajaxForm').serialize(),#}
+            {#data: $('.ajaxForm').serialize(),#}
+            {#success: function(data, status) {#}
+            {#$('#myajax').html(data);#}
+            {#//console.log(data);#}
+            {#},#}
+            {#error: function(xhr, desc, err) {#}
+            {#console.log(xhr);#}
+            {#console.log("Details: " + desc + "\nError:" + err);#}
+            {#}#}
 
-                        {#});#}
+            {#});#}
 
 
-{#//                        $.ajax({#}
-{#//                            type: $('.myajaxForm').attr('method'),#}
-{#//                            url: $('.myajaxForm').attr('action'),#}
-{#//                            data: $('.myajaxForm').serialize()#}
-{#//                        })#}
-{#//                                .done(function (data) {#}
-{#//                                    if (typeof data.message !== 'undefined') {#}
-{#//                                        alert(data.message);#}
-{#//                                    }#}
-{#//                                })#}
-{#//                                .fail(function (jqXHR, textStatus, errorThrown) {#}
-{#//                                    if (typeof jqXHR.responseJSON !== 'undefined') {#}
-{#//                                        if (jqXHR.responseJSON.hasOwnProperty('form')) {#}
-{#//                                            $('#form_body').html(jqXHR.responseJSON.form);#}
-{#//                                        }#}
-{#//#}
-{#//                                        $('.form_error').html(jqXHR.responseJSON.message);#}
-{#//#}
-{#//                                    } else {#}
-{#//                                        alert(errorThrown);#}
-{#//                                    }#}
-{#//#}
-{#//                                });#}
-{#//                    });#}
-                    {#}#}
-                {#</script>#}
+            {#//                        $.ajax({#}
+            {#//                            type: $('.myajaxForm').attr('method'),#}
+            {#//                            url: $('.myajaxForm').attr('action'),#}
+            {#//                            data: $('.myajaxForm').serialize()#}
+            {#//                        })#}
+            {#//                                .done(function (data) {#}
+            {#//                                    if (typeof data.message !== 'undefined') {#}
+            {#//                                        alert(data.message);#}
+            {#//                                    }#}
+            {#//                                })#}
+            {#//                                .fail(function (jqXHR, textStatus, errorThrown) {#}
+            {#//                                    if (typeof jqXHR.responseJSON !== 'undefined') {#}
+            {#//                                        if (jqXHR.responseJSON.hasOwnProperty('form')) {#}
+            {#//                                            $('#form_body').html(jqXHR.responseJSON.form);#}
+            {#//                                        }#}
+            {#//#}
+            {#//                                        $('.form_error').html(jqXHR.responseJSON.message);#}
+            {#//#}
+            {#//                                    } else {#}
+            {#//                                        alert(errorThrown);#}
+            {#//                                    }#}
+            {#//#}
+            {#//                                });#}
+            {#//                    });#}
+            {#}#}
+            {#</script>#}
         {% endblock %}

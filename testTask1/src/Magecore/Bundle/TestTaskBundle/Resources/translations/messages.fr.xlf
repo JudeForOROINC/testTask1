@@ -34,6 +34,30 @@
                 <source>CSAT</source>
                 <target>Issue Status Changed</target>
             </trans-unit>
+            <trans-unit id="9">
+                <source>field.id</source>
+                <target>Id</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>field.summary.issue</source>
+                <target>Summary</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>field.code</source>
+                <target>Code</target>
+            </trans-unit>
+            <trans-unit id="12">
+                <source>field.description</source>
+                <target>Description</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>field.type</source>
+                <target>Type</target>
+            </trans-unit>
+            <trans-unit id="14">
+                <source>issue.title</source>
+                <target>Issue</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
