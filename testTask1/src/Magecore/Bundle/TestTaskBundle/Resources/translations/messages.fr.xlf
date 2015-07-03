@@ -106,6 +106,26 @@
                 <source>title.comments</source>
                 <target>Comments</target>
             </trans-unit>
+            <trans-unit id="27">
+                <source>field.body</source>
+                <target>Body</target>
+            </trans-unit>
+            <trans-unit id="28">
+                <source>field.author</source>
+                <target>Author</target>
+            </trans-unit>
+            <trans-unit id="29">
+                <source>field.actions</source>
+                <target>Actions</target>
+            </trans-unit>
+            <trans-unit id="30">
+                <source>field.created.comment</source>
+                <target>Created</target>
+            </trans-unit>
+            <trans-unit id="31">
+                <source>field.updated.comment</source>
+                <target>Updated</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
