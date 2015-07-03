@@ -142,6 +142,10 @@
                 <source>field.message</source>
                 <target>Сообщение</target>
             </trans-unit>
+            <trans-unit id="36">
+                <source>action.toparent</source>
+                <target>Перейти к родителю</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

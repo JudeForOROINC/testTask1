@@ -6,19 +6,6 @@
     <h1>{{ 'issue.title'|trans }}</h1>
     {% import "MagecoreTestTaskBundle:Macro:Macro.html.twig" as frms %}
 
-    {#{ frms.linkParams(route_helper.Route(app.user)) }#}
-
-
-    {#{{ frms.linkEnt(app.user) }}#}
-{#<br>#}
-    {#{{ "now"|date('Y-m-d H:i:s','UTC') }}#}
-    {#<br>#}
-    {#{{ "now"|date('Y-m-d H:i:s','Europe/Kiev') }}#}
-    {#<br>#}
-    {#{{ "now"|date('Y-m-d H:i:s','Europe/Paris') }}#}
-    {#<br>#}
-    {#{{ "now"|date('Y-m-d H:i:s') }}#}
-
 
     <table class="table table-striped">
         <tbody>
@@ -44,30 +31,16 @@
             </tr>
             <tr>
                 <th>{{ 'field.reporter'|trans }}</th>
-                {#<td>{{ entity.reporter }}</td>#}
-
-                {#<td>{{ frms.link( path( entity.reporter|url , {id : entity.reporter.id} ), entity.reporter ) }}</td>#}
-                {#<td>{{ frms.linkfull(entity.reporter) }}</td>#}
                 <td>{{ frms.linkEnt(entity.reporter) }}</td>
             </tr>
             <tr>
                 <th>{{ 'field.assigned'|trans }}</th>
-                {#<td>{{ entity.assignee }}</td>#}
                 <td>{{ frms.linkEnt(entity.assignee) }}</td>
             </tr>
-            {#<tr>#}
-                {#<th>Collaborators</th>#}
-                {#<td>Become soon..&#123;&#35;{ entity.assignee }&#35;&#125;</td>#}
-            {#</tr>#}
             <tr>
                 <th>{{ 'field.project'|trans }}</th>
-                {#<td>{{ entity.project }}</td>#}
                 <td>{{ frms.linkEnt(entity.project) }}</td>
             </tr>
-            {#<tr>#}
-                {#<th>ParentIssue</th>#}
-                {#<td>{{ frms.linkEnt(entity.parentIssue) }}</td>#}
-            {#</tr>#}
             <tr>
                 <th>{{ 'field.status'|trans }}</th>
                 <td>{{ entity.status }}</td>
@@ -78,13 +51,10 @@
             </tr>
             <tr>
                 <th>{{ 'field.created'|trans }}</th>
-                {#<td>{{ entity.created|date('Y-m-d H:i:s',app.user.gettimezone) }}</td>#}
-                {#<td>{{ entity.created|datertz(app.user) }}</td>#}
                 <td>{{ entity.created|datertz }}</td>
             </tr>
             <tr>
                 <th>{{ 'field.updated'|trans }}</th>
-                {#<td>{{ entity.updated|date('Y-m-d H:i:s',app.user.gettimezone) }}</td>#}
                 <td>{{ entity.updated|datertz }}</td>
             </tr>
         </tbody>
@@ -95,14 +65,12 @@
     {% block issue_activity_block %}
         <div id="issue_activity_block">
             <h4>{{ 'title.activity'|trans }}</h4>
-            {#<p>Here must be an activity</p>#}
             {{ include('MagecoreTestTaskBundle:Activity:list_frame.html.twig',{activities : entity.activities}) }}
         </div>
     {% endblock %}
 
     {% block issue_coloborators_block %}
         <div id="issue_activity_block">
-            {#<p>Here must be issue_coloborators_block</p>#}
             <h4>{{ 'title.collaborators'|trans }}</h4>
             {% if entity.collaborators %}
                 <ul>
@@ -118,8 +86,6 @@
 
     {% block issue_story_child_block %}
         <div>
-            {#<p>Here must be issue_story_child_block</p>#}
-
             {% if entity.isStory %}
                 <div>
                     <h4>{{ 'title.child.issue'|trans }}</h4>
@@ -133,14 +99,12 @@
                     {% endfor %}
                         </ul>
                     </div>
-
             {% endif %}
         </div>
     {% endblock %}
 
     {% block issue_subtask_parent_block %}
         <div>
-            {#<p>Here must be issue_subtask_parent_block</p>#}
             {% if entity.isSubtask %}
                 <div>
                     <p>
@@ -179,6 +143,14 @@
             <a href="{{ path('magecore_testtask_issue_subtask_create',{id : entity.id}) }}" class="btn btn-lg btn-block btn-success">
                 {{ 'action.add.child'|trans }}
             </a>
+        {% endif %}
+        {% if entity.isSubtask %}
+                <p>
+                    {{ 'title.parent.issue'|trans }} <a href="{{ path('magecore_testtask_issue_show',{id: entity.parentIssue.id}) }}" class="btn btn-lg btn-block btn-success">
+                        {#{{ entity.parentIssue }}#}
+                        {{ 'action.toparent'|trans }}
+                    </a>
+                </p>
         {% endif %}
     </div>
 

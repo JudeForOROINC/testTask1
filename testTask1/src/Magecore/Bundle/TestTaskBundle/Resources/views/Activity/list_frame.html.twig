@@ -2,11 +2,11 @@
     {% import "MagecoreTestTaskBundle:Macro:Macro.html.twig" as frms %}
     <table class="table table-hover">
         <tr>
-            <th>{{ 'issue.title'|trans }}Issue</th>
-            <th>{{ 'field.user'|trans }}User</th>
-            <th>{{ 'field.type'|trans }}TYPE</th>
-            <th>{{ 'field.time'|trans }}Time</th>
-            <th>{{ 'field.message'|trans }}Message</th>
+            <th>{{ 'issue.title'|trans }}</th>
+            <th><i class="fa fa-user">{{ 'field.user'|trans }}</th>
+            <th>{{ 'field.type'|trans }}</th>
+            <th><i class="fa fa-calendar">{{ 'field.time'|trans }}</th>
+            <th>{{ 'field.message'|trans }}</th>
         </tr>
         {% for activ in activities %}
             <tr>

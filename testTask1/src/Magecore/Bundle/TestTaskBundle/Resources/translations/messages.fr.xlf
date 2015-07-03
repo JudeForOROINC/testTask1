@@ -142,6 +142,10 @@
                 <source>field.message</source>
                 <target>Message</target>
             </trans-unit>
+            <trans-unit id="36">
+                <source>action.toparent</source>
+                <target>To Parent</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
