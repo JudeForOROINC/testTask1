@@ -457,6 +457,7 @@ class Issue
     {
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
         $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->collaborators = new \Doctrine\Common\Collections\ArrayCollection();
         //$this->created = new
         $this->created = new \DateTime();
         $this->updated = new \DateTime();

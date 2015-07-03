@@ -8,10 +8,13 @@
 namespace Magecore\Bundle\TestTaskBundle\EventListener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Magecore\Bundle\TestTaskBundle\Entity\Activity;
 use Magecore\Bundle\TestTaskBundle\Entity\Issue;
 use Magecore\Bundle\TestTaskBundle\Entity\Comment;
+use DateTime;
+use Magecore\Bundle\TestTaskBundle\Entity\User;
 
 class ActivityListener{
 
@@ -84,6 +87,64 @@ class ActivityListener{
                 $entityManager->flush();
             }
         }
+    }
+
+    public function onFlush(OnFlushEventArgs $args)
+    {
+        $zone = new \DateTimeZone('UTC');
+        //Get hold of the unit of work.
+        $entityManager = $args->getEntityManager();
+        $unitOfWork = $entityManager->getUnitOfWork();
+        //Get hold of the entities that are scheduled for insertion or update
+        $entities = array_merge($unitOfWork->getScheduledEntityInsertions(), $unitOfWork->getScheduledEntityUpdates());
+        foreach ($entities as $entity) {
+            $reflect = new \ReflectionObject($entity);
+            foreach ($reflect->getProperties(\ReflectionProperty::IS_PRIVATE | \ReflectionProperty::IS_PROTECTED) as $prop) {
+                $prop->setAccessible(true);
+                $value = $prop->getValue($entity);
+                if (! $value instanceof \DateTime || $value->getTimezone()->getName() === 'UTC') {
+                    $prop->setAccessible(false);
+                    continue;
+                }
+                $value->setTimezone($zone);
+                $prop->setValue($entity, $value);
+                $prop->setAccessible(false);
+                $unitOfWork->recomputeSingleEntityChangeSet($entityManager->getClassMetadata(get_class($entity)), $entity);
+            }
+        }
+    }
+
+    public function postLoad(LifecycleEventArgs $args)
+    {
+        $Basezone = new \DateTimeZone('UTC');
+        $Zone = new \DateTimeZone(date_default_timezone_get());
+        //Get hold of the unit of work.
+        $entityManager = $args->getEntityManager();
+        $unitOfWork = $entityManager->getUnitOfWork();
+        $entity = $args->getEntity();
+        if ($entity instanceof User) {
+            return;
+        }
+        //Get hold of the entities that are scheduled for insertion or update
+            $reflect = new \ReflectionObject($entity);
+            foreach ($reflect->getProperties(\ReflectionProperty::IS_PRIVATE | \ReflectionProperty::IS_PROTECTED) as $prop) {
+                $prop->setAccessible(true);
+                $value = $prop->getValue($entity);
+                if (! $value instanceof \DateTime || $value->getTimezone()->getName() === 'UTC') {
+                    $prop->setAccessible(false);
+                    continue;
+                }
+                //we have wrong time. we must have time in local.
+                $time_from_db = $value->format('Y-m-d H:i:s');
+
+                $realTime = new \DateTime($time_from_db,$Basezone);
+                //$value = $realTime->setTimezone($Zone);
+                //$value->setTimezone($zone);
+                $prop->setValue($entity, $realTime);
+                $prop->setAccessible(false);
+                //$unitOfWork->recomputeSingleEntityChangeSet($entityManager->getClassMetadata(get_class($entity)), $entity);
+            }
+
     }
 
 

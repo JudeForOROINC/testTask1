@@ -71,8 +71,10 @@ class Activity
     const ACTIVITY_TYPE_COMMENT_IN_ISSUE='COAT';
 
     public function __construct(){
-        $this->helper = new DoctrineHelper();
-        $this->time = $this->helper->setDatetime(new \DateTime());
+      //  $this->helper = new DoctrineHelper();
+
+        //$this->time = $this->helper->setDatetime(new \DateTime());
+        $this->time = new \DateTime();
     }
 
 
@@ -97,7 +99,8 @@ class Activity
      */
     public function setTime($time)
     {
-        $this->time = $this->helper->setDatetime($time);
+        //$this->time = $this->helper->setDatetime($time);
+        $this->time = $time;
 
         return $this;
     }
@@ -109,7 +112,8 @@ class Activity
      */
     public function getTime()
     {
-        return $this->helper->setDatetime($this->time);
+        //return $this->helper->setDatetime($this->time);
+        return $this->time;
     }
 
     /**
