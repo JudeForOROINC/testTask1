@@ -31,11 +31,14 @@ class ActivityListener{
         // new entity inserted in database. may be a Issue.
         if ($entity instanceof Issue) {
 
+            $entity->setCode($entity->getProject()->getCode().'-'.$entity->getId());
+
             $active = new Activity();
             $active->setType($active::ACTIVITY_TYPE_CREATE_ISSUE);
             $active->setIssue($entity);
             $active->setUser($entity->getReporter());//Here is dangerous: Reporter is not User - if we change logic. but until we controlling code we hope it is.
             $entityManager->persist( $active);
+            //$entityManager->persist( $entity);//?/?
             $entityManager->flush();
         }
 

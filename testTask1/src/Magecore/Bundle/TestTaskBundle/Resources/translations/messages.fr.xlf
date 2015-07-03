@@ -26,6 +26,14 @@
                 <source>CIAT</source>
                 <target>Issue Created</target>
             </trans-unit>
+            <trans-unit id="7">
+                <source>COAT</source>
+                <target>Comment Created</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>CSAT</source>
+                <target>Issue Status Changed</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

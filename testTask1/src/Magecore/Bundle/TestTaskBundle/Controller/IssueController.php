@@ -149,8 +149,10 @@ class IssueController extends Controller
             //set time
             $entity->setCreated(new \DateTime('now'));
             $entity->setUpdated($entity->getCreated());
-            $entity->addCollaborator($entity->getReporter());
-            $entity->addCollaborator($entity->getAssignee());
+//
+//            $entity->addCollaborator($entity->getReporter());
+//            $entity->addCollaborator($entity->getAssignee());
+            $this->setCollaborators($entity);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
@@ -240,7 +242,8 @@ class IssueController extends Controller
         $addCommentForm = $this->createForm( new CommentType(),$comment,
             array(
                 'action' => $this->generateUrl('magecore_testtask_comment_create',array('id'=>$entity->getId()))
-            ))->add('submit', 'submit', array('label' => 'Create'));
+            ))
+            ;//->add('submit', 'submit', array('label' => 'Create'));
 
         return array(
             'entity'      => $entity,
@@ -383,8 +386,14 @@ class IssueController extends Controller
     }
 
     protected function setCollaborators(Issue &$issue){
-        $issue->addCollaborator($issue->getReporter());
-        $issue->addCollaborator($issue->getAssignee());
+        if (  $issue->getReporter()  ){
+            $issue->addCollaborator( $issue->getReporter() );
+        }
+        if (  $issue->getAssignee()  ){
+            $issue->addCollaborator( $issue->getAssignee() );
+        }
+//        $issue->addCollaborator($issue->getReporter());
+//        $issue->addCollaborator($issue->getAssignee());
     }
 
     //protected function CreateIssue
