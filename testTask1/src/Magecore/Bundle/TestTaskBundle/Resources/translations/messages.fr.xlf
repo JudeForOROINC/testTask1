@@ -150,6 +150,54 @@
                 <source>value.unresolved</source>
                 <target>UnResolved</target>
             </trans-unit>
+            <trans-unit id="38">
+                <source>value.done</source>
+                <target>Done</target>
+            </trans-unit>
+            <trans-unit id="39">
+                <source>value.fixed</source>
+                <target>Fixed</target>
+            </trans-unit>
+            <trans-unit id="40">
+                <source>value.nofind</source>
+                <target>Can not reproduce</target>
+            </trans-unit>
+            <trans-unit id="41">
+                <source>value.duplicate</source>
+                <target>Duplicate</target>
+            </trans-unit>
+            <trans-unit id="42">
+                <source>value.major</source>
+                <target>Major</target>
+            </trans-unit>
+            <trans-unit id="43">
+                <source>value.minor</source>
+                <target>Minor</target>
+            </trans-unit>
+            <trans-unit id="44">
+                <source>value.blocker</source>
+                <target>Blocker</target>
+            </trans-unit>
+            <trans-unit id="45">
+                <source>value.kritical</source>
+                <target>Kritical</target>
+            </trans-unit>
+            <trans-unit id="46">
+                <source>value.trivial</source>
+                <target>Trivial</target>
+            </trans-unit>
+            <trans-unit id="47">
+                <source>value.open</source>
+                <target>Open</target>
+            </trans-unit>
+            <trans-unit id="48">
+                <source>value.inpro</source>
+                <target>In progress</target>
+            </trans-unit>
+            <trans-unit id="49">
+                <source>value.closed</source>
+                <target>Closed</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

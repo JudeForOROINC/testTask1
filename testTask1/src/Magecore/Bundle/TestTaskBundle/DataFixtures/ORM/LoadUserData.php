@@ -24,6 +24,8 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
     /** @var ContainerInterface */
     private $container;
 
+    protected $issue_cort;
+
     public function load(ObjectManager $manager)
     {
         $this->loadUsers($manager);
@@ -133,17 +135,8 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
     }
     private function loadDictionaries(ObjectManager $manager)
     {
-        /*
-        $DicVals = array('Bug', 'Subtask', 'Task', 'Story');
-        foreach ($DicVals as $dicVal) {
-
-            $dicType = new Entity\DicType();
-            $dicType->setValue($dicVal);
-            $manager->persist($dicType);
-        }
-        */
-
         $DicVals = array('Done', 'Fixed', 'Can not reproduce', 'Duplicate');
+        $DicVals = array('value.done', 'value.fixed', 'value.nofind', 'value.duplicate');
         foreach ($DicVals as $dicVal) {
 
             $dicResolution = new Entity\DicResolution();
@@ -152,6 +145,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         }
 
         $DicVals = array(3=>'Major', 1=>'Minor', 5=>'Blocker', 4=>'Kritical', 2=>'Trivial');
+        $DicVals = array(3=>'value.major', 1=>'value.minor', 5=>'value.blocker', 4=>'value.kritical', 2=>'value.trivial');
         //value = link to dic major(3) ; minor(1); blocker(5);critical(4);trivial(2))
         foreach ($DicVals as $key=>$dicVal) {
 
@@ -162,8 +156,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         }
 
         $DicVals = array(1=>'Open', 2=>'In progress', 3=>'Closed');
-        //var_dump($DicVals);
-        //value = link to dic major(3) ; minor(1); blocker(5);critical(4);trivial(2))
+        $DicVals = array(1=>'value.open', 2=>'value.inpro', 3=>'value.closed');
         foreach ($DicVals as $key=>$dicVal) {
 
             $dicStatus = new Entity\DicStatus();
@@ -171,16 +164,6 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
             $dicStatus->setSortOrder($key);
             $manager->persist($dicStatus);
         }
-
-        /*$DicVals = array(1=>'Create issue', 2=>'Change status of issue', 3=>'Comment in issue');
-
-        foreach ($DicVals as $key=>$dicVal) {
-
-            $dicStatus = new Entity\DicType();
-            $dicStatus->setValue($dicVal);
-            $dicStatus->setId($key);
-            $manager->persist($dicStatus);
-        }*/
 
         $manager->flush();
     }
@@ -220,6 +203,9 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $userOperator = $manager->getRepository('MagecoreTestTaskBundle:User')->findOneBy(['username'=>'Operator']);
         $project = $manager->getRepository('MagecoreTestTaskBundle:Project')->findOneBy(['code'=>'M1M']);
         $userworker = $manager->getRepository('MagecoreTestTaskBundle:User')->findOneBy(['username'=>'JustUser']);
+        $statusOpen = $manager->getRepository('MagecoreTestTaskBundle:DicStatus')->findOneBy(['value'=>'value.open']);
+        $Prioritymid = $manager->getRepository('MagecoreTestTaskBundle:DicPriority')->findOneBy(['sortOrder'=>3]);
+
 
 
         $issue = new Issue();
@@ -228,6 +214,9 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $issue->setReporter($user);
         $issue->setAssignee($userOperator);
         $issue->setSummary('Buy a computer ');
+        $issue->setStatus($statusOpen);
+        $issue->setPriority($Prioritymid);
+
         $issue->setCode('Prepere work place');//TODO fix this field!!!
         $issue->setDescription('Please , Buy a computer for NewCommer.' );
 
@@ -242,8 +231,10 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $issue->setSummary('Not enaf operative memory ');
         $issue->setCode('cort');//TODO fix this field!!!
         $issue->setDescription('subj' );
+        $issue->setStatus($statusOpen);
+        $issue->setPriority($Prioritymid);
 
-
+        $this->issue_cort = $issue;
         $manager->persist($issue);
 
         $issue = new Issue();
@@ -254,6 +245,8 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $issue->setSummary('Prepere work place');
         $issue->setCode('Prepere work place');//TODO fix this field!!!
         $issue->setDescription('Must be prepere work place. install windows 8. Try to put all needed Programs. inspall php. read Jira. ' );
+        $issue->setStatus($statusOpen);
+        $issue->setPriority($Prioritymid);
 
         $manager->persist($issue);
 
@@ -267,7 +260,8 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $issuesub->setSummary('Install windows');
         $issuesub->setCode('Wind');//TODO fix this field!!!
         $issuesub->setDescription('insstall w8x64' );
-
+        $issuesub->setStatus($statusOpen);
+        $issuesub->setPriority($Prioritymid);
 
         $manager->persist($issuesub);
 
@@ -280,6 +274,8 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $issuesub->setSummary('Prepare VM oracle VB with ubuntu ');
         $issuesub->setCode('Prepere work place');//TODO fix this field!!!
         $issuesub->setDescription('subj. prepeare phpstorm,xdebug,php,mysql,ect.' );
+        $issuesub->setStatus($statusOpen);
+        $issuesub->setPriority($Prioritymid);
 
         $manager->persist($issuesub);
 
@@ -293,6 +289,8 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $issue->setSummary('TestTask1: made timeing');
         $issue->setCode('Yo');//TODO fix this field!!!
         $issue->setDescription('Plan work with a little tasks and add it like subtasks! ' );
+        $issue->setStatus($statusOpen);
+        $issue->setPriority($Prioritymid);
 
         $manager->persist($issue);
 
@@ -306,7 +304,8 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $userOperator = $manager->getRepository('MagecoreTestTaskBundle:User')->findOneBy(['username'=>'Operator']);
         //$userworker = $manager->getRepository('MagecoreTestTaskBundle:User')->findOneBy(['username'=>'JustUser']);
         //$project = $manager->getRepository('MagecoreTestTaskBundle:Project')->findOneBy(['code'=>'M1M']);
-        $issue = $manager->getRepository('MagecoreTestTaskBundle:Issue')->findOneBy(['code'=>'cort']);
+        //$issue = $manager->getRepository('MagecoreTestTaskBundle:Issue')->findOneBy(['code'=>'cort']);
+        $issue = $this->issue_cort;
 
         //$openStatus = $manager->getRepository('MagecoreTestTaskBundle:DicStatus')->findOneBy(['value'=>'Open']);
 
@@ -332,7 +331,8 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $userOperator = $manager->getRepository('MagecoreTestTaskBundle:User')->findOneBy(['username'=>'Operator']);
         $userworker = $manager->getRepository('MagecoreTestTaskBundle:User')->findOneBy(['username'=>'JustUser']);
         $project = $manager->getRepository('MagecoreTestTaskBundle:Project')->findOneBy(['code'=>'M1M']);
-        $issue = $manager->getRepository('MagecoreTestTaskBundle:Issue')->findOneBy(['code'=>'cort']);
+        $issue = $this->issue_cort;//$manager->getRepository('MagecoreTestTaskBundle:Issue')->findOneBy(['code'=>'cort']);
+        //$issue = $manager->getRepository('MagecoreTestTaskBundle:Issue')->findOneBy(['code'=>'cort']);
         $comment = $manager->getRepository('MagecoreTestTaskBundle:Comment')->findOneBy(['issue'=>$issue->getId()]);
 
         //var_dump($issue->getComments()->first());

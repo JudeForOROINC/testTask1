@@ -150,6 +150,58 @@
                 <source>value.unresolved</source>
                 <target>Не отмечена</target>
             </trans-unit>
+            <trans-unit id="38">
+                <source>value.done</source>
+                <target>Сделано</target>
+            </trans-unit>
+            <trans-unit id="39">
+                <source>value.fixed</source>
+                <target>Вылечено</target>
+            </trans-unit>
+            <trans-unit id="40">
+                <source>value.nofind</source>
+                <target>Не воспроизводится</target>
+            </trans-unit>
+            <trans-unit id="41">
+                <source>value.duplicate</source>
+                <target>Дубль</target>
+            </trans-unit>
+            <trans-unit id="41">
+                <source>value.duplicate</source>
+                <target>Duplicate</target>
+            </trans-unit>
+            <trans-unit id="42">
+                <source>value.major</source>
+                <target>Major</target>
+            </trans-unit>
+            <trans-unit id="43">
+                <source>value.minor</source>
+                <target>Minor</target>
+            </trans-unit>
+            <trans-unit id="44">
+                <source>value.blocker</source>
+                <target>Blocker</target>
+            </trans-unit>
+            <trans-unit id="45">
+                <source>value.kritical</source>
+                <target>Kritical</target>
+            </trans-unit>
+            <trans-unit id="46">
+                <source>value.trivial</source>
+                <target>Trivial</target>
+            </trans-unit>
+            <trans-unit id="47">
+                <source>value.open</source>
+                <target>Open</target>
+            </trans-unit>
+            <trans-unit id="48">
+                <source>value.inpro</source>
+                <target>In progress</target>
+            </trans-unit>
+            <trans-unit id="49">
+                <source>value.closed</source>
+                <target>Closed</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
