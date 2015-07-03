@@ -1,0 +1,110 @@
+security:
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+        Magecore\Bundle\TestTaskBundle\Entity\User: plaintext
+
+    role_hierarchy:
+        ROLE_ADMIN:       [ROLE_USER, ROLE_MANAGER, ROLE_OPERATOR]
+        ROLE_MANAGER:     [ROLE_USER,ROLE_OPERATOR]
+        ROLE_OPERATOR:    ROLE_USER
+        #ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+#        chain_provider:
+#            chain:
+#                providers: [in_memory, fos_userbundle]
+#        in_memory:
+#            memory:
+#                users:
+#                    user:  { password: userpass, roles: [ 'ROLE_USER' ] }
+#                    admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
+        fos_userbundle:
+            id: fos_user.user_provider.username
+
+    firewalls:
+        dev:
+            pattern:                        ^/(_(profiler|wdt)|css|images|js)/
+            security:                       false
+#        login:
+#            pattern:                        ^/login$
+#            provider:                       fos_userbundle
+#            anonymous:                      true
+        secured_area:
+            pattern: ^/
+            form_login:
+                csrf_provider:              form.csrf_provider
+                login_path: /login
+                check_path: /login_check
+                default_target_path: /
+            anonymous: true
+#        secured_area:
+#            pattern: /.*
+#            form_login:
+#                check_path: /login_check
+#                login_path: /login
+#
+#            logout: true
+#            security: true
+#            anonymous: true
+#        secured_area:
+#                # this firewall applies to all URLs
+#            pattern: ^/
+#
+#                # but the firewall does not require login on every page
+#                # denying access is done in access_control or in your controllers
+#            anonymous: false
+#
+#                # This allows the user to login by submitting a username and password
+#                # Reference: http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+#            form_login:
+#                    # The route name that the login form submits to
+#                check_path: security_login_check
+#                    # The name of the route where the login form lives
+#                    # When the user tries to access a protected page, they are redirected here
+#                login_path: security_login_form
+#                    # Secure the login form against CSRF
+#                    # Reference: http://symfony.com/doc/current/cookbook/security/csrf_in_login_form.html
+#                csrf_provider: form.csrf_provider
+
+#                logout:
+#                    # The route name the user can go to in order to logout
+#                    path: security_logout
+#                    # The name of the route to redirect to after logging out
+#                    target: homepage
+#        main:
+#            pattern: ^/
+#            anonymous: true
+#            form_login:
+#                provider: fos_userbundle
+#                csrf_provider: form.csrf_provider #for s>=2.4 security.csrf.token_manager
+#                use_forward: true
+#            logout: true
+#
+#
+#        dev:
+#            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+#            security: false
+#
+#        login:
+#            pattern:  ^/demo/secured/login$
+#            security: false
+#
+#        secured_area:
+#            pattern:    ^/demo/secured/
+#            form_login:
+#                check_path: _security_check
+#                login_path: _demo_login
+#            logout:
+#                path:   _demo_logout
+#                target: _demo
+#        default:
+#            anonymous: ~
+#            http_basic: ~
+#            #    realm: "Secured Demo Area"
+
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, role: ROLE_USER }
+       # - { path: ^/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
