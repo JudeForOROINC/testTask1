@@ -198,6 +198,18 @@
                 <source>value.closed</source>
                 <target>Closed</target>
             </trans-unit>
+            <trans-unit id="50">
+                <source>value.closed</source>
+                <target>Closed</target>
+            </trans-unit>
+            <trans-unit id="51">
+                <source>value.closed</source>
+                <target>Closed</target>
+            </trans-unit>
+            <trans-unit id="52">
+                <source>value.closed</source>
+                <target>Closed</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

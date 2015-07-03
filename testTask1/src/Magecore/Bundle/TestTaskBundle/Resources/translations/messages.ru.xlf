@@ -166,41 +166,37 @@
                 <source>value.duplicate</source>
                 <target>Дубль</target>
             </trans-unit>
-            <trans-unit id="41">
-                <source>value.duplicate</source>
-                <target>Duplicate</target>
-            </trans-unit>
             <trans-unit id="42">
                 <source>value.major</source>
-                <target>Major</target>
+                <target>Высокий</target>
             </trans-unit>
             <trans-unit id="43">
                 <source>value.minor</source>
-                <target>Minor</target>
+                <target>Низкий</target>
             </trans-unit>
             <trans-unit id="44">
                 <source>value.blocker</source>
-                <target>Blocker</target>
+                <target>Блокирующий</target>
             </trans-unit>
             <trans-unit id="45">
                 <source>value.kritical</source>
-                <target>Kritical</target>
+                <target>Критический</target>
             </trans-unit>
             <trans-unit id="46">
                 <source>value.trivial</source>
-                <target>Trivial</target>
+                <target>тривиальный</target>
             </trans-unit>
             <trans-unit id="47">
                 <source>value.open</source>
-                <target>Open</target>
+                <target>Открыта</target>
             </trans-unit>
             <trans-unit id="48">
                 <source>value.inpro</source>
-                <target>In progress</target>
+                <target>В работе</target>
             </trans-unit>
             <trans-unit id="49">
                 <source>value.closed</source>
-                <target>Closed</target>
+                <target>Закрыта</target>
             </trans-unit>
         </body>
     </file>
