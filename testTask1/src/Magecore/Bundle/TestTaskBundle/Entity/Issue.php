@@ -71,13 +71,13 @@ class Issue
 
     /**
      * @ORM\ManyToOne(targetEntity="DicPriority")
-     * @ORM\JoinColumn(name="priority_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="priority_id", referencedColumnName="id", nullable=false)
      */
     private $priority;
 
     /**
      * @ORM\ManyToOne(targetEntity="DicStatus")
-     * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="status_id", referencedColumnName="id", nullable=false)
      */
     private $status;
 

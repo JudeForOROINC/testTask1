@@ -146,6 +146,10 @@
                 <source>action.toparent</source>
                 <target>Перейти к родителю</target>
             </trans-unit>
+            <trans-unit id="37">
+                <source>value.unresolved</source>
+                <target>Не отмечена</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
