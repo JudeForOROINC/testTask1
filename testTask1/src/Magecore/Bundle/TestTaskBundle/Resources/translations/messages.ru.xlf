@@ -62,6 +62,50 @@
                 <source>field.reporter</source>
                 <target>Сообщил</target>
             </trans-unit>
+            <trans-unit id="16">
+                <source>field.assigned</source>
+                <target>Назначен</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>field.project</source>
+                <target>Проект</target>
+            </trans-unit>
+            <trans-unit id="18">
+                <source>field.status</source>
+                <target>Статус</target>
+            </trans-unit>
+            <trans-unit id="19">
+                <source>field.resolution</source>
+                <target>Резолюция</target>
+            </trans-unit>
+            <trans-unit id="20">
+                <source>field.created</source>
+                <target>Создана</target>
+            </trans-unit>
+            <trans-unit id="21">
+                <source>field.updated</source>
+                <target>Обновлена</target>
+            </trans-unit>
+            <trans-unit id="22">
+                <source>title.activity</source>
+                <target>Активность</target>
+            </trans-unit>
+            <trans-unit id="23">
+                <source>title.collaborators</source>
+                <target>Коллеги</target>
+            </trans-unit>
+            <trans-unit id="24">
+                <source>title.child.issue</source>
+                <target>Дочерние проблемы:</target>
+            </trans-unit>
+            <trans-unit id="25">
+                <source>title.parent.issue</source>
+                <target>Родительская проблема:</target>
+            </trans-unit>
+            <trans-unit id="26">
+                <source>title.comments</source>
+                <target>Коментарии:</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

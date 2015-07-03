@@ -62,6 +62,50 @@
                 <source>field.reporter</source>
                 <target>Reporter</target>
             </trans-unit>
+            <trans-unit id="16">
+                <source>field.assigned</source>
+                <target>Assigned</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>field.project</source>
+                <target>Project</target>
+            </trans-unit>
+            <trans-unit id="18">
+                <source>field.status</source>
+                <target>Status</target>
+            </trans-unit>
+            <trans-unit id="19">
+                <source>field.resolution</source>
+                <target>Resolution</target>
+            </trans-unit>
+            <trans-unit id="20">
+                <source>field.created</source>
+                <target>Created</target>
+            </trans-unit>
+            <trans-unit id="21">
+                <source>field.updated</source>
+                <target>Updated</target>
+            </trans-unit>
+            <trans-unit id="22">
+                <source>title.activity</source>
+                <target>Activity</target>
+            </trans-unit>
+            <trans-unit id="23">
+                <source>title.collaborators</source>
+                <target>Collaborators</target>
+            </trans-unit>
+            <trans-unit id="24">
+                <source>title.child.issue</source>
+                <target>Child issues:</target>
+            </trans-unit>
+            <trans-unit id="25">
+                <source>title.parent.issue</source>
+                <target>Parent:</target>
+            </trans-unit>
+            <trans-unit id="26">
+                <source>title.comments</source>
+                <target>Comments</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

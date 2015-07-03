@@ -43,7 +43,7 @@
                 <td>{{ entity.type }}</td>
             </tr>
             <tr>
-                <th>{{ 'field.reporter'|trans }}Reporter</th>
+                <th>{{ 'field.reporter'|trans }}</th>
                 {#<td>{{ entity.reporter }}</td>#}
 
                 {#<td>{{ frms.link( path( entity.reporter|url , {id : entity.reporter.id} ), entity.reporter ) }}</td>#}
@@ -51,7 +51,7 @@
                 <td>{{ frms.linkEnt(entity.reporter) }}</td>
             </tr>
             <tr>
-                <th>Assigned</th>
+                <th>{{ 'field.assigned'|trans }}</th>
                 {#<td>{{ entity.assignee }}</td>#}
                 <td>{{ frms.linkEnt(entity.assignee) }}</td>
             </tr>
@@ -60,7 +60,7 @@
                 {#<td>Become soon..&#123;&#35;{ entity.assignee }&#35;&#125;</td>#}
             {#</tr>#}
             <tr>
-                <th>Project</th>
+                <th>{{ 'field.project'|trans }}</th>
                 {#<td>{{ entity.project }}</td>#}
                 <td>{{ frms.linkEnt(entity.project) }}</td>
             </tr>
@@ -69,21 +69,21 @@
                 {#<td>{{ frms.linkEnt(entity.parentIssue) }}</td>#}
             {#</tr>#}
             <tr>
-                <th>Status</th>
+                <th>{{ 'field.status'|trans }}</th>
                 <td>{{ entity.status }}</td>
             </tr>
             <tr>
-                <th>Resolution</th>
+                <th>{{ 'field.resolution'|trans }}</th>
                 <td>{% if entity.resolution %}{{ entity.resolution }}{% else %}UnResolved{% endif %}</td>
             </tr>
             <tr>
-                <th>Created</th>
+                <th>{{ 'field.created'|trans }}</th>
                 {#<td>{{ entity.created|date('Y-m-d H:i:s',app.user.gettimezone) }}</td>#}
                 {#<td>{{ entity.created|datertz(app.user) }}</td>#}
                 <td>{{ entity.created|datertz }}</td>
             </tr>
             <tr>
-                <th>Updated</th>
+                <th>{{ 'field.updated'|trans }}</th>
                 {#<td>{{ entity.updated|date('Y-m-d H:i:s',app.user.gettimezone) }}</td>#}
                 <td>{{ entity.updated|datertz }}</td>
             </tr>
@@ -94,7 +94,7 @@
 
     {% block issue_activity_block %}
         <div id="issue_activity_block">
-            <h4>Activity</h4>
+            <h4>{{ 'title.activity'|trans }}</h4>
             {#<p>Here must be an activity</p>#}
             {{ include('MagecoreTestTaskBundle:Activity:list_frame.html.twig',{activities : entity.activities}) }}
         </div>
@@ -103,7 +103,7 @@
     {% block issue_coloborators_block %}
         <div id="issue_activity_block">
             {#<p>Here must be issue_coloborators_block</p>#}
-            <h4>Collaborators</h4>
+            <h4>{{ 'title.collaborators'|trans }}</h4>
             {% if entity.collaborators %}
                 <ul>
                 {% for collaborator in entity.collaborators %}
@@ -122,7 +122,7 @@
 
             {% if entity.isStory %}
                 <div>
-                    <h4>Child issues:</h4>
+                    <h4>{{ 'title.child.issue'|trans }}</h4>
                     <ul>
                     {% for child in entity.children %}
                         <li>
@@ -143,17 +143,18 @@
             {#<p>Here must be issue_subtask_parent_block</p>#}
             {% if entity.isSubtask %}
                 <div>
-
-                    Parent: <a href="{{ path('magecore_testtask_issue_show',{id: entity.parentIssue.id}) }}">
+                    <p>
+                        {{ 'title.parent.issue'|trans }} <a href="{{ path('magecore_testtask_issue_show',{id: entity.parentIssue.id}) }}">
                                  {{ entity.parentIssue }}
                             </a>
+                    </p>
                 </div>
             {% endif %}
         </div>
     {% endblock %}
 
     {% block comments %}
-        <h4>Comments</h4>
+        <h4>{{ 'title.comments'|trans }}</h4>
         <div id="comments_list_div">
         {{ include('MagecoreTestTaskBundle:Comment:index.html.twig',{entities: entity.comments, addComment: addComment, issue_id:entity.id}) }}
         </div>
