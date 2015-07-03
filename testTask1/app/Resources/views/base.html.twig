@@ -72,9 +72,9 @@
 
                         {% if app.user %}
                             <li>
-                                {#<a href="{{ path('security_logout') }}">
+                                <a href="{{ path('fos_user_security_logout') }}">
                                     <i class="fa fa-sign-out"></i> Logout
-                                </a>#}
+                                </a>
                             </li>
                         {% endif %}
                     </ul>

@@ -58,6 +58,10 @@
                 <source>issue.title</source>
                 <target>Issue</target>
             </trans-unit>
+            <trans-unit id="15">
+                <source>field.reporter</source>
+                <target>Reporter</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

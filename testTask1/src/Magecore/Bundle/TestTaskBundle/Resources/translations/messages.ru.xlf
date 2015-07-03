@@ -34,6 +34,34 @@
                 <source>CSAT</source>
                 <target>Изменен статус</target>
             </trans-unit>
+            <trans-unit id="9">
+                <source>field.id</source>
+                <target>Номер</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>field.summary.issue</source>
+                <target>Суть</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>field.code</source>
+                <target>Код</target>
+            </trans-unit>
+            <trans-unit id="12">
+                <source>field.description</source>
+                <target>Описание</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>field.type</source>
+                <target>Тип</target>
+            </trans-unit>
+            <trans-unit id="14">
+                <source>issue.title</source>
+                <target>Проблема</target>
+            </trans-unit>
+            <trans-unit id="15">
+                <source>field.reporter</source>
+                <target>Сообщил</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
