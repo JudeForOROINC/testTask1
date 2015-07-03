@@ -11,14 +11,10 @@
         {% for activ in activities %}
             <tr>
                 <td>
-                    {#<a href="{{ path('magecore_testtask_issue_show',{id : activ.issue.id}) }}">{{ activ.issue }}</a>#}
-                    {#{{ frms.linkfull(activ.issue) }}#}
                     {{ frms.linkEnt(activ.issue) }}
                 </td>
                 <td>
-                    {#{{ frms.linkfull(activ.user) }}#}
                     {{ frms.linkEnt(activ.user) }}
-                    {#<a href="{{ path('magecore_test_task_user_view',{id : activ.user.id}) }}">{{ activ.user }}</a>#}
                 </td>
                 <td>
                     {{ activ.type|trans }}
@@ -31,15 +27,10 @@
                    {{ 'message.new_issue'|trans }}
                     {% endif %}
                     {% if activ.isChangeStatusType %}
-                        {#{{ 'message.status_changed'|trans }}#}
-                        {#{{ 'message.status_changed'|trans({ '%status_from%': activ.FromIssueStatus, '%status_to%': activ.ToIssueStatus }) }}#}
-                        {#{{ 'message.status_changed'|trans({'%status_from%': activ.FromIssueStatus}, {'%status_to%': activ.ToIssueStatus} ) }}#}
                         {{ 'message.status_changed'|trans({'%status_from%': activ.FromIssueStatus|trans, '%status_to%': activ.ToIssueStatus|trans} ) }}
-                       {#Change status from "{{ activ.FromIssueStatus|trans }}" to "{{ activ.ToIssueStatus|trans }}"#}
                     {% endif %}
                     {% if activ.isCommentType %}
                         {{ 'message.new_comment'|trans }} {{ frms.linkEnt(activ.comment) }}
-                       {#Add comment in issue {{ frms.linkEnt(activ.comment) }}#}
                     {% endif %}
 
                 </td>

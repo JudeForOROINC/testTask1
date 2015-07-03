@@ -29,15 +29,8 @@
                 <td>{{ entity.updated|datertz(app.user) }}</td>
                 <td>
                     <div class="item-actions">
-                {#<ul>#}
-                    {#<li>#}
-                        {#<a href="#&#123;&#35;{{ path('comment_show', { 'id': entity.id }) }}&#35;&#125;  ">remove</a>#}
                         <a href="#" class="comment_remove_action btn btn-sm btn-default" data-content="{{ path('magecore_testtask_comment_delete', {id: entity.id}) }}">{{ 'action.remove'|trans }}</a>
-                    {#</li>#}
-                    {#<li>#}
-                        <a href="#{#{{ path('comment_edit', { 'id': entity.id }) }}#}" class="comment_edit_action btn btn-sm btn-default" data-content="{{ path('magecore_testtask_comment_edit', {id: entity.id}) }}">{{ 'action.edit'|trans }}</a>
-                    {#</li>#}
-                {#</ul>#}
+                        <a href="#" class="comment_edit_action btn btn-sm btn-default" data-content="{{ path('magecore_testtask_comment_edit', {id: entity.id}) }}">{{ 'action.edit'|trans }}</a>
                         </div>
                 </td>
             </tr>
