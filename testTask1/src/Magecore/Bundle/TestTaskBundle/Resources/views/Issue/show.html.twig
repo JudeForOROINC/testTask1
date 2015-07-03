@@ -27,7 +27,7 @@
             </tr>
             <tr>
                 <th>{{ 'field.type'|trans }}</th>
-                <td>{{ entity.type }}</td>
+                <td>{{ entity.type|trans }}</td>
             </tr>
             <tr>
                 <th>{{ 'field.reporter'|trans }}</th>
@@ -43,11 +43,11 @@
             </tr>
             <tr>
                 <th>{{ 'field.status'|trans }}</th>
-                <td>{{ entity.status }}</td>
+                <td>{{ entity.status|trans }}</td>
             </tr>
             <tr>
                 <th>{{ 'field.resolution'|trans }}</th>
-                <td>{% if entity.resolution %}{{ entity.resolution }}{% else %}{{ 'value.unresolved'|trans }}{% endif %}</td>
+                <td>{% if entity.resolution %}{{ entity.resolution|trans }}{% else %}{{ 'value.unresolved'|trans }}{% endif %}</td>
             </tr>
             <tr>
                 <th>{{ 'field.created'|trans }}</th>

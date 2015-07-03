@@ -199,16 +199,32 @@
                 <target>Closed</target>
             </trans-unit>
             <trans-unit id="50">
-                <source>value.closed</source>
-                <target>Closed</target>
+                <source>message.new_issue</source>
+                <target>Create New Issue</target>
             </trans-unit>
             <trans-unit id="51">
-                <source>value.closed</source>
-                <target>Closed</target>
+                <source>message.status_changed</source>
+                <target>Change status from "%status_from%" to "%status_to%"</target>
             </trans-unit>
             <trans-unit id="52">
-                <source>value.closed</source>
-                <target>Closed</target>
+                <source>message.new_comment</source>
+                <target>Add comment in issue</target>
+            </trans-unit>
+            <trans-unit id="53">
+                <source>Story</source>
+                <target>Story</target>
+            </trans-unit>
+            <trans-unit id="54">
+                <source>Bug</source>
+                <target>Bug</target>
+            </trans-unit>
+            <trans-unit id="55">
+                <source>Task</source>
+                <target>Task</target>
+            </trans-unit>
+            <trans-unit id="56">
+                <source>Subtask</source>
+                <target>Subtask</target>
             </trans-unit>
         </body>
     </file>

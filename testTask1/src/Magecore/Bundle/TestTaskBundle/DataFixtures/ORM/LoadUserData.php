@@ -26,6 +26,13 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 
     protected $issue_cort;
 
+    protected $open_status;
+
+    protected $progress_status;
+
+    protected $close_status;
+
+
     public function load(ObjectManager $manager)
     {
         $this->loadUsers($manager);
@@ -163,6 +170,15 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
             $dicStatus->setValue($dicVal);
             $dicStatus->setSortOrder($key);
             $manager->persist($dicStatus);
+            if ($dicVal === 'value.open'){
+                $this->open_status = $dicStatus;
+            }
+            if ($dicVal === 'value.closed'){
+                $this->close_status = $dicStatus;
+            }
+            if ($dicVal === 'value.inpro'){
+                $this->progress_status = $dicStatus;
+            }
         }
 
         $manager->flush();
@@ -203,7 +219,8 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $userOperator = $manager->getRepository('MagecoreTestTaskBundle:User')->findOneBy(['username'=>'Operator']);
         $project = $manager->getRepository('MagecoreTestTaskBundle:Project')->findOneBy(['code'=>'M1M']);
         $userworker = $manager->getRepository('MagecoreTestTaskBundle:User')->findOneBy(['username'=>'JustUser']);
-        $statusOpen = $manager->getRepository('MagecoreTestTaskBundle:DicStatus')->findOneBy(['value'=>'value.open']);
+        $statusOpen = $this->open_status;
+            //$manager->getRepository('MagecoreTestTaskBundle:DicStatus')->findOneBy(['value'=>'value.open']);
         $Prioritymid = $manager->getRepository('MagecoreTestTaskBundle:DicPriority')->findOneBy(['sortOrder'=>3]);
 
 
@@ -339,8 +356,12 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
        // return;
 
 
-        $openStatus = $manager->getRepository('MagecoreTestTaskBundle:DicStatus')->findOneBy(['value'=>'Open']);
-        $closeStatus = $manager->getRepository('MagecoreTestTaskBundle:DicStatus')->findOneBy(['value'=>'Closed']);
+        $openStatus = $this->open_status;
+            //$manager->getRepository('MagecoreTestTaskBundle:DicStatus')->findOneBy(['value'=>'Open']);
+        $closeStatus = $this->close_status;
+            //$manager->getRepository('MagecoreTestTaskBundle:DicStatus')->findOneBy(['value'=>'Closed']);
+        $proStatus = $this->progress_status;
+
 
 
         $activity = new Entity\Activity();
@@ -356,8 +377,8 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $activity->setType($activity::ACTIVITY_TYPE_CHANGE_STATUS_ISSUE);
         $activity->setIssue($issue);
         $activity->setUser($userOperator);
-        $activity->setFromIssueStatus(null);
-        $activity->setToIssueStatus($openStatus);
+        $activity->setFromIssueStatus($openStatus);
+        $activity->setToIssueStatus($proStatus);
         $activity->setTime( date_sub($activity->getTime(),\DateInterval::createFromDateString('1 days') ) );
 
         $manager->persist($activity);
@@ -376,7 +397,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $activity->setType($activity::ACTIVITY_TYPE_CHANGE_STATUS_ISSUE);
         $activity->setIssue($issue);
         $activity->setUser($userOperator);
-        $activity->setFromIssueStatus($openStatus);
+        $activity->setFromIssueStatus($proStatus);
         $activity->setToIssueStatus($closeStatus);
 
 

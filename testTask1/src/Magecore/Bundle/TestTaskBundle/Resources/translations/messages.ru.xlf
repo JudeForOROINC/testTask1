@@ -198,6 +198,34 @@
                 <source>value.closed</source>
                 <target>Закрыта</target>
             </trans-unit>
+            <trans-unit id="50">
+                <source>message.new_issue</source>
+                <target>Создана новая проблема</target>
+            </trans-unit>
+            <trans-unit id="51">
+                <source>message.status_changed</source>
+                <target>Статус проблемы изменился с "%status_from%" на "%status_to%"</target>
+            </trans-unit>
+            <trans-unit id="52">
+                <source>message.new_comment</source>
+                <target>В проблему добавлен комментарий</target>
+            </trans-unit>
+            <trans-unit id="53">
+                <source>Story</source>
+                <target>История</target>
+            </trans-unit>
+            <trans-unit id="54">
+                <source>Bug</source>
+                <target>Ошибка</target>
+            </trans-unit>
+            <trans-unit id="55">
+                <source>Task</source>
+                <target>Задание</target>
+            </trans-unit>
+            <trans-unit id="56">
+                <source>Subtask</source>
+                <target>Подзадание</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
