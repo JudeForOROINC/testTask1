@@ -226,6 +226,54 @@
                 <source>Subtask</source>
                 <target>Подзадание</target>
             </trans-unit>
+            <trans-unit id="57">
+                <source>title.issue.edit</source>
+                <target>Редактирование проблеммы</target>
+            </trans-unit>
+            <trans-unit id="58">
+                <source>field.priority</source>
+                <target>Приоритет</target>
+            </trans-unit>
+            <trans-unit id="59">
+                <source>button.update</source>
+                <target>Обновить</target>
+            </trans-unit>
+            <trans-unit id="60">
+                <source>action.back</source>
+                <target>Отменить изменения</target>
+            </trans-unit>
+            <trans-unit id="61">
+                <source>action.back.list</source>
+                <target>Вернуться к списку</target>
+            </trans-unit>
+            <trans-unit id="62">
+                <source>button.create</source>
+                <target>Создать</target>
+            </trans-unit>
+            <trans-unit id="63">
+                <source>title.issue.create</source>
+                <target>Создание проблемы</target>
+            </trans-unit>
+            <trans-unit id="64">
+                <source>title.issue.list</source>
+                <target>Список проблем</target>
+            </trans-unit>
+            <trans-unit id="65">
+                <source>action.home</source>
+                <target>На Главную</target>
+            </trans-unit>
+            <trans-unit id="66">
+                <source>action.logout</source>
+                <target>Выйти</target>
+            </trans-unit>
+            <trans-unit id="67">
+                <source>action.issues</source>
+                <target>Проблемы?</target>
+            </trans-unit>
+            <trans-unit id="68">
+                <source>action.projects</source>
+                <target>Проекты</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -37,7 +37,16 @@ class IssueController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('MagecoreTestTaskBundle:Issue')->findAll();
+        $currentUser = $this->getUser();
+
+        if($currentUser->hasRole('ROLE_ADMIN')){
+            $entities = $em->getRepository('MagecoreTestTaskBundle:Issue')->findAll();
+        } else {
+            $entities = $em->getRepository('MagecoreTestTaskBundle:Issue')->findOpenByCollaboratorId($this->getUser()->getId());
+        }
+
+        //
+        //$entities = $em->getRepository('MagecoreTestTaskBundle:Issue')->findOpenByCollaboratorId($this->getUser()->getId());
 
         return array(
             'entities' => $entities,
@@ -91,7 +100,7 @@ class IssueController extends Controller
         $entity = new Issue();
         $entity->setReporter($this->getUser());
         $entity->setProject($project);
-
+        $entity->setCode('none');
 
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
@@ -138,6 +147,7 @@ class IssueController extends Controller
         $entity = new Issue();
 
         $entity->setParentIssue($story);
+        $entity->setCode('none');
         $entity->setReporter($this->getUser());
         $entity->setProject($project);
         $entity->setType($entity::ISSUE_TYPE_SUBTASK);
@@ -182,34 +192,11 @@ class IssueController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', array('label' => 'button.create'));
 
         return $form;
     }
 
-    /**
-     * Displays a form to create a new Issue entity.
-     *
-     * @Route("/new/{id}", name="magecore_testtask_issue_new", requirements={"id"="\d+"})
-     * @Method("GET")
-     * @Template()
-     * //TODO Remove this action.
-     */
-    public function newAction(Project $project)
-    {
-        $entity = new Issue();
-        //var_dump($this->getUser());
-        $entity->setReporter( $this->getUser());
-        $entity->setSummary('mama mila ramu');
-        $entity->setCreated(new \DateTime('now'));
-        var_dump($entity->getCreated());
-        $form   = $this->createCreateForm($entity);
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
 
     /**
      * Finds and displays a Issue entity.
@@ -231,11 +218,6 @@ class IssueController extends Controller
 
         $this->checkProjectAccess($entity->getProject());
 
-        $deleteForm = $this->createDeleteForm($id);
-
-//        $CommentController = new CommentController();
-//        $CommentController->showAction()
-//
         $comment = new Comment();
         $comment->setIssue($entity);
         $comment->setAuthor($this->getUser());
@@ -247,7 +229,7 @@ class IssueController extends Controller
 
         return array(
             'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
+//            'delete_form' => $deleteForm->createView(),
             'addComment'  => $addCommentForm->createView(),
         );
     }
@@ -255,7 +237,7 @@ class IssueController extends Controller
     /**
      * Displays a form to edit an existing Issue entity.
      *
-     * @Route("/{id}/edit", name="magcore_testtask_issue_edit")
+     * @Route("/{id}/edit", name="magecore_testtask_issue_edit")
      * @Method("GET")
      * @Template()
      */
@@ -272,12 +254,12 @@ class IssueController extends Controller
         $this->checkProjectAccess($entity->getProject());
 
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
+//        $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+//            'delete_form' => $deleteForm->createView(),
         );
     }
 
@@ -295,7 +277,7 @@ class IssueController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        $form->add('submit', 'submit', array('label' => 'button.update'));
 
         return $form;
     }
@@ -318,7 +300,7 @@ class IssueController extends Controller
 
         $this->checkProjectAccess($entity->getProject());
 
-        $deleteForm = $this->createDeleteForm($id);
+//        $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
@@ -330,6 +312,36 @@ class IssueController extends Controller
             $this->setCollaborators($entity);
 
             $em->flush();
+//mailler
+//
+//            $message = \Swift_Message::newInstance()
+//                ->setSubject('Hello Email')
+//                ->setFrom('send@example.com')
+//                ->setTo('correct_mailbox@i.ua')
+//                ->setBody(
+////             $this->renderView(
+////                    // app/Resources/views/Emails/registration.html.twig
+////                        'Emails/registration.html.twig',
+////                        array('name' => $name)
+////                    ),
+//                    '<body>test</body>',
+//                    'text/html'
+//                )
+//                /*
+//                 * If you also want to include a plaintext version of the message
+//                ->addPart(
+//                    $this->renderView(
+//                        'Emails/registration.txt.twig',
+//                        array('name' => $name)
+//                    ),
+//                    'text/plain'
+//                )
+//                */
+//            ;
+//            $this->get('mailer')->send($message);
+
+                //die;
+
 
             //return $this->redirect($this->generateUrl('issue_edit', array('id' => $id)));
             return $this->redirect($this->generateUrl('magecore_testtask_issue_show', array('id' => $id)));
@@ -338,52 +350,52 @@ class IssueController extends Controller
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+//            'delete_form' => $deleteForm->createView(),
         );
     }
-    /**
-     * Deletes a Issue entity.
-     *
-     * @Route("/{id}", name="issue_delete")
-     * @Method("DELETE")
-     */
-    public function deleteAction(Request $request, $id)
-    {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
+//    /**
+//     * Deletes a Issue entity.
+//     *
+//     * @Route("/{id}", name="issue_delete")
+//     * @Method("DELETE")
+//     */
+//    public function deleteAction(Request $request, $id)
+//    {
+//        $form = $this->createDeleteForm($id);
+//        $form->handleRequest($request);
+//
+//        if ($form->isValid()) {
+//            $em = $this->getDoctrine()->getManager();
+//            $entity = $em->getRepository('MagecoreTestTaskBundle:Issue')->find($id);
+//
+//            if (!$entity) {
+//                throw $this->createNotFoundException('Unable to find Issue entity.');
+//            }
+//            $this->checkProjectAccess($entity->getProject());
+//
+//            $em->remove($entity);
+//            $em->flush();
+//        }
+//
+//        return $this->redirect($this->generateUrl('issue'));
+//    }
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('MagecoreTestTaskBundle:Issue')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Issue entity.');
-            }
-            $this->checkProjectAccess($entity->getProject());
-
-            $em->remove($entity);
-            $em->flush();
-        }
-
-        return $this->redirect($this->generateUrl('issue'));
-    }
-
-    /**
-     * Creates a form to delete a Issue entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('issue_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
-    }
+//    /**
+//     * Creates a form to delete a Issue entity by id.
+//     *
+//     * @param mixed $id The entity id
+//     *
+//     * @return \Symfony\Component\Form\Form The form
+//     */
+//    private function createDeleteForm($id)
+//    {
+//        return $this->createFormBuilder()
+//            ->setAction($this->generateUrl('issue_delete', array('id' => $id)))
+//            ->setMethod('DELETE')
+//            ->add('submit', 'submit', array('label' => 'Delete'))
+//            ->getForm()
+//        ;
+//    }
 
     protected function setCollaborators(Issue &$issue){
         if (  $issue->getReporter()  ){

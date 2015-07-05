@@ -226,6 +226,54 @@
                 <source>Subtask</source>
                 <target>Subtask</target>
             </trans-unit>
+            <trans-unit id="57">
+                <source>title.issue.edit</source>
+                <target>Issue edit</target>
+            </trans-unit>
+            <trans-unit id="58">
+                <source>field.priority</source>
+                <target>Priority</target>
+            </trans-unit>
+            <trans-unit id="59">
+                <source>button.update</source>
+                <target>Update</target>
+            </trans-unit>
+            <trans-unit id="60">
+                <source>action.back</source>
+                <target>Cancel edit</target>
+            </trans-unit>
+            <trans-unit id="61">
+                <source>action.back.list</source>
+                <target>Back to the list</target>
+            </trans-unit>
+            <trans-unit id="62">
+                <source>button.create</source>
+                <target>Create</target>
+            </trans-unit>
+            <trans-unit id="63">
+                <source>title.issue.create</source>
+                <target>Issue creation</target>
+            </trans-unit>
+            <trans-unit id="64">
+                <source>title.issue.list</source>
+                <target>Issue list</target>
+            </trans-unit>
+            <trans-unit id="65">
+                <source>action.home</source>
+                <target>Homepage</target>
+            </trans-unit>
+            <trans-unit id="66">
+                <source>action.logout</source>
+                <target>Logout</target>
+            </trans-unit>
+            <trans-unit id="67">
+                <source>action.issues</source>
+                <target>Issues</target>
+            </trans-unit>
+            <trans-unit id="68">
+                <source>action.projects</source>
+                <target>Projects</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

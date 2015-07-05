@@ -346,24 +346,37 @@ class CommentController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
+
+
         if (!$request->isXmlHttpRequest()){
             return new JsonResponse(array('message'=>'You can access this only using Ajax!'), 400);
         }
 
+
+
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('MagecoreTestTaskBundle:Comment')->find($id);
 
+
+
         if (!empty($entity)){
+            //return new JsonResponse(array('message'=>'You can access this only using Ajax!'.(int)$this->isPermissoinAllowed($entity)), 403);
             if (!$this->isPermissoinAllowed($entity)){
                 return new JsonResponse(array('message'=>'You can not remove this comment !'), 403);
             }
+
             $issue = $entity->getIssue();
+
             $em->remove($entity);
+
             $em->flush();
+
+            //return new JsonResponse(array('message'=>'You can not remove this comment !'), 403);
+
         } else {
             //TODO error message for not found with 400.
         }
-
+        //return new JsonResponse(array('message'=>'You can access this only using Ajax!'), 200);
         //redraw form
 //        $entity = new Comment();
 //        $entity->setIssue($issue);

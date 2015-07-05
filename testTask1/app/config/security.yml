@@ -37,6 +37,7 @@ security:
                 check_path: /login_check
                 default_target_path: /
             anonymous: true
+            logout: true
 #        secured_area:
 #            pattern: /.*
 #            form_login:

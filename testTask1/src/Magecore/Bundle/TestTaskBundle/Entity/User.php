@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 /**
  * @ORM\Entity
  * @ORM\Table(name="magecore_testtask_user")
- * @ORM\Entity(repositoryClass="Magecore\Bundle\TestTaskBundle\Entity\UserRepository")
+ * @ORM\Entity()
  */
 class User extends BaseUser
 {

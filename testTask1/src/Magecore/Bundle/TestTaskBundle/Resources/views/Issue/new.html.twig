@@ -1,15 +1,21 @@
 {% extends '::base.html.twig' %}
 
-{% block body -%}
-    <h1>Issue creation</h1>
+{% block main -%}
+    <h1>{{ 'title.issue.create'|trans }}</h1>
 
     {{ form(form) }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('magecore_testtask_issue') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+{% endblock %}
+
+{% block sidebar %}
+    <div class="section actions">
+                <a href="{{ path('magecore_testtask_issue') }}" class="btn btn-lg btn-block btn-success">
+                    {{ 'action.back.list'|trans }}
+                </a>
+        {% if entity.issubtask %}
+                <a href="{{ path('magecore_testtask_issue_show', {id: entity.ParentIssue.id}) }}" class="btn btn-lg btn-block btn-success">
+                    {{ 'action.back'|trans }}
+                </a>
+        {% endif %}
+    </div>
 {% endblock %}

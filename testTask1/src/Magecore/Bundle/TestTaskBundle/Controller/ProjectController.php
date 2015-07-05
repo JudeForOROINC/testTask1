@@ -27,23 +27,6 @@ class ProjectController extends Controller
         $em = $this->getDoctrine()->getManager();
         $projects = $em->getRepository('MagecoreTestTaskBundle:Project')->findAll();
 
-//        $rep = $em->getRepository('MagecoreTestTaskBundle:Activity');
-//        var_dump($rep->findAllByProjectId(43));
-//        die;
-
-        //$rep = $em->getRepository('MagecoreTestTaskBundle:Activity');
-//        $qu = $em->createQueryBuilder();
-//        $qu->select('a')
-//            ->from('MagecoreTestTaskBundle:Activity', 'a')
-//            ->innerJoin('a.issue','MagecoreTestTaskBundle:Issue')
-//            //->where('i.project = :pr')
-//        //->setParameter('pr','43')
-//;
-//        var_dump($qu->getQuery()->getResult());
-//$qu = $rep->createQueryBuilder('p')->where('p.issue = :issue')
-//        ->setParameter('issue','102')->getQuery();
-//        var_dump($qu->getResult());
-
         return $this->render('@MagecoreTestTask/Project/list.html.twig',array('projects'=>$projects));
     }
 
@@ -75,11 +58,7 @@ class ProjectController extends Controller
     public function createAction(Request $request)
     {
         $project = new Project();
-        /*$en = $this->getDoctrine()->getManager();
-        $users = $en->getRepository('MagecoreTestTaskBundle:User')->findAll();
-        foreach ($users as $user) {
-            $project->addMember($user);
-        }*/
+
 
         $form = $this->createForm(new ProjectType(),$project);
         $form->handleRequest($request);
@@ -108,24 +87,7 @@ class ProjectController extends Controller
     {
         //TODO : Jude - remove constraints from Form = use form class + validatorclass;
         $form = $this->createForm(new ProjectType(),$project);
-        /*$form = $this->createFormBuilder($project)
-            ->add('label','text', array(
-                'constraints' => array(
-                    new NotBlank(),
-                    new Length(array('max'=>100,'maxMessage'=>'Project Label cannot be longer than {{ limit }} characters!')),
-                ),
 
-            ))
-
-            ->add('code','text',array(
-                'constraints' => array(
-                    new NotBlank(),
-                    new Length(array('max'=>3,'maxMessage'=>'Project Label cannot be longer than {{ limit }} characters!')),
-                ),
-            ))
-            ->add('summary','textarea')
-            ->add('save','submit',array('label'=>'Create task'))
-            ->getForm();*/
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -144,14 +106,6 @@ class ProjectController extends Controller
         );
 
     }
-
-//    /**
-//     * @Route("/delete/{id}", name="magecore_test_task_project_delete", requirements={"id"="\d+"})
-//     */
-//    public function deleteAction(Project $project)
-//    {
-//        // ...
-//    }
 
 
 }

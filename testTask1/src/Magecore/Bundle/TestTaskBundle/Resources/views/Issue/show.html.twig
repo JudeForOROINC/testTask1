@@ -42,6 +42,10 @@
                 <td>{{ frms.linkEnt(entity.project) }}</td>
             </tr>
             <tr>
+                <th>{{ 'field.priority'|trans }}</th>
+                <td>{{ entity.priority|trans }}</td>
+            </tr>
+            <tr>
                 <th>{{ 'field.status'|trans }}</th>
                 <td>{{ entity.status|trans }}</td>
             </tr>
@@ -131,9 +135,9 @@
 {% block sidebar %}
     <div class="section actions">
         <a href="{{ path('magecore_testtask_issue') }}" class="btn btn-lg btn-block btn-success" >
-            Back to the list
+            {{ 'action.back.list'|trans }}
         </a>
-        <a href="{{ path('magcore_testtask_issue_edit', { 'id': entity.id }) }}" class="btn btn-lg btn-block btn-success">
+        <a href="{{ path('magecore_testtask_issue_edit', { 'id': entity.id }) }}" class="btn btn-lg btn-block btn-success">
             {{ 'action.edit'|trans }}
         </a>
     </div>

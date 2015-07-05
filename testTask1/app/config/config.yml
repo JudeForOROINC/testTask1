@@ -5,7 +5,8 @@ imports:
 framework:
     #esi:             ~
     #translator:      { fallbacks: ["%locale%"] }
-    translator:      { fallbacks: ["ru"] }
+    translator:      { fallbacks: ["%locale%"] }
+    #translator:      { fallbacks: ["ru"] }
 #    translator:      ~
     secret:          "%secret%"
     router:
@@ -88,7 +89,13 @@ swiftmailer:
     host:      "%mailer_host%"
     username:  "%mailer_user%"
     password:  "%mailer_password%"
-    spool:     { type: memory }
+#    spool:     { type: memory }
+    spool:
+        type: file
+        path: '%kernel.root_dir%/spool'
+
+    logging: true
+
 
 #fos
 fos_user:

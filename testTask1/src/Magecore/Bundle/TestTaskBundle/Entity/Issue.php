@@ -9,7 +9,7 @@ use \Doctrine\Common\Collections\Collection ;
  * Issue
  *
  * @ORM\Table(name="magecore_testtask_issue")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Magecore\Bundle\TestTaskBundle\Entity\IssueRepository")
  */
 class Issue
 {

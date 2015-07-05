@@ -1,5 +1,7 @@
 function initAjaxForm()
 {
+    $('body').off('submit','.ajaxForm');
+
     $('body').on('submit', '.ajaxForm', function (e) {
 
         e.preventDefault();

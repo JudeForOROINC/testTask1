@@ -15,13 +15,13 @@ class IssueType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('code')
-            ->add('summary')
-            ->add('description')
+            //->add('code')
+            ->add('summary',null,array('label'=>'field.summary.issue'))
+            ->add('description',null,array('label'=>'field.description'))
             //->add('created')
             //->add('updated')
             //->add('reporter')
-            ->add('assignee')
+            ->add('assignee',null,array('label'=>'field.assigned'))
         ;
         if (isset($options['data'])){
 
@@ -49,13 +49,14 @@ class IssueType extends AbstractType
                     $arr
                 ),
                 'required' => true,
+                'label'=>'field.type'
           ))
             ;
         }
         $builder
-            ->add('priority')
-            ->add('status')
-            ->add('resolution')
+            ->add('priority',null,array('label'=>'field.priority'))
+            ->add('status',null,array('label'=>'field.status'))
+            ->add('resolution',null,array('label'=>'field.resolution'))
             //->add('parentIssue')
         ;
     }

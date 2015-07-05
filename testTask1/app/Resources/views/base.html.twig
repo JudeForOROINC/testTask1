@@ -34,9 +34,9 @@
         <div class="navbar navbar-default navbar-static-top" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    {#<a class="navbar-brand" href="{{ path('homepage') }}">
-                        Symfony Demo Application
-                    </a>#}
+                    <a class="navbar-brand" href="{{ path('magecore_testtask_main_view') }}">
+                        <i class="fa fa-home"></i> {{ 'action.home'|trans }}
+                    </a>
 
                     <button type="button" class="navbar-toggle"
                             data-toggle="collapse"
@@ -50,10 +50,21 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
                         {% block header_navigation_links %}
+                            {#<li>#}
+                                {#<a href="{{ path('magecore_testtask_main_view') }}">#}
+                                    {#<i class="fa fa-home"></i> {{ 'action.home'|trans }}#}
+                                {#</a>#}
+                            {#</li>#}
+
                             <li>
-                      {#          <a href="{{ path('blog_index') }}">
-                                    <i class="fa fa-home"></i> Homepage
-                                </a>#}
+                                <a href="{{ path('magecore_test_task_project_index') }}">
+                                    <i class="fa fa-adjust"></i> {{ 'action.projects'|trans }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('magecore_testtask_issue') }}">
+                                    <i class="fa fa-list"></i> {{ 'action.issues'|trans }}
+                                </a>
                             </li>
 
                             {# The 'app.user' condition is required to avoid issues in 404 and 500 error pages
@@ -73,7 +84,7 @@
                         {% if app.user %}
                             <li>
                                 <a href="{{ path('fos_user_security_logout') }}">
-                                    <i class="fa fa-sign-out"></i> Logout
+                                    <i class="fa fa-sign-out"></i> {{ 'action.logout'|trans }}
                                 </a>
                             </li>
                         {% endif %}
@@ -93,16 +104,16 @@
 
             <div id="sidebar" class="col-sm-3">
                 {% block sidebar %}
-                    <div class="section about">
-                        <div class="well well-lg">
-                            <p>
-                                demo test task;
-                            </p>
-                            <p>
-                                <a href="https://magecore.atlassian.net/browse/OOT-622">TEST</a>.
-                            </p>
-                        </div>
-                    </div>
+                    {#<div class="section about">#}
+                        {#<div class="well well-lg">#}
+                            {#<p>#}
+                                {#demo test task;#}
+                            {#</p>#}
+                            {#<p>#}
+                                {#<a href="https://magecore.atlassian.net/browse/OOT-622">TEST</a>.#}
+                            {#</p>#}
+                        {#</div>#}
+                    {#</div>#}
                 {% endblock %}
             </div>
         </div>
@@ -119,9 +130,10 @@
                 </div>
                 <div id="footer-resources" class="col-md-6">
                     <p>
-                        <a href="https://twitter.com/symfony"><i class="fa fa-twitter"></i></a>
-                        <a href="https://www.facebook.com/SensioLabs"><i class="fa fa-facebook"></i></a>
-                        <a href="http://symfony.com/blog"><i class="fa fa-rss"></i></a>
+
+                        {#<a href="https://twitter.com/symfony"><i class="fa fa-twitter"></i></a>#}
+                        {#<a href="https://www.facebook.com/SensioLabs"><i class="fa fa-facebook"></i></a>#}
+                        <a href="https://magecore.atlassian.net/browse/OOT-622"><i class="fa fa-rss"></i></a>
                     </p>
                 </div>
             </div>

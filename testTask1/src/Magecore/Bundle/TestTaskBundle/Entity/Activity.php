@@ -54,8 +54,8 @@ class Activity
     private $toIssueStatus;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Comment", )
-     * @ORM\JoinColumn(name="comment_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Comment")
+     * @ORM\JoinColumn(name="comment_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $comment;
 

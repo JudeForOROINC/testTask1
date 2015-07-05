@@ -53,7 +53,7 @@ class UserController extends Controller
      */
     public function viewAction(User $user){
         $em = $this->getDoctrine()->getEntityManager();
-        $rep = $em->getRepository('MagecoreTestTaskBundle:User');
+        $rep = $em->getRepository('MagecoreTestTaskBundle:Issue');
         $issues = $rep->findOpenByUserId($user->getId());
 //        return new Response(var_dump($activity),200);
         return [

@@ -83,14 +83,18 @@ class ActivityListener{
         if ($entity instanceof Issue) {
             // event list is not empty
             if ( count ($this->notifer) ) {
-                foreach($this->notifer as $line){
+                $arr = $this->notifer;
+                $this->notifer = array();
+                foreach($arr as $line){
                     $entityManager->persist($line);
                 }
-                $this->notifer = array();
+
                 $entityManager->flush();
             }
         }
     }
+
+
 
     public function onFlush(OnFlushEventArgs $args)
     {

@@ -1,18 +1,18 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Issue list</h1>
+    <h1>{{ 'title.issue.list'|trans }}</h1>
 
-    <table class="records_list">
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Code</th>
-                <th>Summary</th>
-                <th>Description</th>
-                <th>Created</th>
-                <th>Updated</th>
-                <th>Actions</th>
+                <th>{{ 'field.id'|trans }}</th>
+                <th>{{ 'field.code'|trans }}</th>
+                <th>{{ 'field.summary.issue'|trans }}</th>
+                <th>{{ 'field.description'|trans }}</th>
+                <th><i class="fa fa-calendar">{{ 'field.created'|trans }}</th>
+                <th><i class="fa fa-calendar">{{ 'field.updated'|trans }}</th>
+                <th><i class="fa fa-cogs">{{ 'field.actions'|trans }}</th>
             </tr>
         </thead>
         <tbody>
@@ -25,27 +25,14 @@
                 <td>{% if entity.created %}{{ entity.created|datertz }}{% endif %}</td>
                 <td>{% if entity.updated %}{{ entity.updated|datertz }}{% endif %}</td>
                 <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('magecore_testtask_issue_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('issue_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
+                    <div class="item-actions">
+                        <a href="{{ path('magecore_testtask_issue_show', { 'id': entity.id }) }}" class="btn btn-sm btn-default"> {{ 'action.show'|trans }}</a>
+                        <a href="{{ path('magecore_testtask_issue_edit', { 'id': entity.id }) }}" class="btn btn-sm btn-default"><i class="fa fa-edit"></i>{{ 'action.edit'|trans }}</a>
+                    </div>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-        <ul>
-        <li>
-            {#<a href="{{ path('magecore_testtask_issue_new') }}">
-                Create a new entry
-            </a>#}
-        </li>
-    </ul>
-    <p>current time : {{ "now"|date('Y-m-d H:i:s',app.user.gettimezone) }}</p>
-    <p>current time : {{ "now"|date('Y-m-d H:i:s') }}</p>
     {% endblock %}

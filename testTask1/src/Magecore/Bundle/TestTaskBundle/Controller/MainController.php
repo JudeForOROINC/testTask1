@@ -34,7 +34,7 @@ class MainController extends Controller
         $rep = $em->getRepository('MagecoreTestTaskBundle:Activity');
         $activity = $rep->findAllByUserMemberId( $this->getUser() );
 
-        $rep = $em->getRepository('MagecoreTestTaskBundle:User');
+        $rep = $em->getRepository('MagecoreTestTaskBundle:Issue');
         $issues = $rep->findOpenByCollaboratorId( $this->getUser()->getId() );
 
         return [
