@@ -274,6 +274,62 @@
                 <source>action.projects</source>
                 <target>Проекты</target>
             </trans-unit>
+            <trans-unit id="69">
+                <source>field.label.project</source>
+                <target>название проекта</target>
+            </trans-unit>
+            <trans-unit id="70">
+                <source>field.code.project</source>
+                <target>код проекта</target>
+            </trans-unit>
+            <trans-unit id="71">
+                <source>title.project.list</source>
+                <target>Перечень проектов</target>
+            </trans-unit>
+            <trans-unit id="72">
+                <source>title.project.view</source>
+                <target>Просмотр проекта</target>
+            </trans-unit>
+            <trans-unit id="73">
+                <source>field.summary.project</source>
+                <target>Описание:</target>
+            </trans-unit>
+            <trans-unit id="74">
+                <source>title.members.list</source>
+                <target>Перечень участников проекта:</target>
+            </trans-unit>
+            <trans-unit id="75">
+                <source>action.new.project</source>
+                <target>Новый проект</target>
+            </trans-unit>
+            <trans-unit id="76">
+                <source>action.new.issue</source>
+                <target>Создать проблему</target>
+            </trans-unit>
+            <trans-unit id="77">
+                <source>title.new.project</source>
+                <target>Создать новый проект</target>
+            </trans-unit>
+            <trans-unit id="78">
+                <source>title.add.members</source>
+                <target>добавить участника</target>
+            </trans-unit>
+            <trans-unit id="79">
+                <source>action.create.project</source>
+                <target>Создать проект</target>
+            </trans-unit>
+            <trans-unit id="80">
+                <source>title.project.edit</source>
+                <target>Изменить проект</target>
+            </trans-unit>
+            <trans-unit id="81">
+                <source>title.members.update</source>
+                <target>управлять участниками</target>
+            </trans-unit>
+            <trans-unit id="82">
+                <source>action.update.project</source>
+                <target>сохранить проект</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

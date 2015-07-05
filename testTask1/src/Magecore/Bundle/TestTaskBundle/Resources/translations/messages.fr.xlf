@@ -274,6 +274,62 @@
                 <source>action.projects</source>
                 <target>Projects</target>
             </trans-unit>
+            <trans-unit id="69">
+                <source>field.label.project</source>
+                <target> project label</target>
+            </trans-unit>
+            <trans-unit id="70">
+                <source>field.code.project</source>
+                <target> project code</target>
+            </trans-unit>
+            <trans-unit id="71">
+                <source>title.project.list</source>
+                <target>Projects list</target>
+            </trans-unit>
+            <trans-unit id="72">
+                <source>title.project.view</source>
+                <target>View project</target>
+            </trans-unit>
+            <trans-unit id="73">
+                <source>field.summary.project</source>
+                <target>Summary:</target>
+            </trans-unit>
+            <trans-unit id="74">
+                <source>title.members.list</source>
+                <target>Here must be members list:</target>
+            </trans-unit>
+            <trans-unit id="75">
+                <source>action.new.project</source>
+                <target>New Project</target>
+            </trans-unit>
+            <trans-unit id="76">
+                <source>action.new.issue</source>
+                <target>New Issue</target>
+            </trans-unit>
+            <trans-unit id="77">
+                <source>title.new.project</source>
+                <target>Create new project</target>
+            </trans-unit>
+            <trans-unit id="78">
+                <source>title.add.members</source>
+                <target>add members</target>
+            </trans-unit>
+            <trans-unit id="79">
+                <source>action.create.project</source>
+                <target>Create project</target>
+            </trans-unit>
+            <trans-unit id="80">
+                <source>title.project.edit</source>
+                <target>Edit the project</target>
+            </trans-unit>
+            <trans-unit id="81">
+                <source>title.members.update</source>
+                <target>manage members!!</target>
+            </trans-unit>
+            <trans-unit id="82">
+                <source>action.update.project</source>
+                <target>Save project</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

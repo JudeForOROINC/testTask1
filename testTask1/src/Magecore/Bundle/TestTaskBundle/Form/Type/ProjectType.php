@@ -22,6 +22,7 @@ class ProjectType extends AbstractType
                     new NotBlank(),
                     new Length(array('max'=>100,'maxMessage'=>'Project Label cannot be longer than {{ limit }} characters!')),
                 ),
+                'label'=>'field.label.project'
 
             ))
 
@@ -30,13 +31,16 @@ class ProjectType extends AbstractType
                     new NotBlank(),
                     new Length(array('max'=>3,'maxMessage'=>'Project Label cannot be longer than {{ limit }} characters!')),
                 ),
+                'label'=>'field.code.project'
             ))
-            ->add('summary','textarea')
+            ->add('summary','textarea', array(
+                'label'=>'field.summary.project'
+            ))
             ->add('members','entity', array('class'=>'Magecore\Bundle\TestTaskBundle\Entity\User',
                 'multiple'=>true,
                 'expanded'=>true,
                 ))
-            ->add('save','submit',array('label'=>'Create project'))
+            ->add('save','submit',array('label'=>'action.create.project'))
         ;
     }
 /*

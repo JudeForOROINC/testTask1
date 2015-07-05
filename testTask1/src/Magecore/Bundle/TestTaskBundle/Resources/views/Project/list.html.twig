@@ -2,19 +2,19 @@
 
 {% block body_id 'Magecore_TestTask_project_list' %}
 
-{% block main -%}
+{% block main %}
 
 
-    <h2> Projects list </h2>
+    <h2> {{ 'title.project.list'|trans }} </h2>
 
 
     <table class="table table-striped">
         <thead>
         <tr>
 
-            <th><i class="fa fa-user"></i> project label</th>
-            <th><i class="fa fa-calendar"></i> project code</th>
-            <th><i class="fa fa-cogs"></i> Actions</th>
+            <th><i class="fa fa-user"></i> {{ 'field.label.project'|trans }}</th>
+            <th><i class="fa fa-calendar"></i> {{ 'field.code.project'|trans }}</th>
+            <th><i class="fa fa-cogs"></i> {{ 'field.actions'|trans }}</th>
         </tr>
         </thead>
         <tbody>

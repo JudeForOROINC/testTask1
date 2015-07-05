@@ -2,12 +2,12 @@
 
 
 
-        {% block FormTitle %} <h1> Edit the project</h1> {% endblock %}
+        {% block FormTitle %} <h1>{{ 'title.project.edit'|trans }} </h1> {% endblock %}
 
 
 
 {% block MembersList %}
-    <p>manage members!!</p>
+    <p>{{ 'title.members.update'|trans }}</p>
 {#
     <div style="align-content: center;width: 100px">
         {% for child in form.members.children %}
@@ -35,7 +35,7 @@
 {% endblock %}
 
  {% block ButtonSave %}
-     {{ form_widget(form.save,{'label':'Save project'}) }}
+     {{ form_widget(form.save,{'label':'action.update.project'}) }}
  {% endblock %}
 
 

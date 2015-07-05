@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
 
-{% block body %}
+{% block main %}
     <div style="background-color: #0088CC; border-radius: 10px">
-        {% block FormTitle %} <h1> Create new project</h1> {% endblock %}
+        {% block FormTitle %} <h1>{{ 'title.new.project'|trans }}</h1> {% endblock %}
 
         <div style="color:red">{{ form_errors(form) }}</div>
 
@@ -32,7 +32,7 @@
 
 </div>
         {% block MembersList %}
-            <p>add members</p>
+            <p>{{ 'title.add.members'|trans }}</p>
             {% form_theme form _self %}
 
             {% block _project_members %}

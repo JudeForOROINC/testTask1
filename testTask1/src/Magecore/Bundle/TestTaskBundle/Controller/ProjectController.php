@@ -39,10 +39,9 @@ class ProjectController extends Controller
      */
     public function viewAction(Project $project){
         $em = $this->getDoctrine()->getManager();
-        //$projects = $em->getRepository('MagecoreTestTaskBundle:Project')->findAll();
-
         $rep = $em->getRepository('MagecoreTestTaskBundle:Activity');
         $activity = $rep->findAllByProjectId($project->getId());
+
         return [
             'project' => $project,
             'name'=>$project->getLabel(),
@@ -58,7 +57,6 @@ class ProjectController extends Controller
     public function createAction(Request $request)
     {
         $project = new Project();
-
 
         $form = $this->createForm(new ProjectType(),$project);
         $form->handleRequest($request);
