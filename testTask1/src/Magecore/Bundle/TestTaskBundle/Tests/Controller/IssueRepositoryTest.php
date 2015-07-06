@@ -57,13 +57,33 @@ class IssueRepositoryTest extends WebTestCase
         //$this->assertTrue($crawler->filter('html:contains("'..'")')->count() > 0);//test page;
 
         //findOpenByCollaboratorId
+        $repo = $em->getRepository('MagecoreTestTaskBundle:Issue');
 
         $testOperlist =  $repo->findOpenByCollaboratorId($Oper->getId());
-        $operatorList1 = $repo->findBy(array('status'=>$statusOpen,'assignee'=>$Oper));
-        $operatorList2 = $repo->findBy(array('status'=>$statusOpen,'reporter'=>$Oper));
-        $operatorList = array_merge($operatorList1,$operatorList2);
-        $this->assertEquals($testOperlist,$operatorList);
 
+        $res = count($testOperlist);
+
+        unset($testOperlist);
+
+        $this->assertGreaterThan(0,$res, 'do not find collaborators');
+
+        $repo = $em->getRepository('MagecoreTestTaskBundle:Issue');
+
+        $operatorList1 = $repo->findBy(array('status'=>$statusOpen,'assignee'=>$Oper));
+
+        $this->assertGreaterThan(0,count($operatorList1), 'do not find collaborators');
+
+        $repo = $em->getRepository('MagecoreTestTaskBundle:Issue');
+
+        $operatorList2 = $repo->findBy(array('status'=>$statusOpen,'reporter'=>$Oper));
+
+        $this->assertGreaterThan(0,count($operatorList2), 'do not find collaborators');
+
+        $operatorList = array_merge($operatorList1,$operatorList2);
+
+        $this->assertGreaterThan(0,count($operatorList), 'do not find collaborators');
+
+        $this->assertEquals($res,count($operatorList));
     }
 
 
