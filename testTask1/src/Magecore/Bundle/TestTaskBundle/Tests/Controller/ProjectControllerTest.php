@@ -7,6 +7,31 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ProjectControllerTest extends WebTestCase
 {
+    private $client=null;
+    private $lastclient=array();
+
+    protected function get_client($login = 'Admin', $pass='123'){
+        if (!empty($this->client) ){
+            if(count($this->lastclient)){
+                if( ($this->lastclient['login'] == $login)|| ($this->lastclient['pass']==$pass)){
+                    return $this->client;
+                }
+            }
+        }
+        $this->client = static::createClient();
+        $crawler = $this->client->request('GET', '/login');
+        $form = $crawler->selectButton('_submit')->form(array(
+            '_username'  => $login,
+            '_password'  => $pass,
+        ));
+        $this->client->submit($form);
+
+        $this->assertTrue($this->client->getResponse()->isRedirect());
+
+        $crawler = $this->client->followRedirect();
+        //$this->client = $client;
+        return $this->client;
+    }
 
     public function testIndex()
     {
@@ -14,6 +39,14 @@ class ProjectControllerTest extends WebTestCase
         $client = static::createClient();
 
         $crawler = $client->request('GET', '/project');
+
+        $this->assertEquals(302,$client->getResponse()->getStatusCode(),'Redirect to login page is absent!');
+
+        $client = $this->get_client();
+
+        $crawler = $client->request('GET', '/project');
+
+        $this->assertEquals(200,$client->getResponse()->getStatusCode(),'Fail logged user visit page!');
 
         $this->assertTrue($crawler->filter('html:contains("Projects list")')->count() > 0);
     }
@@ -37,6 +70,17 @@ class ProjectControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
+        $url = $client->getContainer()->get('router')->generate('magecore_test_task_project_create');
+
+        $crawler = $client->request('GET', $url);
+
+        $this->assertEquals(302,$client->getResponse()->getStatusCode(),'Redirect to login page for /project/create is absent!');
+
+        $client = $this->get_client();
+
+        $crawler = $client->request('GET', $url);
+        //$crawler = $client->request('GET', '/project');
+
         $en = $client->getContainer()->get('doctrine')->getManager();
 
         $project = $en->getRepository('MagecoreTestTaskBundle:Project')->findOneBy(['code' => 'T3T']);
@@ -48,12 +92,9 @@ class ProjectControllerTest extends WebTestCase
             $project=null;
         }
 
+        //$crawler = $client->request('GET', $url);
 
-        $url = $client->getContainer()->get('router')->generate('magecore_test_task_project_create');
-
-        $crawler = $client->request('GET', $url);
-
-        $this->assertEquals($client->getResponse()->getStatusCode(),200);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'fail create progect form link');
          //var_dump($crawler->filter('html:contains("Create new project")')->count() > 0);
 
         $this->assertTrue($crawler->filter('html:contains("Create new project")')->count() > 0);
@@ -74,7 +115,7 @@ class ProjectControllerTest extends WebTestCase
 
         //$result = $this->client->getResponse();
 
-        $this->assertEquals($client->getResponse()->getStatusCode(),200);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(),'fail check view page');
         if(!$project) {
             $this->assertTrue($crawler->filter('html:contains("View project")')->count() > 0);
         } else {
@@ -106,7 +147,6 @@ class ProjectControllerTest extends WebTestCase
         $this->assertTrue($crawler->filter('html:contains("Edit the project")')->count() > 0);*/
         $client = static::createClient();
 
-
         $en = $client->getContainer()->get('doctrine')->getManager();
 
         $project = $en->getRepository('MagecoreTestTaskBundle:Project')->findOneBy(['code' => 'T3T']);
@@ -120,9 +160,20 @@ class ProjectControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', $url);
 
+        $this->assertEquals(302,$client->getResponse()->getStatusCode(),'Redirect to login page for '.$url.' is absent!');
+
+        $client = $this->get_client();
+
+        $crawler = $client->request('GET', $url);
+
+
+//        $url = $client->getContainer()->get('router')->generate('magecore_test_task_project_update',['id'=>$project->getId()]);
+
+  //      $crawler = $client->request('GET', $url);
+
         //var_dump( $client->getResponse()->getStatusCode() );
 
-        $this->assertEquals($client->getResponse()->getStatusCode(),200);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'fail update project link');
         // var_dump($crawler->filter('html:contains("View user")')->count() > 0);
 
         $this->assertTrue($crawler->filter('html:contains("Edit the project")')->count() > 0);

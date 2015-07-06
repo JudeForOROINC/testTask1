@@ -37,7 +37,7 @@ class Activity
     /**
      * @var integer
      * @ORM\ManyToOne(targetEntity="Issue", inversedBy="activities")
-     * @ORM\JoinColumn(name="issue_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="issue_id", referencedColumnName="id",onDelete="CASCADE")
      */
     private $issue;
 

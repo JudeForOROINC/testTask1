@@ -1,6 +1,6 @@
 function initAjaxForm()
 {
-    $('body').off('submit','.ajaxForm');
+   // $('body').off('submit','.ajaxForm');
 
     $('body').on('submit', '.ajaxForm', function (e) {
 
@@ -16,7 +16,7 @@ function initAjaxForm()
                     //alert(data.message);
                     //$('#comments_list_div').html(jqXHR.responseJSON.message);
                     $('#comments_list_div').html(data.message);
-                    initAjaxForm();
+                   // initAjaxForm();
                 }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
@@ -34,7 +34,7 @@ function initAjaxForm()
             });
     });
 
-    $('a.comment_edit_action').on('click',function(e){
+    $('body').on('click', 'a.comment_edit_action',function(e){
         e.preventDefault();
 
         $.ajax({
@@ -48,7 +48,7 @@ function initAjaxForm()
                     //$('#comments_list_div').html(jqXHR.responseJSON.message);
                     $('#comments_list_div').html(data.message);
 
-                    initAjaxForm();
+                    //initAjaxForm();
                     //$('body').scrollTo('#form_body');
                     //scrollTop: ('#form_body');
                     $('html, body').animate({
@@ -72,7 +72,7 @@ function initAjaxForm()
             });
 
     });
-    $('a.comment_remove_action').on('click',function(e) {
+    $('body').on('click','a.comment_remove_action',function(e) {
         e.preventDefault();
 
         if (confirm('Do you Really want to delete this comment?')) {
@@ -87,7 +87,7 @@ function initAjaxForm()
                         //alert(data.message);
                         //$('#comments_list_div').html(jqXHR.responseJSON.message);
                         $('#comments_list_div').html(data.message);
-                        initAjaxForm();
+                        //initAjaxForm();
                     }
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
