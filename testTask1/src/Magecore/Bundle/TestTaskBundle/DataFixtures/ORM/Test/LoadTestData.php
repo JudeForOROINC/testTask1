@@ -5,7 +5,7 @@
  * Date: 19.06.15
  * Time: 14:00
  */
-namespace Magecore\Bundle\TestTaskBundle\DataFixtures\ORM;
+namespace Magecore\Bundle\TestTaskBundle\DataFixtures\ORM\Test;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -35,14 +35,15 @@ class LoadTestData implements FixtureInterface, ContainerAwareInterface
 
     public function load(ObjectManager $manager)
     {
-//        $this->loadUsers($manager);
-//        $this->loadDictionaries($manager);
-//        $this->loadProjects($manager);
-//        $this->loadIssue($manager);
-//        $this->loadComment($manager);
-//        $this->loadActivity($manager);
+        $this->loadUsers($manager);
+        $this->loadDictionaries($manager);
+        $this->loadProjects($manager);
+        $this->loadIssue($manager);
+        $this->loadComment($manager);
+        $this->loadActivity($manager);
 
         //$this->loadPosts($manager);
+
     }
 
 //    /**
@@ -254,6 +255,8 @@ class LoadTestData implements FixtureInterface, ContainerAwareInterface
         $issue->setSummary('Buy a computer ');
         $issue->setStatus($statusOpen);
         $issue->setPriority($Prioritymid);
+        $issue->addCollaborator($user);
+        $issue->addCollaborator($userOperator);
 
         $issue->setCode('Prepere work place');//TODO fix this field!!!
         $issue->setDescription('Please , Buy a computer for NewCommer.' );
@@ -271,6 +274,9 @@ class LoadTestData implements FixtureInterface, ContainerAwareInterface
         $issue->setDescription('subj' );
         $issue->setStatus($statusOpen);
         $issue->setPriority($Prioritymid);
+        $issue->addCollaborator($user);
+        $issue->addCollaborator($userOperator);
+
 
         $this->issue_cort = $issue;
         $manager->persist($issue);
@@ -285,6 +291,8 @@ class LoadTestData implements FixtureInterface, ContainerAwareInterface
         $issue->setDescription('Must be prepere work place. install windows 8. Try to put all needed Programs. inspall php. read Jira. ' );
         $issue->setStatus($statusOpen);
         $issue->setPriority($Prioritymid);
+        $issue->addCollaborator($user);
+        $issue->addCollaborator($userOperator);
 
         $manager->persist($issue);
 
@@ -300,6 +308,8 @@ class LoadTestData implements FixtureInterface, ContainerAwareInterface
         $issuesub->setDescription('insstall w8x64' );
         $issuesub->setStatus($statusOpen);
         $issuesub->setPriority($Prioritymid);
+        $issuesub->addCollaborator($user);
+        $issuesub->addCollaborator($userOperator);
 
         $manager->persist($issuesub);
 
@@ -314,6 +324,8 @@ class LoadTestData implements FixtureInterface, ContainerAwareInterface
         $issuesub->setDescription('subj. prepeare phpstorm,xdebug,php,mysql,ect.' );
         $issuesub->setStatus($statusOpen);
         $issuesub->setPriority($Prioritymid);
+        $issuesub->addCollaborator($user);
+        $issuesub->addCollaborator($userOperator);
 
         $manager->persist($issuesub);
 
@@ -329,6 +341,7 @@ class LoadTestData implements FixtureInterface, ContainerAwareInterface
         $issue->setDescription('Plan work with a little tasks and add it like subtasks! ' );
         $issue->setStatus($statusOpen);
         $issue->setPriority($Prioritymid);
+        $issue->addCollaborator($userOperator);
 
         $manager->persist($issue);
 
