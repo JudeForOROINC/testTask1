@@ -76,51 +76,7 @@ class Comment
         return $this->id;
     }
 
-    /**
-     * Set issueId
-     *
-     * @param integer $issueId
-     * @return Comment
-     */
-    public function setIssueId($issueId)
-    {
-        $this->issueId = $issueId;
 
-        return $this;
-    }
-
-    /**
-     * Get issueId
-     *
-     * @return integer 
-     */
-    public function getIssueId()
-    {
-        return $this->issueId;
-    }
-
-    /**
-     * Set authorId
-     *
-     * @param integer $authorId
-     * @return Comment
-     */
-    public function setAuthorId($authorId)
-    {
-        $this->authorId = $authorId;
-
-        return $this;
-    }
-
-    /**
-     * Get authorId
-     *
-     * @return integer 
-     */
-    public function getAuthorId()
-    {
-        return $this->authorId;
-    }
 
     /**
      * Set body
