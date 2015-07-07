@@ -3,7 +3,7 @@
 
 {% block body %}
     <div style="background-color: #0088CC; border-radius: 10px">
-        {% block FormTitle %} <h1> Edit User`s Profile!</h1> {% endblock %}
+        {% block FormTitle %} <h1>{{ 'title.profile.edit'|trans }}</h1> {% endblock %}
 
         <div style="color:red">{{ form_errors(form) }}</div>
 

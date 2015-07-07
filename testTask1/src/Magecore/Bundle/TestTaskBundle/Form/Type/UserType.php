@@ -24,6 +24,7 @@ class UserType extends AbstractType
                     new NotBlank(),
                     new Length(array('max'=>100,'maxMessage'=>'Project Label cannot be longer than {{ limit }} characters!')),
                 ),
+                'label'=>'field.fullname',
 
             ))
 
@@ -31,18 +32,20 @@ class UserType extends AbstractType
                 'constraints' => array(
                     new NotBlank(),
                 ),
+                'label'=>'field.timezone',
             ))
             ->add('file','file',array('constraints' => array(
                 new Image(),
                 ),
                 //'empty_data'=>null,
                 'required' => false,
+                'label'=>'field.file'
             ))
             ->add('remove_ava','checkbox',array(
-                'label'=>'I want to remove my avatar.',
+                'label'=>'action.avatar.remove',
                 'required' => false,
             ))
-            ->add('save','submit',array('label'=>'Save user'))
+            ->add('save','submit',array('label'=>'button.save.user'))
         ;
     }
     public function setDefaultOptions(OptionsResolverInterface $resolver)

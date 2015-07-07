@@ -1,44 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Welcome, {{ app.user }}{% endblock %}
+{% block title %}{{ 'title.profile'|trans }}, {{ app.user }}{% endblock %}
 
-{% block body %}
+{% block main %}
     {% import "MagecoreTestTaskBundle:Macro:Macro.html.twig" as frms %}
+    <div class="panel panel-info">
     <h2>View user :{{ user.username }}</h2>
-    <h3>full name:</h3>
-    <h2>{{ user.FullName }}</h2>
-    {#<h3>ave path:</h3>#}
-    {#<h2>{{ user.avapath }}</h2>#}
+    <h3>{{ 'field.fullname'|trans }}: {{ user.FullName }}</h3>
     {% if user.avapath %}
     <img src="{{ asset(user.getWebPath) }}">
         {% else %}
-        <p>No Avatare loaded</p>
+        <p>{{ 'message.no.ave'|trans }}</p>
         {% endif %}
-    <h3>mail</h3>
+    <h3>{{ 'field.mail'|trans }}</h3>
     <h2>{{ user.email }}</h2>
-    <h3>role</h3>
+    <h3>{{ 'field.roles' }}</h3>
     {% if user.roles is iterable %}
         <h2> {% for role in user.roles %} {{ role }},{% endfor %}</h2>
     {% else %}
         <h2> {{  user.roles }},</h2>
     {% endif %}
-    <h3>timezone</h3>
+    <h3>{{ 'field.timezone'|trans }}</h3>
     <h2>{{ user.timezone }}</h2>
-    {% if app.user and (is_granted( 'ROLE_ADMIN' ) or user.isowner(app.user) ) %}
-        <a href="{{ path('magecore_test_task_user_update', { id: user.id }) }}">
-            edit
-        </a>
-        {% endif %}
+
 
     <h4>{% if user.accountNonLocked %}
-            This user are active
+            {{ 'message.locked'|trans }}
         {% else %}
-            This user are Locked!
+            {{ 'message.no.locked'|trans }}
         {% endif %}</h4>
-
+    </div>
     {% block Acvivity %}
         <div id="user_activity_block">
-            <h4>Users activity:</h4>
+            <h4>{{ 'title.activity'|trans }}</h4>
             {% if user.activity %}
                 {{ include('MagecoreTestTaskBundle:Activity:list_frame.html.twig',{activities : user.activity}) }}
             {% endif %}
@@ -47,47 +41,31 @@
 
     {% block Issues %}
         <div id="User_issue_list">
-            <h4>Users open issue:</h4>
-                {#<p>additional: list of issues of a project;</p>#}
+            <h4>{{ 'title.issues.open'|trans }}</h4>
                 {{ include('MagecoreTestTaskBundle:Issue:list_frame.html.twig',{issues : issues}) }}
 
-            {#{% if issues is defined %}#}
-
-                {#<ul>#}
-                {#{% for issue in issues %}#}
-                    {#<li>#}
-                    {#{{ frms.linkEnt(issue) }}#}
-                    {#</li>#}
-                    {#{% endfor %}#}
-                {#{% endif %}#}
-                    {#</ul>#}
         </div>
 
     {% endblock %}
 
-        {# <div>
-             <h3>label:</h3>
-             <h1>{{ project.label }}</h1>
-             <h3>summary:</h3>
-             <div style="background-color: #8888BB; width: 400px; color: #66dd66; border-radius: 7px">
-                 <textarea readonly rows="20" cols="50" align="center">{{ project.summary }}</textarea>
-             </div>
-             <div>
-                 <p>Here must be members list</p>
-             </div>
 
-             {% if app.user and (is_granted( 'ROLE_ADMIN' ) or is_granted('ROLE_MANAGER') ) %}
-                 <a href="{{ path('magecore_test_task_project_update', { id: project.id }) }}">
-                     edit
-                 </a>
-                 <a href="{{ path('magecore_test_task_project_create') }}">
-                     New Project
-                 </a>
-             {% endif %}
-             <div>
-                 <p>Here must be activity</p>
-             </div>
+{% endblock %}
 
+{% block sidebar %}
+    <div class="section actions">
+        {#{% if app.user and (is_granted( 'ROLE_ADMIN' ) or is_granted('ROLE_MANAGER') ) %}#}
+            {#<a href="{{ path('magecore_test_task_project_update', { id: project.id }) }}" class="btn btn-lg btn-block btn-success">#}
+                {#{{ 'action.edit'|trans }}#}
+            {#</a>#}
+            {#<a href="{{ path('magecore_test_task_project_create') }}" class="btn btn-lg btn-block btn-success">#}
+                {#{{ 'action.new.project'|trans }}#}
+            {#</a>#}
+        {#{% endif %}#}
 
-         </div>#}
+        {% if app.user and (is_granted( 'ROLE_ADMIN' ) or user.isowner(app.user) ) %}
+            <a href="{{ path('magecore_test_task_user_update', { id: user.id }) }}"  class="btn btn-lg btn-block btn-success">
+                {{ 'action.edit'|trans }}
+            </a>
+        {% endif %}
+    </div>
 {% endblock %}

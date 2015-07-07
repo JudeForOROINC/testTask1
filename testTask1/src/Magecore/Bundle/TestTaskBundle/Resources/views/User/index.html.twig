@@ -2,19 +2,21 @@
 
 {% block body_id 'Magecore_TestTask_user_list' %}
 
+    {% block title %} {{ 'title.user.list'|trans }} {% endblock %}
+
 {% block body %}
 <div>
 
-    <h2> User list </h2>
+    <h2>{{ 'title.user.list'|trans }} User list </h2>
 
 
     <table class="table table-striped">
         <thead>
         <tr>
-            <th><i class="fa fa-user"></i> user name</th>
-            <th><i class="fa fa-user"></i> user full name</th>
-            <th><i class="fa fa-calendar"></i> user timezone</th>
-            <th><i class="fa fa-cogs"></i> Actions</th>
+            <th><i class="fa fa-user"></i>{{ 'field.username'|trans }}</th>
+            <th><i class="fa fa-user"></i>{{ 'field.fullname'|trans }}</th>
+            <th><i class="fa fa-calendar"></i>{{ 'field.timezone'|trans }}</th>
+            <th><i class="fa fa-cogs"></i>{{ 'field.actions'|trans }}</th>
         </tr>
         </thead>
         <tbody>

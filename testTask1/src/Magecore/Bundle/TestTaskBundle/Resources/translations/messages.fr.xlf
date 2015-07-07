@@ -330,6 +330,86 @@
                 <source>action.update.project</source>
                 <target>Save project</target>
             </trans-unit>
+            <trans-unit id="83">
+                <source>title.main</source>
+                <target>Homepage</target>
+            </trans-unit>
+            <trans-unit id="84">
+                <source>message.greet</source>
+                <target>Welcome, %username%</target>
+            </trans-unit>
+            <trans-unit id="85">
+                <source>title.issues.open</source>
+                <target>Open Issues:</target>
+            </trans-unit>
+            <trans-unit id="86">
+                <source>message.no.issues</source>
+                <target>No issues found</target>
+            </trans-unit>
+            <trans-unit id="87">
+                <source>action.users</source>
+                <target>Users</target>
+            </trans-unit>
+            <trans-unit id="88">
+                <source>title.user.list</source>
+                <target>Users list</target>
+            </trans-unit>
+            <trans-unit id="89">
+                <source>field.username</source>
+                <target> user name</target>
+            </trans-unit>
+            <trans-unit id="90">
+                <source>field.fullname</source>
+                <target> user full name</target>
+            </trans-unit>
+            <trans-unit id="91">
+                <source>field.timezone</source>
+                <target> user timezone</target>
+            </trans-unit>
+            <trans-unit id="92">
+                <source>message.no.ave</source>
+                <target>No Avatare loaded</target>
+            </trans-unit>
+            <trans-unit id="93">
+                <source>field.mail</source>
+                <target>mail</target>
+            </trans-unit>
+            <trans-unit id="94">
+                <source>message.locked</source>
+                <target>This user are active</target>
+            </trans-unit>
+            <trans-unit id="95">
+                <source>message.no.locked</source>
+                <target>This user are Locked!</target>
+            </trans-unit>
+            <trans-unit id="96">
+                <source>field.roles</source>
+                <target>Roles</target>
+            </trans-unit>
+            <trans-unit id="97">
+                <source>title.profile</source>
+                <target>Profile</target>
+            </trans-unit>
+            <trans-unit id="98">
+                <source>action.user.profile</source>
+                <target>Profile view</target>
+            </trans-unit>
+            <trans-unit id="99">
+                <source>title.profile.edit</source>
+                <target> Edit User`s Profile!</target>
+            </trans-unit>
+            <trans-unit id="100">
+                <source>action.avatar.remove</source>
+                <target>I want to remove my avatar.</target>
+            </trans-unit>
+            <trans-unit id="101">
+                <source>button.save.user</source>
+                <target>Save profile</target>
+            </trans-unit>
+            <trans-unit id="102">
+                <source>field.file</source>
+                <target>file</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

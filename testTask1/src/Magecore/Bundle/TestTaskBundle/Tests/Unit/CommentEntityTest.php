@@ -1,6 +1,6 @@
 <?php
 
-namespace Magecore\Bundle\TestTaskBundle\Tests\Controller;
+namespace Magecore\Bundle\TestTaskBundle\Tests\Unit;
 
 use Magecore\Bundle\TestTaskBundle\Entity\Activity;
 use Magecore\Bundle\TestTaskBundle\Entity\Comment;

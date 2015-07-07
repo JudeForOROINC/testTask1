@@ -330,6 +330,86 @@
                 <source>action.update.project</source>
                 <target>сохранить проект</target>
             </trans-unit>
+            <trans-unit id="83">
+                <source>title.main</source>
+                <target>Главная страница</target>
+            </trans-unit>
+            <trans-unit id="84">
+                <source>message.greet</source>
+                <target>Здравствуйте, %username%</target>
+            </trans-unit>
+            <trans-unit id="85">
+                <source>title.issues.open</source>
+                <target>Открытые проблемы:</target>
+            </trans-unit>
+            <trans-unit id="86">
+                <source>message.no.issues</source>
+                <target>Проблем не обнаружено</target>
+            </trans-unit>
+            <trans-unit id="87">
+                <source>action.users</source>
+                <target>Пользователи</target>
+            </trans-unit>
+            <trans-unit id="88">
+                <source>title.user.list</source>
+                <target>Пользователи</target>
+            </trans-unit>
+            <trans-unit id="89">
+                <source>field.username</source>
+                <target>логин</target>
+            </trans-unit>
+            <trans-unit id="90">
+                <source>field.fullname</source>
+                <target>полное имя</target>
+            </trans-unit>
+            <trans-unit id="91">
+                <source>field.timezone</source>
+                <target>часовой пояс</target>
+            </trans-unit>
+            <trans-unit id="92">
+                <source>message.no.ave</source>
+                <target>Не загружен аватар</target>
+            </trans-unit>
+            <trans-unit id="93">
+                <source>field.mail</source>
+                <target>почта</target>
+            </trans-unit>
+            <trans-unit id="94">
+                <source>message.locked</source>
+                <target>пользователь активен</target>
+            </trans-unit>
+            <trans-unit id="95">
+                <source>message.no.locked</source>
+                <target>Пользователь заблокирован</target>
+            </trans-unit>
+            <trans-unit id="96">
+                <source>field.roles</source>
+                <target>Роли пользователя</target>
+            </trans-unit>
+            <trans-unit id="97">
+                <source>title.profile</source>
+                <target>Профиль</target>
+            </trans-unit>
+            <trans-unit id="98">
+                <source>action.user.profile</source>
+                <target>Просмотр профиля</target>
+            </trans-unit>
+            <trans-unit id="99">
+                <source>title.profile.edit</source>
+                <target> Редактирую профиль!</target>
+            </trans-unit>
+            <trans-unit id="100">
+                <source>action.avatar.remove</source>
+                <target>Я хочу удалить аватарку</target>
+            </trans-unit>
+            <trans-unit id="101">
+                <source>button.save.user</source>
+                <target>Сохранить профиль</target>
+            </trans-unit>
+            <trans-unit id="102">
+                <source>field.file</source>
+                <target>файл</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

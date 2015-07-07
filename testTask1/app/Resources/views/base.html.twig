@@ -74,11 +74,19 @@
                             #}
                             {% if app.user and is_granted('ROLE_ADMIN') %}
                                 <li>
-{#                                    <a href="{{ path('admin_post_index') }}">
-                                        <i class="fa fa-lock"></i> Backend
-                                    </a>#}
+                                    <a href="{{ path('magecore_test_task_user_index') }}">
+                                        <i class="fa fa-user"></i> {{ 'action.users'|trans }}
+                                    </a>
                                 </li>
-                            {% endif %}
+                        {% elseif app.user  %}
+                            <li>
+                                <a href="{{ path('magecore_test_task_user_view', { id: app.user.id } ) }}">
+                                    <i class="fa fa-user"></i> {{ 'action.user.profile'|trans }}
+                                </a>
+                            </li>
+
+
+                        {% endif %}
                         {% endblock %}
 
                         {% if app.user %}
@@ -125,7 +133,7 @@
         <div class="container">
             <div class="row">
                 <div id="footer-copyright" class="col-md-6">
-                    <p>&copy; {{ 'now'|date('Y') }} - The Symfony Project</p>
+                    <p>&copy; {{ 'now'|date('Y') }} - HardCoded By Gennady Kudryashov.</p>
                     <p>MIT License</p>
                 </div>
                 <div id="footer-resources" class="col-md-6">

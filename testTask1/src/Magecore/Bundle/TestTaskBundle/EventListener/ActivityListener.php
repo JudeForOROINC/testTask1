@@ -20,17 +20,19 @@ class ActivityListener{
 
     protected $notifer=array();
 
-
-    //            $message = \Swift_Message::newInstance()
+    protected function pushmail($mail){
+//        $message = \Swift_Message::newInstance()
 //                ->setSubject('Hello Email')
-//                ->setFrom('send@example.com')
-//                ->setTo('correct_mailbox@i.ua')
+//                ->setFrom('noreplay@magecore.com')
+//                ->setTo($mail)
 //                ->setBody(
 ////             $this->renderView(
 ////                    // app/Resources/views/Emails/registration.html.twig
 ////                        'Emails/registration.html.twig',
 ////                        array('name' => $name)
 ////                    ),
+//                $this->
+//
 //                    '<body>test</body>',
 //                    'text/html'
 //                )
@@ -47,6 +49,8 @@ class ActivityListener{
 //            ;
 //            $this->get('mailer')->send($message);
 
+    }
+    //
 
     /**
      * @param LifecycleEventArgs $args

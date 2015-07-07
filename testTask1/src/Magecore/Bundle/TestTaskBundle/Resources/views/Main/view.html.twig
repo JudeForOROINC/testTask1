@@ -5,16 +5,17 @@
 {% block body %}
     {% import "MagecoreTestTaskBundle:Macro:Macro.html.twig" as frms %}
 <div>
-    <h2>Welcome, {{ app.user }}!</h2>
+    <h2>{{ 'message.greet'|trans({'%username%': app.user}) }}!</h2>
 
     <div>
-        <p>Here must be activity</p>
+        <p>{{ 'title.activity'|trans }}</p>
         {{ include('MagecoreTestTaskBundle:Activity:list_frame.html.twig',{activities : activities}) }}
     </div>
 
     <div id="main_issue_list">
         {#<p>additional: list of issues of a project;</p>#}
-        <p>open issues</p>
+        <p>{{ 'title.issues.open'|trans }}</p>
+
         {{ include('MagecoreTestTaskBundle:Issue:list_frame.html.twig',{issues : issues}) }}
     </div>
 
