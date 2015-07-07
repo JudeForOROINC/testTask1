@@ -2,8 +2,11 @@
 
 namespace Magecore\Bundle\TestTaskBundle\Tests\Controller;
 
+use Magecore\Bundle\TestTaskBundle\Entity\Comment;
 use Magecore\Bundle\TestTaskBundle\Entity\Project;
+use Magecore\Bundle\TestTaskBundle\Form\CommentType;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Form\Form;
 
 class CommentControllerTest extends WebTestCase
 {
@@ -20,12 +23,25 @@ class CommentControllerTest extends WebTestCase
 
         $issue = $em->getRepository('MagecoreTestTaskBundle:Issue')->findOneBy(['summary' => 'TestTask1: made timeing']);
 
+        $user = $em->getRepository('MagecoreTestTaskBundle:User')->findOneBy(['username' => 'Admin']);
+
         $url = $client->getContainer()->get('router')->generate('magecore_testtask_comment_create',array('id'=>$issue->getId()));
         //magecore_testtask_comment_create - url to new comment
 
         // Create a new entry in the database
         $crawler = $client->request('POST', $url);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET $url");
+        $this->assertEquals(400, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for corrupted request Post $url");
+
+//        $comment = new Comment();
+//
+//        $comment->setIssue($issue);
+//        $comment->setAuthor($user);
+//
+//        $type = new CommentType();
+//        $form = $this->factory->create($type);
+
+
+
         /*$crawler = $client->click($crawler->selectLink('Create a new entry')->link());
 
         // Fill in the form and submit it
