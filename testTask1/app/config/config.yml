@@ -74,6 +74,7 @@ services:
             - { name: doctrine.event_listener, event: postUpdate}
             - { name: doctrine.event_listener, event: onFlush}
             - { name: doctrine.event_listener, event: postLoad}
+        arguments: [@service_container]
     app.twig_extension:
         class: Magecore\Bundle\TestTaskBundle\Twig\AppExtension
         arguments: [@service_container, @security.context]
@@ -90,11 +91,24 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
 #    spool:     { type: memory }
-    spool:
-        type: file
-        path: '%kernel.root_dir%/spool'
+#    spool:
+#        type: file
+#        path: '%kernel.root_dir%/spool'
 
+#    logging: true
+swiftmailer:
+    spool:     { type: memory }
     logging: true
+    disable_delivery: false
+    delivery_address: dev@example.com
+
+parameters:
+
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_port: 1025
+    mailer_user: null
+    mailer_password: null
 
 
 #fos

@@ -10,44 +10,72 @@ namespace Magecore\Bundle\TestTaskBundle\EventListener;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Magecore\Bundle\TestTaskBundle\Controller\MaillerController;
 use Magecore\Bundle\TestTaskBundle\Entity\Activity;
 use Magecore\Bundle\TestTaskBundle\Entity\Issue;
 use Magecore\Bundle\TestTaskBundle\Entity\Comment;
 use DateTime;
 use Magecore\Bundle\TestTaskBundle\Entity\User;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ActivityListener{
 
     protected $notifer=array();
 
-    protected function pushmail($mail){
-//        $message = \Swift_Message::newInstance()
-//                ->setSubject('Hello Email')
-//                ->setFrom('noreplay@magecore.com')
-//                ->setTo($mail)
-//                ->setBody(
-////             $this->renderView(
-////                    // app/Resources/views/Emails/registration.html.twig
-////                        'Emails/registration.html.twig',
-////                        array('name' => $name)
-////                    ),
-//                $this->
+    protected $container=null;
+
+    protected function pushmail(Activity $activity){
+        $trans = \Swift_SmtpTransport::newInstance(
+            '127.0.0.1',1025
+        );
+            $maler = \Swift_Mailer::newInstance($trans);
+
+        $cntr = New MaillerController($this->container);
+
+        $arr = $cntr->FormMailAction($activity);
+
+        if (!empty($arr) && count($arr )){
+
+            foreach($arr as $letter){
+                $message = \Swift_Message::newInstance()
+                    ->setSubject('puf! '.$letter['name'])
+                    ->setFrom('send@example.com')
+                    ->setTo($letter['mail'])
+                    ->setBody(
+                        $letter['letter'],'text/html');
+
 //
-//                    '<body>test</body>',
-//                    'text/html'
-//                )
-//                /*
-//                 * If you also want to include a plaintext version of the message
-//                ->addPart(
-//                    $this->renderView(
-//                        'Emails/registration.txt.twig',
-//                        array('name' => $name)
-//                    ),
-//                    'text/plain'
-//                )
-//                */
-//            ;
-//            $this->get('mailer')->send($message);
+                $result = $maler->send($message);
+
+        }
+            }
+
+//
+//        $message = \Swift_Message::newInstance()
+//            ->setSubject('Hello Email')
+//            ->setFrom('send@example.com')
+//            ->setTo('recipient@example.com')
+//            ->setBody(
+////                $this->renderView(
+////                // app/Resources/views/Emails/registration.html.twig
+////                    'Emails/registration.html.twig',
+////                    array('name' => $name)
+////                ),
+//                '<body>mama mila ramu</body>',
+//                'text/html'
+//            )
+//            /*
+//             * If you also want to include a plaintext version of the message
+//            ->addPart(
+//                $this->renderView(
+//                    'Emails/registration.txt.twig',
+//                    array('name' => $name)
+//                ),
+//                'text/plain'
+//            )
+//            */
+        ;
+    //   $result = $maler->send($message);
 
     }
     //
@@ -72,6 +100,8 @@ class ActivityListener{
             $entityManager->persist( $active);
             //$entityManager->persist( $entity);//?/?
             $entityManager->flush();
+
+            $this->pushmail($active);
         }
 
         // new entity inserted in database. may be a Comment.
@@ -186,5 +216,8 @@ class ActivityListener{
 
     }
 
-
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
 }

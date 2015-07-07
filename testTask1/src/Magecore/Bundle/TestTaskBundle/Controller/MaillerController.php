@@ -2,7 +2,10 @@
 
 namespace Magecore\Bundle\TestTaskBundle\Controller;
 
+use Magecore\Bundle\TestTaskBundle\Entity\Activity;
 use Magecore\Bundle\TestTaskBundle\Entity\Project;
+use Proxies\__CG__\Magecore\Bundle\TestTaskBundle\Entity\User;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -19,7 +22,7 @@ use Magecore\Bundle\TestTaskBundle\Entity\Issue;
  *
  * @Route("/comment")
  */
-class CommentController extends Controller
+class MaillerController extends Controller
 {
 
     protected function isPermissoinAllowed(Comment $comment){
@@ -61,24 +64,26 @@ class CommentController extends Controller
 
     /**
      * Lists all Comment entities.
-     *
+     * @Temlplate
      */
-    protected function listAction(Issue $issue)
+    public function FormMailAction(Activity $activity)
     {
-        $entity = new Comment();
-        $entity->setIssue($issue);
-        $entity->setAuthor($this->getUser());
-        $form = $this->createCreateForm($entity);
+        $users = $activity->getIssue()->getCollaborators();
+        $letters=array();
+        foreach ($users as $user){
+            $mail = $user->getEmail();
+            $name = $user->getFullName();
+            $body = $this->renderView('MagecoreTestTaskBundle:Mailer:view.html.twig',array('username',$name));
+            $letter = array(
+                'mail'=>$mail,
+                'name'=>$name,
+                'letter'=>$body,
+            );
 
-        return new JsonResponse(array('message'=>
-            $this->renderView('MagecoreTestTaskBundle:Comment:index.html.twig',
-                array(
-                    #entities: entity.comments, addComment: addComment
-                    'entities'=>$issue->getComments(),
-                    'addComment'=>$form->createView(),
-                    'issue_id'=>$issue->getId(),
-                )),
-        ),200);
+            $letters[]=$letter;
+        }
+
+        return $letters;
     }
     /**
      * Creates a new Comment entity.
@@ -512,5 +517,11 @@ class CommentController extends Controller
 //        //var_dump($this->get('mailer'));
 
         return new Response('ok'); //$this->render(...);
+    }
+
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
     }
 }

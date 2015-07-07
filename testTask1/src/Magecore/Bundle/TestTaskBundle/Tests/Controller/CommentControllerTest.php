@@ -31,6 +31,14 @@ class CommentControllerTest extends WebTestCase
         // Create a new entry in the database
         $crawler = $client->request('POST', $url);
         $this->assertEquals(400, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for corrupted request Post $url");
+        //$this->asserttrue($crawler->filter('context:("You can access this only using Ajax!")')->count()>0);
+
+        $crawler = $client->request('POST', $url, array(), array(), array(
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ));
+
+        $this->assertEquals(500, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for corrupted request Post $url");
+
 
 //        $comment = new Comment();
 //
