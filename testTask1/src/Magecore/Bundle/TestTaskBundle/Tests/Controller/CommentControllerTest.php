@@ -2,20 +2,31 @@
 
 namespace Magecore\Bundle\TestTaskBundle\Tests\Controller;
 
+use Magecore\Bundle\TestTaskBundle\Entity\Project;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class CommentControllerTest extends WebTestCase
 {
-    /*
     public function testCompleteScenario()
     {
         // Create a new client to browse the application
-        $client = static::createClient();
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'Admin',//'JustUser',
+            'PHP_AUTH_PW'   => '123',
+        ));
+
+        // Create a new comment in issue
+        $em = $client->getContainer()->get('doctrine')->getManager();
+
+        $issue = $em->getRepository('MagecoreTestTaskBundle:Issue')->findOneBy(['summary' => 'TestTask1: made timeing']);
+
+        $url = $client->getContainer()->get('router')->generate('magecore_testtask_comment_create',array('id'=>$issue->getId()));
+        //magecore_testtask_comment_create - url to new comment
 
         // Create a new entry in the database
-        $crawler = $client->request('GET', '/comment/');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /comment/");
-        $crawler = $client->click($crawler->selectLink('Create a new entry')->link());
+        $crawler = $client->request('POST', $url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET $url");
+        /*$crawler = $client->click($crawler->selectLink('Create a new entry')->link());
 
         // Fill in the form and submit it
         $form = $crawler->selectButton('Create')->form(array(
@@ -49,7 +60,8 @@ class CommentControllerTest extends WebTestCase
 
         // Check the entity has been delete on the list
         $this->assertNotRegExp('/Foo/', $client->getResponse()->getContent());
+        */
     }
 
-    */
+
 }

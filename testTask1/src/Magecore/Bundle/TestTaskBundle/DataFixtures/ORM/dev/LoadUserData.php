@@ -220,7 +220,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $project = $manager->getRepository('MagecoreTestTaskBundle:Project')->findOneBy(['code'=>'M1M']);
         $userworker = $manager->getRepository('MagecoreTestTaskBundle:User')->findOneBy(['username'=>'JustUser']);
         $statusOpen = $this->open_status;
-            //$manager->getRepository('MagecoreTestTaskBundle:DicStatus')->findOneBy(['value'=>'value.open']);
+        //$manager->getRepository('MagecoreTestTaskBundle:DicStatus')->findOneBy(['value'=>'value.open']);
         $Prioritymid = $manager->getRepository('MagecoreTestTaskBundle:DicPriority')->findOneBy(['sortOrder'=>3]);
 
 
@@ -233,6 +233,8 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $issue->setSummary('Buy a computer ');
         $issue->setStatus($statusOpen);
         $issue->setPriority($Prioritymid);
+        $issue->addCollaborator($user);
+        $issue->addCollaborator($userOperator);
 
         $issue->setCode('Prepere work place');//TODO fix this field!!!
         $issue->setDescription('Please , Buy a computer for NewCommer.' );
@@ -250,6 +252,9 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $issue->setDescription('subj' );
         $issue->setStatus($statusOpen);
         $issue->setPriority($Prioritymid);
+        $issue->addCollaborator($user);
+        $issue->addCollaborator($userOperator);
+
 
         $this->issue_cort = $issue;
         $manager->persist($issue);
@@ -264,6 +269,8 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $issue->setDescription('Must be prepere work place. install windows 8. Try to put all needed Programs. inspall php. read Jira. ' );
         $issue->setStatus($statusOpen);
         $issue->setPriority($Prioritymid);
+        $issue->addCollaborator($user);
+        $issue->addCollaborator($userOperator);
 
         $manager->persist($issue);
 
@@ -279,6 +286,8 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $issuesub->setDescription('insstall w8x64' );
         $issuesub->setStatus($statusOpen);
         $issuesub->setPriority($Prioritymid);
+        $issuesub->addCollaborator($user);
+        $issuesub->addCollaborator($userOperator);
 
         $manager->persist($issuesub);
 
@@ -293,6 +302,8 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $issuesub->setDescription('subj. prepeare phpstorm,xdebug,php,mysql,ect.' );
         $issuesub->setStatus($statusOpen);
         $issuesub->setPriority($Prioritymid);
+        $issuesub->addCollaborator($user);
+        $issuesub->addCollaborator($userOperator);
 
         $manager->persist($issuesub);
 
@@ -308,12 +319,14 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $issue->setDescription('Plan work with a little tasks and add it like subtasks! ' );
         $issue->setStatus($statusOpen);
         $issue->setPriority($Prioritymid);
+        $issue->addCollaborator($userOperator);
 
         $manager->persist($issue);
 
 
         $manager->flush();
     }
+
 
     protected function loadComment(ObjectManager $manager){
         //pro

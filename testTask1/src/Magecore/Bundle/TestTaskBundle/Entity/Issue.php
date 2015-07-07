@@ -152,51 +152,7 @@ class Issue
         return $this->id;
     }
 
-    /**
-     * Set reporterId
-     *
-     * @param integer $reporterId
-     * @return Issue
-     */
-    public function setReporterId($reporterId)
-    {
-        $this->reporterId = $reporterId;
 
-        return $this;
-    }
-
-    /**
-     * Get reporterId
-     *
-     * @return integer 
-     */
-    public function getReporterId()
-    {
-        return $this->reporterId;
-    }
-
-    /**
-     * Set assigneeId
-     *
-     * @param integer $assigneeId
-     * @return Issue
-     */
-    public function setAssigneeId($assigneeId)
-    {
-        $this->assigneeId = $assigneeId;
-
-        return $this;
-    }
-
-    /**
-     * Get assigneeId
-     *
-     * @return integer 
-     */
-    public function getAssigneeId()
-    {
-        return $this->assigneeId;
-    }
 
     /**
      * Set code
@@ -359,28 +315,6 @@ class Issue
         return $this->status;
     }
 
-    /**
-     * Set resolutionId
-     *
-     * @param integer $resolutionId
-     * @return Issue
-     */
-    public function setResolutionId($resolutionId)
-    {
-        $this->resolutionId = $resolutionId;
-
-        return $this;
-    }
-
-    /**
-     * Get resolutionId
-     *
-     * @return integer 
-     */
-    public function getResolutionId()
-    {
-        return $this->resolutionId;
-    }
 
     /**
      * Set created
@@ -428,28 +362,7 @@ class Issue
         return $this->updated;
     }
 
-    /**
-     * Set parentIssueId
-     *
-     * @param integer $parentIssueId
-     * @return Issue
-     */
-    public function setParentIssueId($parentIssueId)
-    {
-        $this->parentIssueId = $parentIssueId;
 
-        return $this;
-    }
-
-    /**
-     * Get parentIssueId
-     *
-     * @return integer 
-     */
-    public function getParentIssueId()
-    {
-        return $this->parentIssueId;
-    }
     /**
      * Constructor
      */
@@ -458,6 +371,7 @@ class Issue
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
         $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
         $this->collaborators = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->activities = new \Doctrine\Common\Collections\ArrayCollection();
         //$this->created = new
         $this->created = new \DateTime();
         $this->updated = new \DateTime();

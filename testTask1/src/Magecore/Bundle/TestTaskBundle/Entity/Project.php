@@ -155,7 +155,7 @@ class Project
         return $this;
     }
     public function removeMember(User $user){
-        if (!$this->getMembers()->contains($user)){
+        if ($this->getMembers()->contains($user)){
             $this->getMembers()->removeElement($user);
             //???
         }
