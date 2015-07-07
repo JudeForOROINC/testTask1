@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ project.code }} {{ project.label }}{% endblock %}
 
 {% block main %}
     {% import "MagecoreTestTaskBundle:Macro:Macro.html.twig" as frms %}
