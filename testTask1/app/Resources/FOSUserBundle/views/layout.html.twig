@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome Guest!{% endblock %}</title>
+        <title>{% block title %}{{ 'welcome.guest'|trans }}{% endblock %}</title>
         {% block stylesheets %}
             {# uncomment the following lines to compile SCSS assets with Assetic
 
@@ -33,14 +33,11 @@
                             <i class="fa fa-home"></i> {{ 'action.home'|trans }}
                         </a>
 
-                        <button type="button" class="navbar-toggle"
-                                data-toggle="collapse"
-                                data-target=".navbar-collapse">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
+                        {% if app.user %}<a class="navbar-brand" href="{{ path('magecore_test_task_user_view',{id : app.user.id}) }}">
+                            <i class="fa fa-home"></i> {{ app.user }}
+                        </a>
+                        {% endif %}
+
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav navbar-right">

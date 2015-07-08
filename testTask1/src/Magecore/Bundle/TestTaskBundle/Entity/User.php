@@ -88,7 +88,7 @@ class User extends BaseUser
     }
 
     public function isOwner(User $user){
-        return (bool)$this->getId() == $user->getId();
+        return (bool)($this->getId() == $user->getId());
     }
 
     public function getAbsolutePath()

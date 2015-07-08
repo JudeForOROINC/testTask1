@@ -410,6 +410,18 @@
                 <source>field.file</source>
                 <target>файл</target>
             </trans-unit>
+            <trans-unit id="103">
+                <source>welcome.guest</source>
+                <target>Добро пожаловать!</target>
+            </trans-unit>
+            <trans-unit id="104">
+                <source>title.user.view</source>
+                <target>Просмотр пользователя</target>
+            </trans-unit>
+            <trans-unit id="105">
+                <source>message.no.activity</source>
+                <target>Не найдено активности.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

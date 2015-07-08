@@ -37,7 +37,10 @@
                     <a class="navbar-brand" href="{{ path('magecore_testtask_main_view') }}">
                         <i class="fa fa-home"></i> {{ 'action.home'|trans }}
                     </a>
-
+                    {% if app.user %}<a class="navbar-brand" href="{{ path('magecore_test_task_user_view',{id : app.user.id}) }}">
+                        <i class="fa fa-user"></i> {{ app.user }}
+                        </a>
+                    {% endif %}
                     <button type="button" class="navbar-toggle"
                             data-toggle="collapse"
                             data-target=".navbar-collapse">

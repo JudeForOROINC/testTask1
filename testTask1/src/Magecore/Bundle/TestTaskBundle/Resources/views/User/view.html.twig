@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'title.profile'|trans }}, {{ app.user }}{% endblock %}
+{% block title %}{{ 'title.profile'|trans }}, {{ user.username }}{% endblock %}
 
 {% block main %}
     {% import "MagecoreTestTaskBundle:Macro:Macro.html.twig" as frms %}
     <div class="panel panel-info">
-    <h2>View user :{{ user.username }}</h2>
+    <h2>{{ 'title.user.view'|trans }} :{{ user.username }}</h2>
     <h3>{{ 'field.fullname'|trans }}: {{ user.FullName }}</h3>
     {% if user.avapath %}
     <img src="{{ asset(user.getWebPath) }}">
@@ -14,9 +14,9 @@
         {% endif %}
     <h3>{{ 'field.mail'|trans }}</h3>
     <h2>{{ user.email }}</h2>
-    <h3>{{ 'field.roles' }}</h3>
+    <h3>{{ 'field.roles'|trans }}</h3>
     {% if user.roles is iterable %}
-        <h2> {% for role in user.roles %} {{ role }},{% endfor %}</h2>
+        <h2> {% for role in user.roles %} {{ role }}{% if not loop.last %},{% endif %} {% if not loop.index % 3 %}<br> {% endif %}  {% endfor %}</h2>
     {% else %}
         <h2> {{  user.roles }},</h2>
     {% endif %}

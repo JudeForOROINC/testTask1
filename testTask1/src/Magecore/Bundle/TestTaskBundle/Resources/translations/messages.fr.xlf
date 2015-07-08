@@ -410,6 +410,18 @@
                 <source>field.file</source>
                 <target>file</target>
             </trans-unit>
+            <trans-unit id="103">
+                <source>welcome.guest</source>
+                <target>Welcome, Guest!</target>
+            </trans-unit>
+            <trans-unit id="104">
+                <source>title.user.view</source>
+                <target>View user</target>
+            </trans-unit>
+            <trans-unit id="105">
+                <source>message.no.activity</source>
+                <target>No activity found.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

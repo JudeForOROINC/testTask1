@@ -1,4 +1,4 @@
-{% if activities %}
+{% if activities is not empty %}
     {% import "MagecoreTestTaskBundle:Macro:Macro.html.twig" as frms %}
     <table class="table table-hover">
         <tr>
@@ -38,4 +38,6 @@
             </tr>
         {% endfor %}
     </table>
+{% else %}
+    {{ 'message.no.activity'|trans }}
 {% endif %}

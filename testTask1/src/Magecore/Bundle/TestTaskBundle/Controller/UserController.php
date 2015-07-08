@@ -10,8 +10,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 
-use Magecore\Bundle\TestTaskBundle\Entity\Project;
-use Magecore\Bundle\TestTaskBundle\Form\Type\ProjectType;
+//use Magecore\Bundle\TestTaskBundle\Entity\Project;
+//use Magecore\Bundle\TestTaskBundle\Form\Type\ProjectType;
 //use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 //use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 //use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -19,6 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 //use Symfony\Component\BrowserKit\Request;
 //use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -75,6 +76,39 @@ class UserController extends Controller
     }
 
     /**
+     * @param User $user
+     * @return bool
+     */
+    protected function PermissionAcess(User $user)
+    {
+        $current_user = $this->getUser();
+
+        //user may access its own profile
+        if ($user.isOwner($current_user)){
+            return true;
+        }
+
+        //admin must have permissions to edit comments
+        if ($current_user->hasRole('ROLE_ADMIN')){
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /**
+     * @param User $user
+     * @throws AccessDeniedException
+     */
+    protected  function CheckPermissions(User $user)
+    {
+        if (!$this->PermissionAcess($user)){
+            throw new AccessDeniedException('You have no permissions to edit this profile!!!');
+        }
+    }
+
+    /**
      * @Route("/update/{id}", name="magecore_test_task_user_update", requirements={"id"="\d+"})
      * @Template
      */
@@ -83,6 +117,8 @@ class UserController extends Controller
         // ...
         //return new Response('ok');
         //$user = new User();
+        $this->CheckPermissions($entity);
+
         $form = $this->createForm(new UserType(),$entity);
         $form->handleRequest($request);
 
