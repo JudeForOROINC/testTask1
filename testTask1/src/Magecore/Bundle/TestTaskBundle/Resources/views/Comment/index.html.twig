@@ -3,7 +3,7 @@
 {% block main -%}
 {% if entities %}
     {% import "MagecoreTestTaskBundle:Macro:Macro.html.twig" as frms %}
-
+        {% if entities is not empty %}
 
         <table class="table table-striped">
             <thead>
@@ -37,6 +37,9 @@
         {% endfor %}
         </tbody>
     </table>
+{% else %}
+            <p>{{ 'message.no.comments'|trans }}</p>
+{% endif %}
 
         <div class="form_error"></div>
 

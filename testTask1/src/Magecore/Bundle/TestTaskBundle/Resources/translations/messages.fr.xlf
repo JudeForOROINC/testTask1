@@ -438,6 +438,10 @@
                 <source>ROLE_ADMIN</source>
                 <target>ADMINISTRATOR</target>
             </trans-unit>
+            <trans-unit id="110">
+                <source>message.no.comments</source>
+                <target>No comments found</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

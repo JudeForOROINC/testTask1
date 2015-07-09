@@ -38,9 +38,9 @@ class CommentController extends Controller
         return false;
     }
 
-/**
- * This must by in secure lair, and it is bad, that use it here.
- * */
+    /**
+    * This must by in secure lair, and it is bad, that use it here.
+    */
     protected function isProjectAccessAllowed(Project $project)
     {
         $currentUser = $this->getUser();
@@ -89,10 +89,6 @@ class CommentController extends Controller
      */
     public function createAction(Request $request, Issue $issue)
     {
-       // return new Response('kill pigs!!!',200);
-        //return new Response(var_dump($request->isXmlHttpRequest()),200);
-        //return new Response(var_dump($request),200);
-
 
         if (!$request->isXmlHttpRequest()){
             return new JsonResponse(array('message'=>'You can access this only using Ajax!'), 400);
@@ -109,9 +105,6 @@ class CommentController extends Controller
 
 
         $form->handleRequest($request);
-        //return new Response(var_dump($form->isValid()),200);
-        #return new Response(var_dump($entity),200);
-        //return new JsonResponse(array('message'=>'Success!'),200);
         if ($form->isValid()) {
             $issue->addCollaborator($this->getUser());
 
@@ -119,24 +112,9 @@ class CommentController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            #return $this->redirect($this->generateUrl('comment_show', array('id' => $entity->getId())));
-//            $entity = new Comment();
-//            $entity->setIssue($issue);
-//            $entity->setAuthor($this->getUser());
-//            $form = $this->createCreateForm($entity);
-//
-//            return new JsonResponse(array('message'=>
-//                $this->renderView('MagecoreTestTaskBundle:Comment:index.html.twig',
-//                array(
-//                    #entities: entity.comments, addComment: addComment
-//                    'entities'=>$issue->getComments(),
-//                    'addComment'=>$form->createView(),
-//                    'issue_id'=>$issue->getId(),
-//                )),
-//            ),200);
+
             return $this->listAction($issue);
 
-            #return new JsonResponse(array('message'=>'Success!'),200);#$this->redirect($this->generateUrl('comment_show', array('id' => $entity->getId())));
         }
         $responce = new JsonResponse(
             array(
@@ -184,18 +162,6 @@ class CommentController extends Controller
         return $form;
     }
 
-//    private function createNewForm(Comment $entity)
-//    {
-//        $form = $this->createForm(new CommentType(), $entity, array(
-//            'action' => $this->generateUrl('magecore_testtask_comment_create', array('id'=>$entity->getIssue())),
-//            'method' => 'POST',
-//        ));
-//
-//        $form->add('submit', 'submit', array('label' => 'Create'));
-//
-//        return $form;
-//    }
-
 
     /**
      * Displays a form to edit an existing Comment entity.
@@ -242,35 +208,9 @@ class CommentController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            #return $this->redirect($this->generateUrl('comment_show', array('id' => $entity->getId())));
-        //            $entity = new Comment();
-        //            $entity->setIssue($issue);
-        //            $entity->setAuthor($this->getUser());
-        //            $form = $this->createCreateForm($entity);
-        //
-        //            return new JsonResponse(array('message'=>
-        //                $this->renderView('MagecoreTestTaskBundle:Comment:index.html.twig',
-        //                    array(
-        //                        #entities: entity.comments, addComment: addComment
-        //                        'entities'=>$issue->getComments(),
-        //                        'addComment'=>$form->createView(),
-        //                        'issue_id'=>$issue->getId(),
-        //                    )),
-        //            ),200);
             return $this->listAction($issue);
             #return new JsonResponse(array('message'=>'Success!'),200);#$this->redirect($this->generateUrl('comment_show', array('id' => $entity->getId())));
         }
-//        $responce = new JsonResponse(
-//            array(
-//                'message'=>'Error',
-//                'form'=>$this->renderView('MagecoreTestTaskBundle:Comment:show.html.twig',
-//                    array(
-//                        'entity'=>$entity,
-//                        'form'=>$form->createView(),
-//                    )),
-//
-//            ), 400);
-//        return $responce;
 
         return new JsonResponse(array('message'=>
             $this->renderView('MagecoreTestTaskBundle:Comment:index.html.twig',
@@ -282,61 +222,8 @@ class CommentController extends Controller
                     'edit_id'=>$comment->getId(),
                 )),
         ),200);
-
-//        return new JsonResponse(array('message'=>'Success! '.$id),200);
-//
-//
-//        $em = $this->getDoctrine()->getManager();
-//
-//        $entity = $em->getRepository('MagecoreTestTaskBundle:Comment')->find($id);
-//
-//        if (!$entity) {
-//            throw $this->createNotFoundException('Unable to find Comment entity.');
-//        }
-//
-//        $editForm = $this->createEditForm($entity);
-//        $deleteForm = $this->createDeleteForm($id);
-//
-//        return array(
-//            'entity'      => $entity,
-//            'edit_form'   => $editForm->createView(),
-//            'delete_form' => $deleteForm->createView(),
-//        );
     }
 
-//    /**
-//     * Edits an existing Comment entity.
-//     *
-//     * @Route("/{id}", name="comment_update")
-//     * @Method("PUT")
-//     * @Template("MagecoreTestTaskBundle:Comment:edit.html.twig")
-//     */
-//    public function updateAction(Request $request, $id)
-//    {
-//        $em = $this->getDoctrine()->getManager();
-//
-//        $entity = $em->getRepository('MagecoreTestTaskBundle:Comment')->find($id);
-//
-//        if (!$entity) {
-//            throw $this->createNotFoundException('Unable to find Comment entity.');
-//        }
-//
-//        $deleteForm = $this->createDeleteForm($id);
-//        $editForm = $this->createEditForm($entity);
-//        $editForm->handleRequest($request);
-//
-//        if ($editForm->isValid()) {
-//            $em->flush();
-//
-//            return $this->redirect($this->generateUrl('comment_edit', array('id' => $id)));
-//        }
-//
-//        return array(
-//            'entity'      => $entity,
-//            'edit_form'   => $editForm->createView(),
-//            'delete_form' => $deleteForm->createView(),
-//        );
-//    }
 
     /**
      * Deletes a Comment entity.
@@ -376,59 +263,11 @@ class CommentController extends Controller
         } else {
             //TODO error message for not found with 400.
         }
-        //return new JsonResponse(array('message'=>'You can access this only using Ajax!'), 200);
-        //redraw form
-//        $entity = new Comment();
-//        $entity->setIssue($issue);
-//        $entity->setAuthor($this->getUser());
-//        $form = $this->createCreateForm($entity);
-//
-//        return new JsonResponse(array('message'=>
-//            $this->renderView('MagecoreTestTaskBundle:Comment:index.html.twig',
-//                array(
-//                    #entities: entity.comments, addComment: addComment
-//                    'entities'=>$issue->getComments(),
-//                    'addComment'=>$form->createView(),
-//                    'issue_id'=>$issue->getId(),
-//                )),
-//        ),200);
 
         return $this->listAction($issue);
 
-//        $form = $this->createDeleteForm($id);
-//        $form->handleRequest($request);
-//
-//        if ($form->isValid()) {
-//            $em = $this->getDoctrine()->getManager();
-//            $entity = $em->getRepository('MagecoreTestTaskBundle:Comment')->find($id);
-//
-//            if (!$entity) {
-//                throw $this->createNotFoundException('Unable to find Comment entity.');
-//            }
-//
-//            $em->remove($entity);
-//            $em->flush();
-//        }
-//
-//        return $this->redirect($this->generateUrl('comment'));
     }
 
-//    /**
-//     * Creates a form to delete a Comment entity by id.
-//     *
-//     * @param mixed $id The entity id
-//     *
-//     * @return \Symfony\Component\Form\Form The form
-//     */
-//    private function createDeleteForm($id)
-//    {
-//        return $this->createFormBuilder()
-//            ->setAction($this->generateUrl('comment_delete', array('id' => $id)))
-//            ->setMethod('DELETE')
-//            ->add('submit', 'submit', array('label' => 'Delete'))
-//            ->getForm()
-//        ;
-//    }
 
     protected function addCollaborators(Comment &$comment){
         //todo use builder
@@ -440,39 +279,6 @@ class CommentController extends Controller
 
      */
     public function mailAction($mail = 'ad@to'){
-//                $message = \Swift_Message::newInstance()
-//                ->setSubject('Hello Email')
-//                ->setFrom('noreplay@magecore.com')
-//                ->setTo($mail)
-//                ->setBody(
-////             $this->renderView(
-////                    // app/Resources/views/Emails/registration.html.twig
-////                        'Emails/registration.html.twig',
-////                        array('name' => $name)
-////                    ),
-//                //$this->
-//
-//                    '<body>test</body>',
-//                    'text/html'
-//                )
-//                /*
-//                 * If you also want to include a plaintext version of the message
-//                ->addPart(
-//                    $this->renderView(
-//                        'Emails/registration.txt.twig',
-//                        array('name' => $name)
-//                    ),
-//                    'text/plain'
-//                )
-//                */
-//            ;
-//            $this->get('mailer')->send($message);
-//         return $this->render(new Response('ok'));
-
-//        $trans = \Swift_SmtpTransport::newInstance(
-//            '127.0.0.1',1025
-//        );
-//            $maler = \Swift_Mailer::newInstance($trans);
 
 
         $message = \Swift_Message::newInstance()
@@ -480,36 +286,12 @@ class CommentController extends Controller
             ->setFrom('send@example.com')
             ->setTo('recipient@example.com')
             ->setBody(
-//                $this->renderView(
-//                // app/Resources/views/Emails/registration.html.twig
-//                    'Emails/registration.html.twig',
-//                    array('name' => $name)
-//                ),
                 '<body>mama mila ramu</body>',
                 'text/html'
             )
-            /*
-             * If you also want to include a plaintext version of the message
-            ->addPart(
-                $this->renderView(
-                    'Emails/registration.txt.twig',
-                    array('name' => $name)
-                ),
-                'text/plain'
-            )
-            */
         ;
-//        $result = $maler->send($message);
-
-        //var_dump($result);
-    //    var_dump($this->get('swiftmailer.mailer'));
-
-      //  var_dump($this->get('mailer'));
         $this->get('mailer')
-//
-//
             ->send($message);
-//        //var_dump($this->get('mailer'));
 
         return new Response('ok'); //$this->render(...);
     }
