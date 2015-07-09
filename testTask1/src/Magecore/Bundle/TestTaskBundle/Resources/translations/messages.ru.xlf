@@ -442,6 +442,30 @@
                 <source>message.no.comments</source>
                 <target>Не найдено комментариев</target>
             </trans-unit>
+            <trans-unit id="111">
+                <source>title.mail.newIssue</source>
+                <target>Создана новая проблемма</target>
+            </trans-unit>
+            <trans-unit id="112">
+                <source>letter.title</source>
+                <target>Здравствуйте</target>
+            </trans-unit>
+            <trans-unit id="113">
+                <source>message.new.issue</source>
+                <target>Новая проблемма %issue% была создана пользователем %user% .</target>
+            </trans-unit>
+            <trans-unit id="114">
+                <source>action.to.project</source>
+                <target>Вернуться к проекту</target>
+            </trans-unit>
+            <trans-unit id="115">
+                <source>message.change.issue</source>
+                <target>У проблема %issue% сменен статус пользователем %user% .</target>
+            </trans-unit>
+            <trans-unit id="116">
+                <source>message.new.comment</source>
+                <target>Проблема %issue% была прокомментирована пользователем %user% .</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

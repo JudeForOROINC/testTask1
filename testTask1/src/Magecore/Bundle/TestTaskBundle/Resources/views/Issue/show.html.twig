@@ -137,6 +137,9 @@
         <a href="{{ path('magecore_testtask_issue') }}" class="btn btn-lg btn-block btn-success" >
             {{ 'action.back.list'|trans }}
         </a>
+        <a href="{{ path('magecore_test_task_project_view',{'id': entity.project.id }) }}" class="btn btn-lg btn-block btn-success" >
+            {{ 'action.to.project'|trans }}
+        </a>
         <a href="{{ path('magecore_testtask_issue_edit', { 'id': entity.id }) }}" class="btn btn-lg btn-block btn-success">
             {{ 'action.edit'|trans }}
         </a>

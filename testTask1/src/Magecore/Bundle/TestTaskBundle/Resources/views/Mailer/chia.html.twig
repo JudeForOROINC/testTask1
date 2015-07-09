@@ -1,0 +1,9 @@
+{% extends '@MagecoreTestTask/Mailer/view.html.twig' %}
+
+{% block inletter_title %}
+    {{ 'letter.title'|trans }}, {{ entity.user.username}}
+{% endblock %}
+{% block inletter_body %}
+    {{ 'message.change.issue'|trans({'%issue%': frms.linkEnt(entity.issue), '%user%': frms.linkEnt(entity.user) }) }}{{ 'message.status_changed'|trans({"%status_from%": entity.fromIssueStatus, "%status_to%": entity.toIssueStatus }) }}
+{% endblock %}
+

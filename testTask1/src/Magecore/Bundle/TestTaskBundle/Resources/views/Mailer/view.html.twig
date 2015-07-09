@@ -1,10 +1,14 @@
 <html>
 <head>
-    <title> {{ 'title.mail.newIssue'|trans }}</title>
+    <title> {% block title %}{{ 'title.mail.newIssue'|trans }}{% endblock %}</title>
 </head>
 <body>
-    <h1>{{ 'letter.title'|trans }}, username </h1>
-
+{% block body %}
+{% import "MagecoreTestTaskBundle:Macro:Macro.html.twig" as frms %}
+    <h1>{% block inletter_title %}{{ 'letter.title'|trans }}, {{ entity.user.username}} {% endblock %}</h1>
+    <p>{% block inletter_body %}{{ 'message.new.issue'|trans({'%issue%': frms.linkEnt(entity.issue), '%user%': frms.linkEnt(entity.user)} ) }}{% endblock %}</p>
+    <p><a href="http://localhost:8800/">mysite</a></p>
+{% endblock %}
 </body>
 
 </html>

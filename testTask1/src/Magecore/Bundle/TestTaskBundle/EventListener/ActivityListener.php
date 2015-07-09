@@ -38,7 +38,7 @@ class ActivityListener{
 
             foreach($arr as $letter){
                 $message = \Swift_Message::newInstance()
-                    ->setSubject('puf! '.$letter['name'])
+                    ->setSubject($letter['title'])
                     ->setFrom('send@example.com')
                     ->setTo($letter['mail'])
                     ->setBody(
@@ -101,7 +101,7 @@ class ActivityListener{
             //$entityManager->persist( $entity);//?/?
             $entityManager->flush();
 
-            $this->pushmail($active);
+            //$this->pushmail($active);
         }
 
         // new entity inserted in database. may be a Comment.
@@ -114,6 +114,11 @@ class ActivityListener{
             $entityManager->persist( $active);
             $entityManager->flush();
 
+            //$this->pushmail($active);
+
+        }
+        if ($entity instanceof Activity) {
+            $this->pushmail($entity);
         }
     }
 
@@ -149,9 +154,14 @@ class ActivityListener{
                 $this->notifer = array();
                 foreach($arr as $line){
                     $entityManager->persist($line);
+
                 }
 
                 $entityManager->flush();
+
+
+
+
             }
         }
     }

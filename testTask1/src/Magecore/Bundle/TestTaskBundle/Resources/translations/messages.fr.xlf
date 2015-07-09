@@ -442,6 +442,30 @@
                 <source>message.no.comments</source>
                 <target>No comments found</target>
             </trans-unit>
+            <trans-unit id="111">
+                <source>title.mail.newIssue</source>
+                <target>New Issue Was Create</target>
+            </trans-unit>
+            <trans-unit id="112">
+                <source>letter.title</source>
+                <target>Hello </target>
+            </trans-unit>
+            <trans-unit id="113">
+                <source>message.new.issue</source>
+                <target>New issue %issue% was created by user %user% .</target>
+            </trans-unit>
+            <trans-unit id="114">
+                <source>action.to.project</source>
+                <target>Return to Project</target>
+            </trans-unit>
+            <trans-unit id="115">
+                <source>message.change.issue</source>
+                <target>Issue %issue% status  was changed by user %user% .</target>
+            </trans-unit>
+            <trans-unit id="116">
+                <source>message.new.comment</source>
+                <target>Issue %issue% status has new comment from user %user% .</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

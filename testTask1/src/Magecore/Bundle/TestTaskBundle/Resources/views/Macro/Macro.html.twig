@@ -16,3 +16,10 @@
     <a href="{{ path(arr.route, arr.route_params) }}{{ arr.anchor }}"> {{ arr.text }}</a>
     {% endif %}
 {% endmacro %}
+
+{% macro linkEntMail(entity) %}
+    {% if entity %}
+    {% set arr = route_helper.Route(entity) %}
+    <a href="{{ url(arr.route, arr.route_params) }}{{ arr.anchor }}"> {{ arr.text }}</a>
+    {% endif %}
+{% endmacro %}
