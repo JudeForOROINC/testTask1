@@ -32,12 +32,13 @@
 
 
         </div>
-        {% block ButtonSave %}
-            {{ form_row(form.save) }}
-        {% endblock %}
+
         {{ form_end(form) }}
     </div>
 {#{% block MembersList %}
         <p>add members??</p>
     {% endblock %}#}
+    {% block ButtonSave %}
+        {{ form_row(form.save) }}
+    {% endblock %}
 {% endblock %}

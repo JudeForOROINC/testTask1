@@ -3,3 +3,21 @@ services:
 #        class: Magecore\Bundle\TestTaskBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
 
+#services:
+    my.listener:
+        class: Magecore\Bundle\TestTaskBundle\EventListener\ActivityListener
+        tags:
+            - { name: doctrine.event_listener, event: postPersist}
+            - { name: doctrine.event_listener, event: preUpdate}
+            - { name: doctrine.event_listener, event: postUpdate}
+            - { name: doctrine.event_listener, event: onFlush}
+            - { name: doctrine.event_listener, event: postLoad}
+        arguments: [@service_container]
+    app.twig_extension:
+        class: Magecore\Bundle\TestTaskBundle\Twig\AppExtension
+        arguments: [@service_container, @security.context]
+        public: false
+        tags:
+            - { name: twig.extension }
+    my.helper:
+        class: Magecore\Bundle\TestTaskBundle\Helper\RouterHelper

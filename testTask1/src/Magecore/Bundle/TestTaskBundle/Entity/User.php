@@ -69,6 +69,27 @@ class User extends BaseUser
     */
     protected $activity;
 
+    protected $role;
+
+    const OPERATOR='ROLE_OPERATOR';
+    const MANAGER='ROLE_MANAGER';
+    const ADMINISTRATOR='ROLE_ADMIN';
+
+
+    public function setRole($role){
+        $this->role = $role;
+        if (in_array( $this->role, array(self::ADMINISTRATOR,self::MANAGER,self::OPERATOR) )){
+            $this->addRole($this->role );
+            foreach(array_diff([self::ADMINISTRATOR,self::MANAGER,self::OPERATOR],[$this->role]) as $rol){
+                $this->removeRole($rol);
+            }
+        }
+
+    }
+    public function getRole(){
+        return $this->role;
+    }
+
     public function getRemoveAva()
     {
         return $this->remove_ava;

@@ -16,6 +16,8 @@ use Symfony\Component\Validator\Constraints\ImageValidator;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class UserType extends AbstractType
 {
+    private $admin=false;
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -33,8 +35,27 @@ class UserType extends AbstractType
                     new NotBlank(),
                 ),
                 'label'=>'field.timezone',
-            ))
-            ->add('file','file',array('constraints' => array(
+            ));
+            if (isset($options['data']) && $this->admin){
+                $builder->add(
+                    'role','choice',array(
+                        'choices' => array(
+                            'ROLE_OPERATOR'=>'ROLE_OPERATOR',
+                            'ROLE_MANAGER'=>'ROLE_MANAGER',
+                            'ROLE_ADMIN'=>'ROLE_ADMIN',
+                        ),
+
+                    'required' => false,
+                    'multiple' => false,
+                    'empty_value' => false,
+                    'empty_data' => 'ROLE_OPERATOR',
+                    'label' => 'field.role',
+                    )
+                );
+            }
+
+
+                $builder->add('file','file',array('constraints' => array(
                 new Image(),
                 ),
                 //'empty_data'=>null,
@@ -58,5 +79,10 @@ class UserType extends AbstractType
     public function getName()
     {
         return 'user';
+    }
+
+    public function __construct($is_admin = false){
+        //parent::__construct();
+        $this->admin = $is_admin;
     }
 }

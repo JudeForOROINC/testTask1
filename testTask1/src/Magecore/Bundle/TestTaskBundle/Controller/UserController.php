@@ -84,7 +84,7 @@ class UserController extends Controller
         $current_user = $this->getUser();
 
         //user may access its own profile
-        if ($user.isOwner($current_user)){
+        if ( $user->isOwner($current_user)){
             return true;
         }
 
@@ -108,6 +108,29 @@ class UserController extends Controller
         }
     }
 
+
+    /**
+     * @param User $user
+     * @return bool
+     */
+    protected function GetEditRolePermission(User $user)
+    {
+        $current_user = $this->getUser();
+
+        //only admin may edit
+        if(! $current_user->hasRole('ROLE_ADMIN') ){
+            return false;
+        }
+
+        //admin can not edit itself.
+        if( $user->isOwner($current_user) ){
+            return false;
+        }
+
+        return true;
+
+    }
+
     /**
      * @Route("/update/{id}", name="magecore_test_task_user_update", requirements={"id"="\d+"})
      * @Template
@@ -119,7 +142,9 @@ class UserController extends Controller
         //$user = new User();
         $this->CheckPermissions($entity);
 
-        $form = $this->createForm(new UserType(),$entity);
+
+
+        $form = $this->createForm(new UserType($this->GetEditRolePermission($entity)),$entity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -137,6 +162,8 @@ class UserController extends Controller
             'form' => $form->createView(),
         ));
     }
+
+
 
 //    /**
 //     * @Route("/delete/{id}", name="magecore_test_task_user_delete", requirements={"id"="\d+"})

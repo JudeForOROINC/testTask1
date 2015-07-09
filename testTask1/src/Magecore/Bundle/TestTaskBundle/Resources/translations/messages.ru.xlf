@@ -422,6 +422,22 @@
                 <source>message.no.activity</source>
                 <target>Не найдено активности.</target>
             </trans-unit>
+            <trans-unit id="106">
+                <source>field.role</source>
+                <target>Роль</target>
+            </trans-unit>
+            <trans-unit id="107">
+                <source>ROLE_OPERATOR</source>
+                <target>Оператор</target>
+            </trans-unit>
+            <trans-unit id="108">
+                <source>ROLE_MANAGER</source>
+                <target>Управляющий</target>
+            </trans-unit>
+            <trans-unit id="109">
+                <source>ROLE_ADMIN</source>
+                <target>Администратор</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
