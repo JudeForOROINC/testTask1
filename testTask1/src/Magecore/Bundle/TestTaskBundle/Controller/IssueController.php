@@ -111,9 +111,10 @@ class IssueController extends Controller
             $entity->setUpdated($entity->getCreated());
 
             //add coloboretors: Reporter,Assignee;==begin
-            $entity->addCollaborator($entity->getReporter());
-            $entity->addCollaborator($entity->getAssignee());
-            //===add coloboretors: Reporter,Assignee;==end;
+            $this->setCollaborators($entity);
+//            $entity->addCollaborator($entity->getReporter());
+//            $entity->addCollaborator($entity->getAssignee());
+//            //===add coloboretors: Reporter,Assignee;==end;
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);

@@ -43,3 +43,14 @@
     </table>
 
 {% endblock %}
+
+    {% block sidebar %}
+        <div class="section actions">
+            {% if app.user and (is_granted( 'ROLE_ADMIN' ) or is_granted('ROLE_MANAGER') ) %}
+                <a href="{{ path('magecore_test_task_project_create') }}" class="btn btn-lg btn-block btn-success">
+                    {{ 'action.new.project'|trans }}
+                </a>
+            {% endif %}
+
+        </div>
+    {% endblock %}

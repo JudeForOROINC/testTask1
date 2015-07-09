@@ -17,6 +17,7 @@ function initAjaxForm()
                     //$('#comments_list_div').html(jqXHR.responseJSON.message);
                     $('#comments_list_div').html(data.message);
                    // initAjaxForm();
+                    location.reload(true);
                 }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
