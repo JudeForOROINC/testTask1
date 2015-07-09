@@ -97,6 +97,7 @@ class ActivityListener{
             $active->setType($active::ACTIVITY_TYPE_CREATE_ISSUE);
             $active->setIssue($entity);
             $active->setUser($entity->getReporter());//Here is dangerous: Reporter is not User - if we change logic. but until we controlling code we hope it is.
+            //TODO Fix this bug!!! must get a real user.
             $entityManager->persist( $active);
             //$entityManager->persist( $entity);//?/?
             $entityManager->flush();
@@ -134,7 +135,10 @@ class ActivityListener{
                 $active = new Activity();
                 $active->setType($active::ACTIVITY_TYPE_CHANGE_STATUS_ISSUE);
                 $active->setIssue($entity);
-                $active->setUser($entity->getReporter());//Here is dangerous: Reporter is not User - if we change logic. but until we controlling code we hope it is.
+
+                $currentUser = $this->container->get('security.context')->getToken()->getUser();
+
+                $active->setUser($currentUser);//Here is dangerous: Reporter is not User - if we change logic. but until we controlling code we hope it is.
                 $active->setFromIssueStatus($args->getOldValue('status'));
                 $active->setToIssueStatus($args->getNewValue('status'));
                 $this->notifer[]=$active;

@@ -26,6 +26,8 @@
                 </li>
             {% endfor %}
             </ul>
+        {% else %}
+            <p>{{ 'message.no.members'|trans }}</p>
         {% endif %}
         </div>
     </div>

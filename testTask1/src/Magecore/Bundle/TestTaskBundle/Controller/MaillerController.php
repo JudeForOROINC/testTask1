@@ -43,15 +43,18 @@ class MaillerController extends Controller
             $pattern = 'MagecoreTestTaskBundle:Mailer:view.html.twig';
             if ($activity->isNewIssueType() ){
                 $pattern = 'MagecoreTestTaskBundle:Mailer:cnia.html.twig';
+                $title =  $this->get('translator')->trans('CIAT');
             }
             if ($activity->isChangeStatusType() ){
                 $pattern = 'MagecoreTestTaskBundle:Mailer:chia.html.twig';
+                $title =  $this->get('translator')->trans('CSAT');
             }
             if ($activity->isCommentType() ){
                 $pattern = 'MagecoreTestTaskBundle:Mailer:coia.html.twig';
+                $title =  $this->get('translator')->trans('COAT');
             }
 
-            $body = $this->renderView($pattern,array('entity'=>$activity));
+            $body = $this->renderView($pattern,array('entity'=>$activity, 'name'=>$name));
             $letter = array(
                 'mail'=>$mail,
                 'name'=>$name,

@@ -5,4 +5,6 @@
 {% endblock %}
 {% block inletter_body %}
     {{ 'message.new.comment'|trans({'%issue%': frms.linkEntMail(entity.issue), '%user%': frms.linkEntMail(entity.user) })|raw }}
+    </p><p>
+    {{ 'message.new_comment'|trans }}{{ frms.linkEntMail(entity.comment) }}
 {% endblock %}

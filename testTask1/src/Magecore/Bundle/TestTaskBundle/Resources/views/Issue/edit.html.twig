@@ -11,18 +11,12 @@
 
 {% block sidebar %}
     <div class="section actions">
-        <ul class="record_actions">
-            <li>
                 <a href="{{ path('magecore_testtask_issue') }}" class="btn btn-lg btn-block btn-success">
                     {{ 'action.back.list'|trans }}
                 </a>
-            </li>
-            <li>
                 <a href="{{ path('magecore_testtask_issue_show', {id: entity.id}) }}" class="btn btn-lg btn-block btn-success">
                     {{ 'action.back'|trans }}
                 </a>
-            </li>
-        </ul>
     </div>
 {% endblock %}
 

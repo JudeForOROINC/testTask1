@@ -466,6 +466,10 @@
                 <source>message.new.comment</source>
                 <target>Issue %issue% status has new comment from user %user% .</target>
             </trans-unit>
+            <trans-unit id="117">
+                <source>message.no.members</source>
+                <target>No members found</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -5,7 +5,7 @@
 <body>
 {% block body %}
 {% import "MagecoreTestTaskBundle:Macro:Macro.html.twig" as frms %}
-    <h1>{% block inletter_title %}{{ 'letter.title'|trans }}, {{ entity.user.username}} {% endblock %}</h1>
+    <h1>{% block inletter_title %}{{ 'letter.title'|trans }}, {{ name }} {% endblock %}</h1>
     <p>{% block inletter_body %}{{ 'message.new.issue'|trans({'%issue%': frms.linkEnt(entity.issue), '%user%': frms.linkEnt(entity.user)} ) }}{% endblock %}</p>
     <p><a href="http://localhost:8800/">mysite</a></p>
 {% endblock %}

@@ -2,6 +2,8 @@
 
 namespace Magecore\Bundle\TestTaskBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\DependencyInjection\Security\UserProvider\EntityFactory;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -45,16 +47,23 @@ class IssueType extends AbstractType
 
         if (!empty($arr)){
             $builder->add('type','choice', array(
-                'choices' => array(
-                    $arr
-                ),
+                'choices' =>
+                    $arr,
+
                 'required' => true,
-                'label'=>'field.type'
+                'label'=>'field.type',
+                'empty_value' => false,
+                'empty_data'=>null,
           ))
             ;
         }
         $builder
-            ->add('priority',null,array('label'=>'field.priority'))
+            ->add('priority',null,array('label'=>'field.priority',
+                'class' => 'Magecore\Bundle\TestTaskBundle\Entity\DicPriority',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('p')->orderBy('p.sortOrder','ASC');
+                }
+                ))
             ->add('status',null,array('label'=>'field.status'))
             ->add('resolution',null,array('label'=>'field.resolution'))
             //->add('parentIssue')

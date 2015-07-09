@@ -460,11 +460,15 @@
             </trans-unit>
             <trans-unit id="115">
                 <source>message.change.issue</source>
-                <target>У проблема %issue% сменен статус пользователем %user% .</target>
+                <target>У проблемы %issue% сменен статус пользователем %user% .</target>
             </trans-unit>
             <trans-unit id="116">
                 <source>message.new.comment</source>
                 <target>Проблема %issue% была прокомментирована пользователем %user% .</target>
+            </trans-unit>
+            <trans-unit id="117">
+                <source>message.no.members</source>
+                <target>Не найдено участников проекта</target>
             </trans-unit>
         </body>
     </file>
