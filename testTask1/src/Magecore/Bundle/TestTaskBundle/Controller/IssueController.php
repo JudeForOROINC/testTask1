@@ -4,6 +4,7 @@ namespace Magecore\Bundle\TestTaskBundle\Controller;
 
 use Magecore\Bundle\TestTaskBundle\Entity\Comment;
 use Magecore\Bundle\TestTaskBundle\Entity\Project;
+use Magecore\Bundle\TestTaskBundle\Entity\User;
 use Magecore\Bundle\TestTaskBundle\Form\CommentType;
 use Symfony\Component\Form\Extension\Core\Type\TimezoneType;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,11 +46,14 @@ class IssueController extends Controller
             $entities = $em->getRepository('MagecoreTestTaskBundle:Issue')->findOpenByCollaboratorId($this->getUser()->getId());
         }
 
+        $projects = $this->getAllowedProjects($currentUser);
+
         //
         //$entities = $em->getRepository('MagecoreTestTaskBundle:Issue')->findOpenByCollaboratorId($this->getUser()->getId());
 
         return array(
             'entities' => $entities,
+            'projects' => $projects,
         );
     }
 
@@ -59,7 +63,7 @@ class IssueController extends Controller
      */
     protected function checkProjectAccess(Project $project){
         if (!$this->isProjectAccessAllowed($project)) {
-            throw new AccessDeniedException('You are not a member!'); // hard core Secure to protect a not member intrude;
+            throw new AccessDeniedException($this->get('translator')->trans('message.exception.no.member')); // hard core Secure to protect a not member intrude;
         }
     }
 
@@ -94,6 +98,8 @@ class IssueController extends Controller
      */
     public function createAction(Request $request, Project $project)
     {
+
+
         $this->checkProjectAccess($project);
 
 
@@ -128,6 +134,68 @@ class IssueController extends Controller
             'form'   => $form->createView(),
         );
     }
+
+    /**
+     * @param User $user
+     * @return Project[]
+     */
+    protected function getAllowedProjects(User $user){
+        $em = $this->getDoctrine()->getManager();
+        if ($user->hasRole('ROLE_ADMIN') ||$user->hasRole('ROLE_MANAGER')){
+            $projects = $em->getRepository('MagecoreTestTaskBundle:Project')->findAll();
+        } else {
+            $projects = $em->getRepository('MagecoreTestTaskBundle:Project')->findByUserId($user->getId());
+        }
+        return $projects;
+    }
+
+
+
+
+
+    /**
+     * Creates a new Issue entity.
+     *
+     * @Route("/noproject/create", name="magecore_testtask_issue_noproject_create" )
+     * @Template("MagecoreTestTaskBundle:Issue:new.html.twig")
+     */
+    public function createNoProjectAction(Request $request)
+    {
+        //Check is in a members;
+        $current_user = $this->getUser();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $projects = $this->getAllowedProjects($current_user);
+
+
+        if (empty($projects)){
+            throw new AccessDeniedException( $this->get('translator')->trans('message.exception.no.issue.create'));
+        }
+        $form = $this->createCreateForm($entity);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            //set time
+            $entity->setCreated(new \DateTime('now'));
+            $entity->setUpdated($entity->getCreated());
+
+            //add coloboretors: Reporter,Assignee;==begin
+            $this->setCollaborators($entity);
+//            $entity->addCollaborator($entity->getReporter());
+//            $entity->addCollaborator($entity->getAssignee());
+//            //===add coloboretors: Reporter,Assignee;==end;
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('magecore_testtask_issue_show', array('id' => $entity->getId())));
+        }
+
+    }
+
 
     /**
      * Creates a new Issue entity. type SubTask.
@@ -194,6 +262,24 @@ class IssueController extends Controller
         ));
 
         $form->add('submit', 'submit', array('label' => 'button.create'));
+
+        return $form;
+    }
+
+    /**
+     * Creates a form to create a Issue entity.
+     *
+     * @param Issue $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createCreateNoProjectForm(Issue $entity)
+    {
+        $form = $this->createCreateForm($entity);
+        $form->add('project','entity',array(
+            'class' => 'Magecore\Bundle\TestTaskBundle\Entity\Project',
+
+        ));
 
         return $form;
     }

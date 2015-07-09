@@ -470,6 +470,14 @@
                 <source>message.no.members</source>
                 <target>No members found</target>
             </trans-unit>
+            <trans-unit id="118">
+                <source>message.exception.no.member</source>
+                <target>You are not a member!</target>
+            </trans-unit>
+            <trans-unit id="119">
+                <source>message.exception.no.issue.create</source>
+                <target>You have no rights to create an issue!</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

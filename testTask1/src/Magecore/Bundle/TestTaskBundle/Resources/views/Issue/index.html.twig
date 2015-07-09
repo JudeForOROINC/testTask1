@@ -2,7 +2,7 @@
 
 {% block title %} {{ 'title.issue.list'|trans }} {% endblock %}
 
-{% block body -%}
+{% block main -%}
     <h1>{{ 'title.issue.list'|trans }}</h1>
 
     <table class="table table-striped">
@@ -38,3 +38,14 @@
     </table>
 
     {% endblock %}
+
+{% block sidebar %}
+    <div class="section actions">
+
+        {% if app.user and (is_granted( 'ROLE_ADMIN' ) or is_granted('ROLE_MANAGER') or (projects is not empty) ) %}
+            <a href="{{ path('magecore_testtask_issue_noproject_create') }}" class="btn btn-lg btn-block btn-success">
+                {{ 'action.new.issue'|trans }}
+            </a>
+        {% endif %}
+    </div>
+{% endblock %}
