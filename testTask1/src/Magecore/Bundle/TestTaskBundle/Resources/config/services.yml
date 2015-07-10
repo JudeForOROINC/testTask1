@@ -21,3 +21,6 @@ services:
             - { name: twig.extension }
     my.helper:
         class: Magecore\Bundle\TestTaskBundle\Helper\RouterHelper
+    my.mailer:
+        class: Magecore\Bundle\TestTaskBundle\EventListener\MailerListener
+        arguments: [@service_container]

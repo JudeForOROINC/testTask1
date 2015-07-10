@@ -29,8 +29,10 @@ class ActivityListener{
             '127.0.0.1',1025
         );
             $maler = \Swift_Mailer::newInstance($trans);
-
+        /*
         $cntr = New MaillerController($this->container);
+*/
+        $cntr = $this->container->get('my.mailer');
 
         $arr = $cntr->FormMailAction($activity);
 
@@ -158,14 +160,8 @@ class ActivityListener{
                 $this->notifer = array();
                 foreach($arr as $line){
                     $entityManager->persist($line);
-
                 }
-
                 $entityManager->flush();
-
-
-
-
             }
         }
     }

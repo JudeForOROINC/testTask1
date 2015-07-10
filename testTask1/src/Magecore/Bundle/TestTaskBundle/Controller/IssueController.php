@@ -171,8 +171,15 @@ class IssueController extends Controller
 
         if (empty($projects)){
             throw new AccessDeniedException( $this->get('translator')->trans('message.exception.no.issue.create'));
+
         }
-        $form = $this->createCreateForm($entity);
+
+        $entity = new Issue();
+        $entity->setReporter($this->getUser());
+
+
+
+        $form = $this->createCreateForm($entity,$projects);
 
         $form->handleRequest($request);
 
@@ -255,10 +262,11 @@ class IssueController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Issue $entity)
+    private function createCreateForm(Issue $entity, $projects=array())
     {
         $form = $this->createForm(new IssueType(), $entity, array(
             'method' => 'POST',
+            'projects' => $projects
         ));
 
         $form->add('submit', 'submit', array('label' => 'button.create'));

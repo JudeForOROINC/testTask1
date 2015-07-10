@@ -25,6 +25,9 @@
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "twbs/bootstrap": "^3.3"
     },
+    "require-dev": {
+        "phpmd/phpmd" : "@stable"
+    },
     "scripts": {
         "post-install-cmd": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",

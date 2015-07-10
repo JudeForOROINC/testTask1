@@ -7,6 +7,7 @@ use Symfony\Bridge\Doctrine\DependencyInjection\Security\UserProvider\EntityFact
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Magecore\Bundle\TestTaskBundle\Entity\Issue;
 
 class IssueType extends AbstractType
 {
@@ -25,7 +26,20 @@ class IssueType extends AbstractType
             //->add('reporter')
             ->add('assignee',null,array('label'=>'field.assigned'))
         ;
+
+        if(isset($options['projects'])&& count($options['projects'])){
+            $pro = $options['projects'];
+            $builder->add(
+                'project'
+            )
+
+        }
+
+
+
+
         if (isset($options['data'])){
+
 
             if (get_class($options['data']) == 'Magecore\Bundle\TestTaskBundle\Entity\Issue'){
                 if ($options['data']->getId() == 0 ) {
@@ -43,6 +57,8 @@ class IssueType extends AbstractType
             }
 
         }
+
+        //var_dump($options);
 
 
         if (!empty($arr)){
@@ -76,7 +92,8 @@ class IssueType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Magecore\Bundle\TestTaskBundle\Entity\Issue'
+            'data_class' => 'Magecore\Bundle\TestTaskBundle\Entity\Issue',
+            'projects' => array(),
         ));
     }
 

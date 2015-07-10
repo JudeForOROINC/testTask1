@@ -24,32 +24,28 @@ use Magecore\Bundle\TestTaskBundle\Entity\Issue;
  */
 class MaillerController extends Controller
 {
-
-
-
-
     /**
      * Lists all Comment entities.
      * @Temlplate
      */
-    public function FormMailAction(Activity $activity)
+    public function formMailAction(Activity $activity)
     {
         $users = $activity->getIssue()->getCollaborators();
         $letters=array();
-        foreach ($users as $user){
+        foreach ($users as $user) {
             $mail = $user->getEmail();
             $name = $user->getFullName();
             $title = 'Event for '.$name;
             $pattern = 'MagecoreTestTaskBundle:Mailer:view.html.twig';
-            if ($activity->isNewIssueType() ){
+            if ($activity->isNewIssueType()) {
                 $pattern = 'MagecoreTestTaskBundle:Mailer:cnia.html.twig';
                 $title =  $this->get('translator')->trans('CIAT');
             }
-            if ($activity->isChangeStatusType() ){
+            if ($activity->isChangeStatusType()) {
                 $pattern = 'MagecoreTestTaskBundle:Mailer:chia.html.twig';
                 $title =  $this->get('translator')->trans('CSAT');
             }
-            if ($activity->isCommentType() ){
+            if ($activity->isCommentType()) {
                 $pattern = 'MagecoreTestTaskBundle:Mailer:coia.html.twig';
                 $title =  $this->get('translator')->trans('COAT');
             }
@@ -64,7 +60,6 @@ class MaillerController extends Controller
 
             $letters[]=$letter;
         }
-
         return $letters;
     }
 
