@@ -56,6 +56,9 @@ class Comment
 
 
     public function isOwner(User $user){
+        $author = $this->getAuthor();
+        if(empty($author)) return false;
+
         return $this->getAuthor()->getID() == $user->getId();
     }
 

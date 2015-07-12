@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Magecore\Bundle\TestTaskBundle\Entity\ProjectRepository")
  * @ORM\Table(name="magecore_testtask_project")
  * @UniqueEntity("code")
  */

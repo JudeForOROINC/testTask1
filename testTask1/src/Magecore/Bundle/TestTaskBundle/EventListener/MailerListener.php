@@ -7,6 +7,8 @@
  */
 namespace Magecore\Bundle\TestTaskBundle\EventListener;
 
+use Magecore\Bundle\TestTaskBundle\Entity\Activity;
+
 class MailerListener {
     protected $container;
     //
@@ -46,8 +48,28 @@ class MailerListener {
         return $letters;
     }
 
+    public function PushMail(Activity $entity){
 
+        $mailer = $this->container->get('mailer');
 
+        $arr = $this->FormMailAction($entity);
+
+        if (!empty($arr) && count($arr )){
+
+            foreach($arr as $letter){
+                $message = \Swift_Message::newInstance()
+                    ->setSubject($letter['title'])
+                    ->setFrom('send@example.com')
+                    ->setTo($letter['mail'])
+                    ->setBody(
+                        $letter['letter'],'text/html');
+
+                $result = $mailer->send($message);
+
+            }
+        }
+        return $result;
+    }
 
     public function __construct(\Symfony\Component\DependencyInjection\ContainerInterface $container)
     {

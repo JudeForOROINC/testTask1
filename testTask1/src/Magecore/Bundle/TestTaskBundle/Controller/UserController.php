@@ -10,14 +10,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 
-//use Magecore\Bundle\TestTaskBundle\Entity\Project;
-//use Magecore\Bundle\TestTaskBundle\Form\Type\ProjectType;
-//use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-//use Symfony\Component\BrowserKit\Request;
-//use Symfony\Component\HttpFoundation\Response;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Constraints\Length;
@@ -26,10 +20,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UserController extends Controller
 {
-
-
-
-
 
     /**
      * @Route("/list", name="magecore_test_task_user_index")
@@ -42,8 +32,7 @@ class UserController extends Controller
         $users = $en->getRepository('MagecoreTestTaskBundle:User')->findAll();
         return [
             'users'=>$users,
-        ]//$this->render('User/index.html.twig');
-        ;
+        ];
     }
 
     /**
@@ -56,23 +45,10 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $rep = $em->getRepository('MagecoreTestTaskBundle:Issue');
         $issues = $rep->findOpenByUserId($user->getId());
-//        return new Response(var_dump($activity),200);
         return [
             'user' => $user,
             'issues'=>$issues,
         ];
-    }
-    /**
-     * Must view an a user page. with a user profile like an part of page;
-     * @Route("/create", name="magecore_test_task_user_create", requirements={"id"="\d+"})
-     * @Template
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function createAction()
-    {
-        #must be forbiden; we create users from console only;
-        // ...
-        return new Response('ok');
     }
 
     /**
@@ -137,14 +113,12 @@ class UserController extends Controller
      */
     public function updateAction( User $entity,Request $request)
     {
-        // ...
-        //return new Response('ok');
-        //$user = new User();
+
         $this->CheckPermissions($entity);
 
-
-
-        $form = $this->createForm(new UserType($this->GetEditRolePermission($entity)),$entity);
+        $form = $this->createForm(new UserType(),$entity,array(
+            'is_admin'=>$this->GetEditRolePermission($entity)
+        ));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -162,17 +136,5 @@ class UserController extends Controller
             'form' => $form->createView(),
         ));
     }
-
-
-
-//    /**
-//     * @Route("/delete/{id}", name="magecore_test_task_user_delete", requirements={"id"="\d+"})
-//     */
-//    public function deleteAction(User $user)
-//    {
-//        // ...
-//    }
-//
-
 
 }

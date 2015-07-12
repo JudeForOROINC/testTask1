@@ -36,7 +36,7 @@ class UserType extends AbstractType
                 ),
                 'label'=>'field.timezone',
             ));
-            if (isset($options['data']) && $this->admin){
+            if (isset($options['data']) && $options['is_admin']){
                 $builder->add(
                     'role','choice',array(
                         'choices' => array(
@@ -73,6 +73,7 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Magecore\Bundle\TestTaskBundle\Entity\User',
+            'is_admin'=>false,
         ));
     }
 
@@ -81,8 +82,4 @@ class UserType extends AbstractType
         return 'user';
     }
 
-    public function __construct($is_admin = false){
-        //parent::__construct();
-        $this->admin = $is_admin;
-    }
 }

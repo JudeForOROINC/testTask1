@@ -5,6 +5,10 @@
 {% block main -%}
     <h1>{{ 'title.issue.list'|trans }}</h1>
 
+    {% if entities is empty %}
+        {{ 'message.no.issues'|trans }}
+    {% else %}
+
     <table class="table table-striped">
         <thead>
             <tr>
@@ -36,6 +40,7 @@
         {% endfor %}
         </tbody>
     </table>
+    {% endif %}
 
     {% endblock %}
 

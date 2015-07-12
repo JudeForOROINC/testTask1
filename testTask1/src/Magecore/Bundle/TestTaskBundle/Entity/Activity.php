@@ -9,7 +9,7 @@ use Magecore\Bundle\TestTaskBundle\Helper\DoctrineHelper;
  * Activity
  *
  * @ORM\Table(name="magecore_testtask_activity")
- * @ORM\Entity(repositoryClass="Magecore\Bundle\TestTaskBundle\Entity\ActivityRepository")
+     * @ORM\Entity(repositoryClass="Magecore\Bundle\TestTaskBundle\Entity\ActivityRepository")
  */
 class Activity
 {

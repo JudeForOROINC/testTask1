@@ -11,6 +11,7 @@ use Magecore\Bundle\TestTaskBundle\Entity\Comment;
 use Magecore\Bundle\TestTaskBundle\Entity\Issue;
 use Magecore\Bundle\TestTaskBundle\Entity\Project;
 use Magecore\Bundle\TestTaskBundle\Entity\User;
+use Symfony\Component\HttpKernel\EventListener\ExceptionListener;
 
 class RouterHelper{
     public function getRoute($entity){
@@ -54,6 +55,8 @@ class RouterHelper{
 
             ];
         }
+
+        return new \Exception('Unknown entity type in twig!');
 
     }
     public function getName()

@@ -28,10 +28,21 @@ class IssueType extends AbstractType
         ;
 
         if(isset($options['projects'])&& count($options['projects'])){
-            $pro = $options['projects'];
-            $builder->add(
-                'project'
-            )
+            $pro = array();
+            if (count($options['projects'])==1){
+                $options['data']->setProject($options['projects'][0]);
+            } else {
+                foreach ($options['projects'] as $project) {
+                    $pro[$project->getId()] = (string)$project;
+                }
+//                var_dump($pro);
+//                die;
+                $builder->add(
+                    'project', 'entity', array('choices' => $options['projects'], 'label' => 'field.project',
+                    'class' => 'Magecore\Bundle\TestTaskBundle\Entity\Project'
+                    )
+                );
+            }
 
         }
 

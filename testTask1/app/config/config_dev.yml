@@ -33,9 +33,10 @@ assetic:
 
 swiftmailer:
     spool:     { type: memory }
-    logging: true
-#    disable_delivery: false
-    delivery_address: dev@example.com
+#    logging: true
+    disable_delivery: false
+#    delivery_address: dev@example.com
+
 parameters:
 
     mailer_transport: smtp

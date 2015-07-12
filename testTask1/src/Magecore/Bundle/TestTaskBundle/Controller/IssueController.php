@@ -48,9 +48,6 @@ class IssueController extends Controller
 
         $projects = $this->getAllowedProjects($currentUser);
 
-        //
-        //$entities = $em->getRepository('MagecoreTestTaskBundle:Issue')->findOpenByCollaboratorId($this->getUser()->getId());
-
         return array(
             'entities' => $entities,
             'projects' => $projects,
@@ -144,7 +141,7 @@ class IssueController extends Controller
         if ($user->hasRole('ROLE_ADMIN') ||$user->hasRole('ROLE_MANAGER')){
             $projects = $em->getRepository('MagecoreTestTaskBundle:Project')->findAll();
         } else {
-            $projects = $em->getRepository('MagecoreTestTaskBundle:Project')->findByUserId($user->getId());
+            $projects = $em->getRepository('MagecoreTestTaskBundle:Project')->findByMemberId($user->getId());
         }
         return $projects;
     }
@@ -162,6 +159,7 @@ class IssueController extends Controller
     public function createNoProjectAction(Request $request)
     {
         //Check is in a members;
+       // var_dump($request); die;
         $current_user = $this->getUser();
 
         $em = $this->getDoctrine()->getManager();
@@ -176,12 +174,16 @@ class IssueController extends Controller
 
         $entity = new Issue();
         $entity->setReporter($this->getUser());
+        $entity->setCode('dd');
 
 
 
         $form = $this->createCreateForm($entity,$projects);
 
+        //var_dump($form); die;
+
         $form->handleRequest($request);
+        //var_dump($form); die;
 
         if ($form->isValid()) {
             //set time
@@ -200,6 +202,8 @@ class IssueController extends Controller
 
             return $this->redirect($this->generateUrl('magecore_testtask_issue_show', array('id' => $entity->getId())));
         }
+        return ['form'=>$form->createView(),
+                'entity'=>$entity];
 
     }
 
@@ -264,9 +268,21 @@ class IssueController extends Controller
      */
     private function createCreateForm(Issue $entity, $projects=array())
     {
+        if (count($projects)){
+            $url =  $this->generateUrl('magecore_testtask_issue_noproject_create');
+        } else {
+            if (empty($entity->getParentIssue())) {
+                $url = $this->generateUrl('magecore_testtask_issue_create',array('id'=>$entity->getProject()->getId()));
+            } else {
+                $url = $this->generateUrl('magecore_testtask_issue_subtask_create',array('id'=>$entity->getParentIssue()->getId()));
+            }
+        }
+
         $form = $this->createForm(new IssueType(), $entity, array(
             'method' => 'POST',
-            'projects' => $projects
+
+            'projects' => $projects,
+            'action' => $url,
         ));
 
         $form->add('submit', 'submit', array('label' => 'button.create'));

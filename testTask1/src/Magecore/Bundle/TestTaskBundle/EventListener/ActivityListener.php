@@ -24,7 +24,40 @@ class ActivityListener{
 
     protected $container=null;
 
+    protected function push_mail(Activity $activity){
+        $mailer = $this->container->get('my.mailer');
+        $mailer->PushMail($activity);
+    }
+
     protected function pushmail(Activity $activity){
+
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Hello Email')
+            ->setFrom('send@example.com')
+            ->setTo('recipient@example.com')
+            ->setBody(
+                $this->renderView(
+                // app/Resources/views/Emails/registration.html.twig
+                    'Emails/registration.html.twig',
+                    array('name' => $name)
+                ),
+                'text/html'
+            )
+            /*
+             * If you also want to include a plaintext version of the message
+            ->addPart(
+                $this->renderView(
+                    'Emails/registration.txt.twig',
+                    array('name' => $name)
+                ),
+                'text/plain'
+            )
+            */
+        ;
+        $this->get('mailer')->send($message);
+
+
+
         $trans = \Swift_SmtpTransport::newInstance(
             '127.0.0.1',1025
         );
@@ -121,7 +154,9 @@ class ActivityListener{
 
         }
         if ($entity instanceof Activity) {
-            $this->pushmail($entity);
+            //$this->pushmail($entity);
+            $this->push_mail($entity);
+            //push_mail
         }
     }
 
