@@ -70,10 +70,8 @@ class Activity
     const ACTIVITY_TYPE_CHANGE_STATUS_ISSUE='CSAT';
     const ACTIVITY_TYPE_COMMENT_IN_ISSUE='COAT';
 
-    public function __construct(){
-      //  $this->helper = new DoctrineHelper();
-
-        //$this->time = $this->helper->setDatetime(new \DateTime());
+    public function __construct()
+    {
         $this->time = new \DateTime();
     }
 
