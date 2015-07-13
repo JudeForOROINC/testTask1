@@ -77,6 +77,28 @@ EOT
 
 
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
+
+        $q = $em->createQueryBuilder();
+        $q->select('u')->from('MagecoreTestTaskBundle:User', 'u')
+            ->where('u.username = :username')
+            ->setParameter('username', strtolower($username));
+
+        $users = $q->getQuery()->getResult();
+
+        if ($users) {
+            throw new \Exception('user already exists');
+        }
+        $q = $em->createQueryBuilder();
+        $q->select('u')->from('MagecoreTestTaskBundle:User', 'u')
+            ->where('u.email = :mail')
+            ->setParameter('mail', strtolower($email));
+
+        $users = $q->getQuery()->getResult();
+
+        if ($users) {
+            throw new \Exception('Mail is forbiden. chouse enother one.');
+        }
+
         $user = new User();
         $user->setUsername($username);
         $user->setEmail($email);
@@ -84,11 +106,13 @@ EOT
         $passwordEncoder = $this->getContainer()->get('security.encoder_factory')->getEncoder($user);
         $encodedPassword = $passwordEncoder->encodePassword($password, $user->getSalt());
         $user->setPassword($encodedPassword);
-        if (!$inactive){
+
+
+        if (!$inactive) {
             $user->setEnabled(true);
         }
 
-        if (!$superadmin){
+        if (!$superadmin) {
             $user->setRole($user::ADMINISTRATOR);
         } else {
             $user->setRole($user::OPERATOR);
@@ -102,7 +126,8 @@ EOT
         //$user->setEmail($email);
 
 
-        $output->writeln(sprintf('Created user <comment>%s</comment> for fullname <info>%s</info>', $username, $fullname));
+        $output->writeln(sprintf('Created user <comment>%s</comment> for fullname <info>%s</info>',
+            $username, $fullname));
     }
 
     /**
@@ -114,7 +139,7 @@ EOT
             $username = $this->getHelper('dialog')->askAndValidate(
                 $output,
                 'Please choose a username:',
-                function($username) {
+                function ($username) {
                     if (empty($username)) {
                         throw new \Exception('Username can not be empty');
                     }
@@ -141,7 +166,7 @@ EOT
         }
 
         if (!$input->getArgument('password')) {
-            $password = $this->getHelper('dialog')->askAndValidate(
+            $password = $this->getHelper('dialog')->askHiddenResponseAndValidate(
                 $output,
                 'Please choose a password:',
                 function($password) {
@@ -156,7 +181,7 @@ EOT
         }
 
         if (!$input->getArgument('fullname')) {
-            $fullname = $this->getHelper('dialog')->askHiddenResponseAndValidate(
+            $fullname = $this->getHelper('dialog')->askAndValidate(
                 $output,
                 'Please choose a fullname:',
                 function($fullname) {
