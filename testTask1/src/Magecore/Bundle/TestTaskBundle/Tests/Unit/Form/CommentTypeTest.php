@@ -8,6 +8,7 @@
 
 namespace Magecore\Bundle\TestTaskBundle\Tests\Unit\Form\Type;
 
+use Magecore\Bundle\TestTaskBundle\Entity\Comment;
 use Magecore\Bundle\TestTaskBundle\Form\CommentType;
 use Magecore\Bundle\TestTaskBundle\Entity\Issue;
 use Symfony\Component\Form\Test\TypeTestCase;
@@ -23,17 +24,16 @@ class CommentTypeTest extends TypeTestCase
 
     public function testSubmitValidData()
     {
-     /*   $formData = array(
-            'test' => 'test',
-            'test2' => 'test2',
+        $formData = array(
+            'body' => 'test',
         );
 
-        $type = new IssueType();
+        $type = new CommentType();
         $form = $this->factory->create($type);
 
-        $object = TestObject::fromArray($formData);
+        $object = new Comment();
+        $object->setBody('test');
 
-        // submit the data to the form directly
         $form->submit($formData);
 
         $this->assertTrue($form->isSynchronized());
@@ -45,6 +45,6 @@ class CommentTypeTest extends TypeTestCase
         foreach (array_keys($formData) as $key) {
             $this->assertArrayHasKey($key, $children);
         }
-     */
+
     }
 }

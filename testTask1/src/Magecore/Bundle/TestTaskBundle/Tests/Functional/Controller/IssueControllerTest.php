@@ -1,6 +1,6 @@
 <?php
 
-namespace Magecore\Bundle\TestTaskBundle\Tests\Controller;
+namespace Magecore\Bundle\TestTaskBundle\Tests\Functional\Controller;
 
 use Magecore\Bundle\TestTaskBundle\Entity\Project;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -20,7 +20,8 @@ class IssueControllerTest extends WebTestCase
 
         // Create a new entry in the database
         $crawler = $client->request('GET', '/issue/');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /issue/");
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(),
+            "Unexpected HTTP status code for GET /issue/");
         $lnk2 =$crawler->selectLink('Show');
 
         $this->assertGreaterThan(0,$lnk2->count(), 'Missing Show Button');

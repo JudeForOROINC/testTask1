@@ -1,6 +1,6 @@
 <?php
 
-namespace Magecore\Bundle\TestTaskBundle\Tests\Controller;
+namespace Magecore\Bundle\TestTaskBundle\Tests\Functional\Entity;
 
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;

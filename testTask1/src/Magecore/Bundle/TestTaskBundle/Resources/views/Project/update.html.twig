@@ -8,12 +8,7 @@
 
 {% block MembersList %}
     <p>{{ 'title.members.update'|trans }}</p>
-{#
-    <div style="align-content: center;width: 100px">
-        {% for child in form.members.children %}
-            {{ form_row(child) }}
-        {% endfor %}
-        <div>#}
+
     {% form_theme form _self %}
 
     {% block _project_members %}
@@ -30,7 +25,6 @@
     <div style="width: 250px">
         {{ form_widget(form.members) }}
     </div>
-    {#<p>manage members!! OFF</p>#}
 
 {% endblock %}
 
