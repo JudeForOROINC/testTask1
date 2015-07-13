@@ -104,7 +104,7 @@
             </trans-unit>
             <trans-unit id="26">
                 <source>title.comments</source>
-                <target>Коментарии:</target>
+                <target>Коментарии</target>
             </trans-unit>
             <trans-unit id="27">
                 <source>field.body</source>
@@ -276,11 +276,11 @@
             </trans-unit>
             <trans-unit id="69">
                 <source>field.label.project</source>
-                <target>название проекта</target>
+                <target>Название проекта</target>
             </trans-unit>
             <trans-unit id="70">
                 <source>field.code.project</source>
-                <target>код проекта</target>
+                <target>Код проекта</target>
             </trans-unit>
             <trans-unit id="71">
                 <source>title.project.list</source>
@@ -344,7 +344,7 @@
             </trans-unit>
             <trans-unit id="86">
                 <source>message.no.issues</source>
-                <target>Проблем не обнаружено</target>
+                <target>Проблем не обнаружено.</target>
             </trans-unit>
             <trans-unit id="87">
                 <source>action.users</source>
@@ -356,23 +356,23 @@
             </trans-unit>
             <trans-unit id="89">
                 <source>field.username</source>
-                <target>логин</target>
+                <target>Логин</target>
             </trans-unit>
             <trans-unit id="90">
                 <source>field.fullname</source>
-                <target>полное имя</target>
+                <target>Полное имя</target>
             </trans-unit>
             <trans-unit id="91">
                 <source>field.timezone</source>
-                <target>часовой пояс</target>
+                <target>Часовой пояс</target>
             </trans-unit>
             <trans-unit id="92">
                 <source>message.no.ave</source>
-                <target>Не загружен аватар</target>
+                <target>Не загружен аватар.</target>
             </trans-unit>
             <trans-unit id="93">
                 <source>field.mail</source>
-                <target>почта</target>
+                <target>Почта</target>
             </trans-unit>
             <trans-unit id="94">
                 <source>message.locked</source>
@@ -408,7 +408,7 @@
             </trans-unit>
             <trans-unit id="102">
                 <source>field.file</source>
-                <target>файл</target>
+                <target>Файл</target>
             </trans-unit>
             <trans-unit id="103">
                 <source>welcome.guest</source>
@@ -440,7 +440,7 @@
             </trans-unit>
             <trans-unit id="110">
                 <source>message.no.comments</source>
-                <target>Не найдено комментариев</target>
+                <target>Не найдено комментариев.</target>
             </trans-unit>
             <trans-unit id="111">
                 <source>title.mail.newIssue</source>
@@ -468,7 +468,7 @@
             </trans-unit>
             <trans-unit id="117">
                 <source>message.no.members</source>
-                <target>Не найдено участников проекта</target>
+                <target>Не найдено участников проекта.</target>
             </trans-unit>
         </body>
     </file>

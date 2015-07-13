@@ -154,7 +154,7 @@
         {% if entity.isSubtask %}
                 <p>
                     {{ 'title.parent.issue'|trans }} <a href="{{ path('magecore_testtask_issue_show',{id: entity.parentIssue.id}) }}" class="btn btn-lg btn-block btn-success">
-                        {#{{ entity.parentIssue }}#}
+
                         {{ 'action.toparent'|trans }}
                     </a>
                 </p>

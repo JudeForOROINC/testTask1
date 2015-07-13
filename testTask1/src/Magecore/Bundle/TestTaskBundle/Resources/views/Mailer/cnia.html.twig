@@ -1,8 +1,5 @@
 {% extends '@MagecoreTestTask/Mailer/view.html.twig' %}
 
-{#{% block inletter_title %}#}
-    {#{{ 'letter.title'|trans }}, {{ entity.user.username}}#}
-{#{% endblock %}#}
 {% block inletter_body %}
     {{ 'message.new.issue'|trans({'%issue%': frms.linkEntMail(entity.issue), '%user%': frms.linkEntMail(entity.user) })|raw }}
 {% endblock %}

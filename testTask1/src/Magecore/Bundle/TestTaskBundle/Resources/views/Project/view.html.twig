@@ -10,7 +10,7 @@
     <h3>{{ 'field.summary.project'|trans }}</h3>
     <div class=" text-info">
         <textarea readonly rows="20" cols="50" align="center">{{ project.summary }}</textarea>
-        {##}
+
     </div>
     <div class="panel panel-info">
         <p>{{ 'title.members.list'|trans }}</p>
@@ -27,7 +27,7 @@
             {% endfor %}
             </ul>
         {% else %}
-            <p>{{ 'message.no.members'|trans }}</p>
+            {{ 'message.no.members'|trans }}
         {% endif %}
         </div>
     </div>
@@ -39,7 +39,6 @@
     </div>
 
     <div id="project_issue_list" class="panel panel-info">
-        {#<p>additional: list of issues of a project;</p>#}
         <p>{{ 'title.issue.list'|trans }}</p>
         {{ include('MagecoreTestTaskBundle:Issue:list_frame.html.twig',{issues : project.issues}) }}
     </div>

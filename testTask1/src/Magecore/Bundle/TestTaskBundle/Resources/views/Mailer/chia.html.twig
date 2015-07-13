@@ -1,12 +1,10 @@
 {% extends '@MagecoreTestTask/Mailer/view.html.twig' %}
 
-{#{% block inletter_title %}#}
-    {#{{ 'letter.title'|trans }}, {{ entity.user.username}}#}
-{#{% endblock %}#}
+
 {% block inletter_body %}
     {{ 'message.change.issue'|trans({'%issue%': frms.linkEnt(entity.issue), '%user%': frms.linkEnt(entity.user) })|raw }}
 
     {{ 'message.status_changed'|trans({'%status_from%': entity.FromIssueStatus|trans, '%status_to%': entity.ToIssueStatus|trans} )|raw }}
-    {#{{ 'message.status_changed'|trans( {'%status_from%': entity.fromIssueStatus, '%status_to%': entity.toIssueStatus } ) }}#}
+
 {% endblock %}
 

@@ -344,7 +344,7 @@
             </trans-unit>
             <trans-unit id="86">
                 <source>message.no.issues</source>
-                <target>No issues found</target>
+                <target>No issues found.</target>
             </trans-unit>
             <trans-unit id="87">
                 <source>action.users</source>
@@ -368,7 +368,7 @@
             </trans-unit>
             <trans-unit id="92">
                 <source>message.no.ave</source>
-                <target>No Avatare loaded</target>
+                <target>No Avatare loaded.</target>
             </trans-unit>
             <trans-unit id="93">
                 <source>field.mail</source>
@@ -440,7 +440,7 @@
             </trans-unit>
             <trans-unit id="110">
                 <source>message.no.comments</source>
-                <target>No comments found</target>
+                <target>No comments found.</target>
             </trans-unit>
             <trans-unit id="111">
                 <source>title.mail.newIssue</source>
@@ -468,7 +468,7 @@
             </trans-unit>
             <trans-unit id="117">
                 <source>message.no.members</source>
-                <target>No members found</target>
+                <target>No members found.</target>
             </trans-unit>
             <trans-unit id="118">
                 <source>message.exception.no.member</source>

@@ -11,6 +11,7 @@ class IssueControllerTest extends WebTestCase
     public function testCompleteScenario()
     {
         // Create a new client to browse the application
+        //var_dump('issue start');
         //$client = static::createClient();
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'Admin',//'JustUser',
@@ -20,12 +21,7 @@ class IssueControllerTest extends WebTestCase
         // Create a new entry in the database
         $crawler = $client->request('GET', '/issue/');
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /issue/");
-        //var_dump($crawler);
-        #$lnk =$crawler->filter('a:contains("Show")');
-        #$lnk = $crawler->filter('a:contains("Show")')->eq(0)->link();
         $lnk2 =$crawler->selectLink('Show');
-        #$lnk =$crawler->selectLink('action.show');
-        #$url = $lnk->first()->link();
 
         $this->assertGreaterThan(0,$lnk2->count(), 'Missing Show Button');
 

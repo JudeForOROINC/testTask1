@@ -15,20 +15,20 @@ class IssueRepositoryTest extends WebTestCase
 
     public function setUp()
     {
-        $client = static::createClient();
-        $conte = $client->getContainer();
-        $em = $conte->get('doctrine')->getManager();
-
-        $fixture = new ORM\Test\LoadTestData();
-
-        $fixture->setContainer($conte);
-
-        $purger = new ORMPurger($em);
-        //$purger->setPurgeMode( ORMPurger::PURGE_MODE_TRUNCATE );
-        $purger->setPurgeMode( ORMPurger::PURGE_MODE_DELETE );
-        $executor = new ORMExecutor($em, $purger);
-
-        $executor->execute([$fixture], false);
+//        $client = static::createClient();
+//        $conte = $client->getContainer();
+//        $em = $conte->get('doctrine')->getManager();
+//
+//        $fixture = new ORM\Test\LoadTestData();
+//
+//        $fixture->setContainer($conte);
+//
+//        $purger = new ORMPurger($em);
+//        //$purger->setPurgeMode( ORMPurger::PURGE_MODE_TRUNCATE );
+//        $purger->setPurgeMode( ORMPurger::PURGE_MODE_DELETE );
+//        $executor = new ORMExecutor($em, $purger);
+//
+//        $executor->execute([$fixture], false);
 
 
 
