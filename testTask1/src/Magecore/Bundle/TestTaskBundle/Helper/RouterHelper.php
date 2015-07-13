@@ -14,6 +14,11 @@ use Magecore\Bundle\TestTaskBundle\Entity\User;
 use Symfony\Component\HttpKernel\EventListener\ExceptionListener;
 
 class RouterHelper{
+    /**
+     * @param $entity
+     * @return array|\Exception
+     * @throw Exception
+     */
     public function getRoute($entity){
         //
         if ($entity instanceof User){
@@ -56,7 +61,7 @@ class RouterHelper{
             ];
         }
 
-        return new \Exception('Unknown entity type in twig!');
+        throw new \Exception('Unknown entity type in twig!');
 
     }
     public function getName()

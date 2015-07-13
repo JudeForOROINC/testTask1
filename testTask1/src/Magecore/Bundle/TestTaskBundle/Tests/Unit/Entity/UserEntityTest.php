@@ -35,9 +35,9 @@ class UserEntityTest extends SymfonyEntityTest
             array(
                 'id', 5, $entity,
             ),
-            array(
-                'file', 'getFileName', $entity,
-            ),
+//            array(
+//                'file', 'getFileName', $entity,
+//            ),
             array(
                 'remove_ava', 'getRemoveAva', $entity,
             ),
