@@ -79,7 +79,7 @@ class Activity
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -106,7 +106,7 @@ class Activity
     /**
      * Get time
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getTime()
     {
@@ -130,7 +130,7 @@ class Activity
     /**
      * Get user
      *
-     * @return \Magecore\Bundle\TestTaskBundle\Entity\User 
+     * @return \Magecore\Bundle\TestTaskBundle\Entity\User
      */
     public function getUser()
     {
@@ -143,9 +143,17 @@ class Activity
      * @param string $type
      * @return Activity
      */
-    public function setType( $type = null)
+    public function setType($type = null)
     {
-        if (in_array($type,[self::ACTIVITY_TYPE_CHANGE_STATUS_ISSUE,self::ACTIVITY_TYPE_COMMENT_IN_ISSUE,self::ACTIVITY_TYPE_CREATE_ISSUE] )) {
+        if (in_array(
+            $type,
+            [
+            self::ACTIVITY_TYPE_CHANGE_STATUS_ISSUE,
+            self::ACTIVITY_TYPE_COMMENT_IN_ISSUE,
+            self::ACTIVITY_TYPE_CREATE_ISSUE,
+            ]
+        )
+        ) {
             $this->type = $type;
         }
 
@@ -155,7 +163,7 @@ class Activity
     /**
      * Get type
      *
-     * @return \Magecore\Bundle\TestTaskBundle\Entity\DicType 
+     * @return \Magecore\Bundle\TestTaskBundle\Entity\DicType
      */
     public function getType()
     {
@@ -178,7 +186,7 @@ class Activity
     /**
      * Get issue
      *
-     * @return \Magecore\Bundle\TestTaskBundle\Entity\Issue 
+     * @return \Magecore\Bundle\TestTaskBundle\Entity\Issue
      */
     public function getIssue()
     {
@@ -201,7 +209,7 @@ class Activity
     /**
      * Get fromIssueStstus
      *
-     * @return \Magecore\Bundle\TestTaskBundle\Entity\DicStatus 
+     * @return \Magecore\Bundle\TestTaskBundle\Entity\DicStatus
      */
     public function getFromIssueStatus()
     {
@@ -224,7 +232,7 @@ class Activity
     /**
      * Get toIssueStatus
      *
-     * @return \Magecore\Bundle\TestTaskBundle\Entity\DicStatus 
+     * @return \Magecore\Bundle\TestTaskBundle\Entity\DicStatus
      */
     public function getToIssueStatus()
     {
@@ -247,20 +255,23 @@ class Activity
     /**
      * Get comment
      *
-     * @return \Magecore\Bundle\TestTaskBundle\Entity\Comment 
+     * @return \Magecore\Bundle\TestTaskBundle\Entity\Comment
      */
     public function getComment()
     {
         return $this->comment;
     }
 
-    public function isNewIssueType(){
+    public function isNewIssueType()
+    {
         return $this->getType() == self::ACTIVITY_TYPE_CREATE_ISSUE;
     }
-    public function isChangeStatusType(){
+    public function isChangeStatusType()
+    {
         return $this->getType() == self::ACTIVITY_TYPE_CHANGE_STATUS_ISSUE;
     }
-    public function isCommentType(){
+    public function isCommentType()
+    {
         return $this->getType() == self::ACTIVITY_TYPE_COMMENT_IN_ISSUE;
     }
 }
