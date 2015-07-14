@@ -26,8 +26,10 @@ class UserControllerTest extends WebTestCase
     public function testIndex()
     {
         //return $this->render('Project/index.html.twig');
-        $client = static::createClient();
-
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'JustUser',
+            'PHP_AUTH_PW'   => '123',
+        ));
         //$crawler = $client->request('GET', '/user/list');
         $crawler = $client->request('GET', $client->getContainer()->get('router')->generate('magecore_test_task_user_index'));
 
@@ -41,8 +43,10 @@ class UserControllerTest extends WebTestCase
 
     public function testView()
     {
-        $client = static::createClient();
-
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'JustUser',
+            'PHP_AUTH_PW'   => '123',
+        ));
         $en = $client->getContainer()->get('doctrine')->getManager();
 
         $user = $en->getRepository('MagecoreTestTaskBundle:User')->findOneBy(['username' => 'JustUser']);
@@ -67,8 +71,10 @@ class UserControllerTest extends WebTestCase
 
     public function testCreate()
     {
-        $client = static::createClient();
-
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'JustUser',
+            'PHP_AUTH_PW'   => '123',
+        ));
         $crawler = $client->request('GET', '/user/create');
 
         $this->assertEquals($client->getResponse()->getStatusCode(),200);
@@ -90,8 +96,10 @@ class UserControllerTest extends WebTestCase
     */
     public function testUpdate()
     {
-        $client = static::createClient();
-
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'JustUser',
+            'PHP_AUTH_PW'   => '123',
+        ));
 
         $en = $client->getContainer()->get('doctrine')->getManager();
 

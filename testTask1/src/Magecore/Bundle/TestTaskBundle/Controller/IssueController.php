@@ -273,24 +273,6 @@ class IssueController extends Controller
         return $form;
     }
 
-    /**
-     * Creates a form to create a Issue entity.
-     *
-     * @param Issue $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createCreateNoProjectForm(Issue $entity)
-    {
-        $form = $this->createCreateForm($entity);
-        $form->add('project', 'entity', array(
-            'class' => 'Magecore\Bundle\TestTaskBundle\Entity\Project',
-
-        ));
-
-        return $form;
-    }
-
 
     /**
      * Finds and displays a Issue entity.

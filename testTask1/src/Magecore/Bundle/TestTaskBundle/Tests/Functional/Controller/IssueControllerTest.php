@@ -230,7 +230,6 @@ class IssueControllerTest extends WebTestCase
         $crawler = $client->request('Get', $url);
         $this->assertEquals(400, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for Create child issue with member user on wrong issue type GET ".$url." !");
 
-//        $this->assertGreaterThan(0, $crawler->filter('html:contains("Issue list")')->count(), 'Missing Issue list title' );
         $issues = $project->getIssues();
         if ($issues) {
             foreach($issues as $issue)
@@ -238,6 +237,33 @@ class IssueControllerTest extends WebTestCase
             }
         $em->remove($project);
         $em->flush();
+
+    }
+
+    /**
+     * @depends testView
+     */
+    function testNoProject()
+    {
+        //
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'JustUser',
+            'PHP_AUTH_PW'   => '123',
+        ));
+
+        $url = $client->getContainer()->get('router')->generate('magecore_testtask_issue');
+
+        $crawler = $client->request('Get', $url);
+
+        $this->assertEquals(200,$client->getResponse()->getStatusCode(),'Wrong status code on getlist issue page');
+
+        $link = $crawler->selectLink('New Issue');
+
+        $this->assertFalse(empty($link));
+
+        $crawler = $client->click($link->link());
+
+        $this->assertEquals(200,$client->getResponse()->getStatusCode(),'Wrong status code on create no project issue page');
 
     }
 
