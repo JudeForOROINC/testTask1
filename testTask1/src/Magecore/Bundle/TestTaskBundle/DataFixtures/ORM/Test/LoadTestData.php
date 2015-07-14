@@ -106,6 +106,15 @@ class LoadTestData implements FixtureInterface, ContainerAwareInterface
         $manAdmin->setEnabled(true);
         $manager->persist($manAdmin);
 
+        $noMember = new User();
+        $noMember->setUsername('NoMember');
+        $noMember->setEmail('yo_nomam_2@symfony.com');
+        $noMember->setRoles(array('ROLE_OPERATOR'));
+        $encodedPassword = $passwordEncoder->encodePassword( '123', $noMember->getSalt());
+        $noMember->setPassword($encodedPassword);
+        $noMember->setEnabled(true);
+        $manager->persist($noMember);
+
 
         $manager->flush();
     }

@@ -265,6 +265,41 @@ class IssueControllerTest extends WebTestCase
 
         $this->assertEquals(200,$client->getResponse()->getStatusCode(),'Wrong status code on create no project issue page');
 
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Issue creation")')->count(), 'Missing Issue create title' );
+
+        $form = $crawler->selectButton('Create')->form(array(
+            'magecore_bundle_testtaskbundle_issue[summary]'  => 'Mama mila ramu',
+            'magecore_bundle_testtaskbundle_issue[description]'  => 'Discription:Mama mila ramu',
+            'magecore_bundle_testtaskbundle_issue[priority]' => $crawler->filter('#magecore_bundle_testtaskbundle_issue_priority option:contains("Major")')->attr('value'),
+            'magecore_bundle_testtaskbundle_issue[type]' => $crawler->filter('#magecore_bundle_testtaskbundle_issue_type option:contains("Story")')->attr('value'),
+            'magecore_bundle_testtaskbundle_issue[status]' => $crawler->filter('#magecore_bundle_testtaskbundle_issue_status option:contains("Open")')->attr('value'),
+            'magecore_bundle_testtaskbundle_issue[assignee]' => $crawler->filter('#magecore_bundle_testtaskbundle_issue_assignee option:contains("JustUser")')->attr('value'),
+        ));
+
+        $client->submit($form);
+
+        $this->assertEquals(302,$client->getResponse()->getStatusCode(),'Wrong status code on create no project issue page submit');
+
     }
+
+    /**
+     * @depends testNoProject
+     */
+    function testNoProjectAccess()
+    {
+        //
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'NoMember',
+            'PHP_AUTH_PW'   => '123',
+        ));
+
+        $url = $client->getContainer()->get('router')->generate('magecore_testtask_issue_noproject_create');
+
+        $crawler = $client->request('Get', $url);
+
+        $this->assertEquals(403,$client->getResponse()->getStatusCode(),'Wrong status code on issue no projects page with no acess');
+
+    }
+
 
 }

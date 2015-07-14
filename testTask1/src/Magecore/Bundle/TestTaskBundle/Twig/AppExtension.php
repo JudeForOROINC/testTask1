@@ -47,23 +47,24 @@ class AppExtension extends \Twig_Extension
         return $price;
     }
 
-    protected function getCurrentUser(){
+    protected function getCurrentUser()
+    {
 
         return $this->context->getToken()->getUser();
 
     }
 
 
-    public function datertzFilter(\DateTime $date){
-        //code
-        //$this->getNodeVisitors();
+    public function datertzFilter(\DateTime $date)
+    {
         $user= $this->getCurrentUser();
         $tz = $user->getTimezone();
         $date->setTimezone(new \DateTimeZone($tz));
         return $date->format('Y.m.d H:i:s');
     }
 
-    public function urlFilter( $entity ){
+    public function urlFilter( $entity )
+    {
         //code
         $url='';
         if ($entity instanceof User) {
@@ -84,7 +85,8 @@ class AppExtension extends \Twig_Extension
         return $url;
     }
 
-    public function anchorFilter( $entity ){
+    public function anchorFilter( $entity )
+    {
         //code
         $anchor='';
         if ($entity instanceof Comment)

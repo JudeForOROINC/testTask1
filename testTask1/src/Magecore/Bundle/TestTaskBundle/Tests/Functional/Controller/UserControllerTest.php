@@ -27,13 +27,13 @@ class UserControllerTest extends WebTestCase
     {
         //return $this->render('Project/index.html.twig');
         $client = static::createClient(array(), array(
-            'PHP_AUTH_USER' => 'JustUser',
+            'PHP_AUTH_USER' => 'Admin',
             'PHP_AUTH_PW'   => '123',
         ));
         //$crawler = $client->request('GET', '/user/list');
         $crawler = $client->request('GET', $client->getContainer()->get('router')->generate('magecore_test_task_user_index'));
 
-        $this->assertTrue($crawler->filter('html:contains("User list")')->count() > 0);//test page;
+        $this->assertTrue($crawler->filter('html:contains("Users list")')->count() > 0);//test page;
 
         //$this->assertTrue($crawler->filter('html:contains("'..'")')->count() > 0);//test page;
 
@@ -69,31 +69,7 @@ class UserControllerTest extends WebTestCase
 
     }
 
-    public function testCreate()
-    {
-        $client = static::createClient(array(), array(
-            'PHP_AUTH_USER' => 'JustUser',
-            'PHP_AUTH_PW'   => '123',
-        ));
-        $crawler = $client->request('GET', '/user/create');
 
-        $this->assertEquals($client->getResponse()->getStatusCode(),200);
-//        $this->assertEquals($crawler->filter('html:contains("Create new project")')->count() > 0);
-
-    }
-
-
-    /*
-    public function testCreateProject()
-    {
-        $client = static::createClient();
-
-        $crawler = $client->request('GET', '/project/create');
-
-        $this->assertTrue($crawler->filter('html:contains("Create new project")')->count() > 0);
-
-    }
-    */
     public function testUpdate()
     {
         $client = static::createClient(array(), array(
@@ -105,24 +81,16 @@ class UserControllerTest extends WebTestCase
 
         $user = $en->getRepository('MagecoreTestTaskBundle:User')->findOneBy(['username' => 'JustUser']);
 
-        //var_dump($user);
-
         $this->assertTrue(!empty($user),'User found in storage.');
-        //var_dump(!empty($user));
 
         $url = $client->getContainer()->get('router')->generate('magecore_test_task_user_update',['id'=>$user->getId()]);
 
         $crawler = $client->request('GET', $url);
 
-        //var_dump( $client->getResponse()->getStatusCode() );
-
         $this->assertEquals($client->getResponse()->getStatusCode(),200);
-        // var_dump($crawler->filter('html:contains("View user")')->count() > 0);
 
         $this->assertTrue($crawler->filter('html:contains("Edit User`s Profile!")')->count() > 0);
-        //chech fields - is it with right data;
-        $form= $crawler->selectButton('Save user')->form();
-        //var_dump($form);
+        $form= $crawler->selectButton('Save profile')->form();
         $userfullname = $form->getValues()['user[fullname]'];
 
         if ($userfullname == 'JustUser Full Name' ){
@@ -131,12 +99,9 @@ class UserControllerTest extends WebTestCase
         } else {
             $form['user[fullname]']= $compstr = 'JustUser Full Name';
         }
-        //var_dump($userfullname);
         $form['user[timezone]']='Europe/Kiev';
         $client->followRedirects(true);
         $crawler = $client->submit($form);
-
-        //$result = $this->client->getResponse();
 
         $this->assertEquals($client->getResponse()->getStatusCode(),200);
         $this->assertTrue($crawler->filter('html:contains("'.$compstr.'")')->count() > 0);
@@ -147,5 +112,45 @@ class UserControllerTest extends WebTestCase
         //TODO: write tests for buttons && 403.
         //TODO: write test for check Ava Manage;
     }
+
+
+    /**
+     *@depends testUpdate
+     */
+    public function testAdminEdit(){
+        //test access rights!
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'JustUser',
+            'PHP_AUTH_PW'   => '123',
+        ));
+
+        $en = $client->getContainer()->get('doctrine')->getManager();
+
+        $user = $en->getRepository('MagecoreTestTaskBundle:User')->findOneBy(['username' => 'JustUser']);
+        $Admin = $en->getRepository('MagecoreTestTaskBundle:User')->findOneBy(['username' => 'Admin']);
+
+        $this->assertTrue(!empty($user),'User found in storage.');
+
+        $url = $client->getContainer()->get('router')->generate('magecore_test_task_user_update',['id'=>$Admin->getId()]);
+
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(403,$client->getResponse()->getStatusCode());
+
+        //self edit;
+
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'Admin',
+            'PHP_AUTH_PW'   => '123',
+        ));
+
+        $url = $client->getContainer()->get('router')->generate('magecore_test_task_user_update',['id'=>$Admin->getId()]);
+
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(200,$client->getResponse()->getStatusCode());
+
+        //$this->assertTrue($crawler->filter('html:"Role"'))
+
+    }
+
 
 }
