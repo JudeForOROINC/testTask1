@@ -148,6 +148,11 @@ class UserControllerTest extends WebTestCase
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200,$client->getResponse()->getStatusCode());
 
+        $url = $client->getContainer()->get('router')->generate('magecore_test_task_user_update',['id'=>$user->getId()]);
+
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(200,$client->getResponse()->getStatusCode());
+
         //$this->assertTrue($crawler->filter('html:"Role"'))
 
     }

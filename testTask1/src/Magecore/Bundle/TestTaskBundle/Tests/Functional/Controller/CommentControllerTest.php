@@ -25,67 +25,85 @@ class CommentControllerTest extends WebTestCase
 
         $user = $em->getRepository('MagecoreTestTaskBundle:User')->findOneBy(['username' => 'Admin']);
 
+        $url_issue = $client->getContainer()->get('router')->generate('magecore_testtask_issue_show',array('id'=>$issue->getId()));
+
         $url = $client->getContainer()->get('router')->generate('magecore_testtask_comment_create',array('id'=>$issue->getId()));
         //magecore_testtask_comment_create - url to new comment
 
-        // Create a new entry in the database
-        $crawler = $client->request('POST', $url);
-        $this->assertEquals(400, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for corrupted request Post $url");
-        //$this->asserttrue($crawler->filter('context:("You can access this only using Ajax!")')->count()>0);
+//        //Test bad request
+//        $crawler = $client->request('POST', $url);
+//        $this->assertEquals(400, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for corrupted request Post $url");
 
-        $crawler = $client->request('POST', $url, array(), array(), array(
+//        $this->assertJson( $client->getResponse()->getContent());
+
+        $crawler = $client->request('GET', $url_issue);
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for  $url_issue");
+
+        $form = $crawler->selectButton('Submit')->form(array(
+            'magecore_bundle_testtaskbundle_comment[body]'  => 'Mama mila ramu',)
+        );
+
+
+        $frm = $form->getValues();
+
+        var_dump($frm);
+
+        $data = array(
+            'body'=>'Mama mila ramu',
+            '_token'=>$frm['magecore_bundle_testtaskbundle_comment[_token]'],
+        );
+
+        $json = json_encode($frm);
+        #$json = json_encode($data);
+        #$json = json_encode(serialize($data));
+        #$json = json_encode(serialize($frm));
+
+        var_dump($json);
+        //$client->setHeader('X_REQUESTED_WITH');
+   //     var_dump($url);
+ //       var_dump($form);
+        $crawler = $client->request('POST', $url, array('magecore_bundle_testtaskbundle_comment'=>$data),array(),array(
+//            'Content-Type'=>'application/json',
+//            'XMLHttpRequest'=>'X-Requested-With',
+//            #
+//#            'X-Requested-With' => 'XMLHttpRequest',
+//            'x-requested-with'=>'XMLHttpRequest',
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ));
-
-        $this->assertEquals(500, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for corrupted request Post $url");
-
-
-//        $comment = new Comment();
-//
-//        $comment->setIssue($issue);
-//        $comment->setAuthor($user);
-//
-//        $type = new CommentType();
-//        $form = $this->factory->create($type);
+            'CONTENT_TYPE' => 'application/json',
+            ),
+#        '{"message":"You can access this only using Ajax!"}'
+            #$json
+            #serialize($data)
+            //serialize($frm)
+            $json
+        );
 
 
+        $resp = $client->getResponse()->getContent();
 
-        /*$crawler = $client->click($crawler->selectLink('Create a new entry')->link());
+        var_dump($resp);
 
-        // Fill in the form and submit it
-        $form = $crawler->selectButton('Create')->form(array(
-            'magecore_bundle_testtaskbundle_comment[field_name]'  => 'Test',
-            // ... other fields to fill
-        ));
-
-        $client->submit($form);
-        $crawler = $client->followRedirect();
-
-        // Check data in the show view
-        $this->assertGreaterThan(0, $crawler->filter('td:contains("Test")')->count(), 'Missing element td:contains("Test")');
-
-        // Edit the entity
-        $crawler = $client->click($crawler->selectLink('Edit')->link());
-
-        $form = $crawler->selectButton('Update')->form(array(
-            'magecore_bundle_testtaskbundle_comment[field_name]'  => 'Foo',
-            // ... other fields to fill
-        ));
-
-        $client->submit($form);
-        $crawler = $client->followRedirect();
-
-        // Check the element contains an attribute with value equals "Foo"
-        $this->assertGreaterThan(0, $crawler->filter('[value="Foo"]')->count(), 'Missing element [value="Foo"]');
-
-        // Delete the entity
-        $client->submit($crawler->selectButton('Delete')->form());
-        $crawler = $client->followRedirect();
-
-        // Check the entity has been delete on the list
-        $this->assertNotRegExp('/Foo/', $client->getResponse()->getContent());
-        */
     }
 
+    /**
+     *@depends testCompleteScenario
+     */
+    public function testEdit(){
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'Admin',//'JustUser',
+            'PHP_AUTH_PW'   => '123',
+        ));
+
+        // Create a new comment in issue
+        $em = $client->getContainer()->get('doctrine')->getManager();
+
+        $issue = $em->getRepository('MagecoreTestTaskBundle:Issue')->findOneBy(['summary' => 'TestTask1: made timeing']);
+
+        $user = $em->getRepository('MagecoreTestTaskBundle:User')->findOneBy(['username' => 'Admin']);
+
+        $url = $client->getContainer()->get('router')->generate('magecore_testtask_comment_edit',array('id'=>$issue->getId()));
+
+    }
 
 }

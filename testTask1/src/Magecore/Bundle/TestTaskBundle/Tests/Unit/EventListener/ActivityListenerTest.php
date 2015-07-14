@@ -16,20 +16,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Magecore\Bundle\TestTaskBundle\Entity\Issue;
 use Magecore\Bundle\TestTaskBundle\DataFixtures\ORM as ORM;
 
-class UserEntityTest extends \PHPUnit_Framework_TestCase
+class ActivityListenerTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testSet()
     {
-        $mock = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $mock = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
 
-        $arg = $this->getMock('LifecycleEventArgs')
+        $arg = $this->getMock('LifecycleEventArgs');
 
         $listener = new ActivityListener($mock);
 
-        $listener->postPersist();
+        $listener->postPersist($arg);
 
 
 

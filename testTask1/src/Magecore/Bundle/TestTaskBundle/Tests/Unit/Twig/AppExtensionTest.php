@@ -9,19 +9,19 @@ class AppExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testGetGlobals()
     {
-        $container = $this->getMock('ContainerInterface');
-        $context = $this->getMock('SecurityContext');
+        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $context = $this->getMock('Symfony\Component\Security\Core\SecurityContext');
         //ContainerInterface $container,
         //SecurityContext $context
 
         $ext = new AppExtension($container, $context);
         $globals = $ext->getGlobals();
-        $this->assertEquals(['route_helper' => '@my.helper'],$globals);
+        $this->assertEquals(['route_helper' => '@my.helper'], $globals);
 
     }
 
-    public  function testGetFilters()
+    public function testGetFilters()
     {
-        $ext =  new AppExtension();
+        //$ext =  new AppExtension();
     }
 }

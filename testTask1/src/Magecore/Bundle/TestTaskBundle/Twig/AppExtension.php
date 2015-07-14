@@ -63,61 +63,58 @@ class AppExtension extends \Twig_Extension
         return $date->format('Y.m.d H:i:s');
     }
 
-    public function urlFilter( $entity )
+    public function urlFilter($entity)
     {
         //code
         $url='';
         if ($entity instanceof User) {
-
             $url = 'magecore_test_task_user_view';
         }
 
         if ($entity instanceof Project) {
-
             $url = 'magecore_test_task_project_view';
         }
 
         if ($entity instanceof Issue) {
-
             $url = 'magecore_testtask_issue_show';
         }
 
         return $url;
     }
 
-    public function anchorFilter( $entity )
+    public function anchorFilter($entity)
     {
         //code
         $anchor='';
-        if ($entity instanceof Comment)
-
-            $anchor = '#comment-'.$entity->getId();
+        if ($entity instanceof Comment) {
+            $anchor = '#comment-' . $entity->getId();
+        }
 
         return $anchor;
     }
 
-    public function idFilter( $entity ){
+    public function idFilter($entity)
+    {
         //code
         $id='';
         if ($entity instanceof Comment) {
-
             $id = $entity->getIssue()->getId();
         }
-        if ($entity instanceof User){
+        if ($entity instanceof User) {
             $id = $entity->getId();
         }
-        if ($entity instanceof Project){
+        if ($entity instanceof Project) {
             $id = $entity->getId();
         }
         if ($entity instanceof Issue) {
-
             $id = $entity->getId();
         }
 
         return $id;
     }
 
-    public function __construct(ContainerInterface $container, SecurityContext $context) {
+    public function __construct(ContainerInterface $container, SecurityContext $context)
+    {
         $this->context = $context;
     }
 
