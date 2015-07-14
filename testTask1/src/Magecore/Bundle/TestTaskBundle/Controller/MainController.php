@@ -13,12 +13,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-//use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-//use MagecoreTestTaskBundle\Form\Type\ProjectType;
 
 class MainController extends Controller
 {
@@ -32,10 +30,10 @@ class MainController extends Controller
         //$projects = $em->getRepository('MagecoreTestTaskBundle:Project')->findAll();
 
         $rep = $em->getRepository('MagecoreTestTaskBundle:Activity');
-        $activity = $rep->findAllByUserMemberId( $this->getUser() );
+        $activity = $rep->findAllByUserMemberId($this->getUser());
 
         $rep = $em->getRepository('MagecoreTestTaskBundle:Issue');
-        $issues = $rep->findOpenByCollaboratorId( $this->getUser()->getId() );
+        $issues = $rep->findOpenByCollaboratorId($this->getUser()->getId());
 
         return [
             'activities' => $activity,

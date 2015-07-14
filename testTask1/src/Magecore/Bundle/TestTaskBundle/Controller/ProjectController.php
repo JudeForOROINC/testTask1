@@ -27,7 +27,7 @@ class ProjectController extends Controller
         $em = $this->getDoctrine()->getManager();
         $projects = $em->getRepository('MagecoreTestTaskBundle:Project')->findAll();
 
-        return $this->render('@MagecoreTestTask/Project/list.html.twig',array('projects'=>$projects));
+        return $this->render('@MagecoreTestTask/Project/list.html.twig', array('projects'=>$projects));
     }
 
     /**
@@ -37,7 +37,8 @@ class ProjectController extends Controller
      * @param User $user
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function viewAction(Project $project){
+    public function viewAction(Project $project)
+    {
         $em = $this->getDoctrine()->getManager();
         $rep = $em->getRepository('MagecoreTestTaskBundle:Activity');
         $activity = $rep->findAllByProjectId($project->getId());
@@ -58,7 +59,7 @@ class ProjectController extends Controller
     {
         $project = new Project();
 
-        $form = $this->createForm(new ProjectType(),$project);
+        $form = $this->createForm(new ProjectType(), $project);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -66,7 +67,7 @@ class ProjectController extends Controller
             $em->persist($project);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('magecore_test_task_project_view',['id'=>$project->getId()]));
+            return $this->redirect($this->generateUrl('magecore_test_task_project_view', ['id'=>$project->getId()]));
         }
 
         return $this->render('MagecoreTestTaskBundle:Project:edit.html.twig', array(
@@ -81,21 +82,18 @@ class ProjectController extends Controller
      * @Route("/update/{id}", name="magecore_test_task_project_update", requirements={"id"="\d+"})
      * @Template
      */
-    public function updateAction( Project $project, Request $request)
+    public function updateAction(Project $project, Request $request)
     {
         //TODO : Jude - remove constraints from Form = use form class + validatorclass;
-        $form = $this->createForm(new ProjectType(),$project);
+        $form = $this->createForm(new ProjectType(), $project);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $em = $this->getDoctrine()->getManager();
             $em->persist($project);
             $em->flush();
-
-            //return $this->redirect($this->generateUrl('magecore_test_task_project_view',['id'=>$project->getId()]));
-            return $this->redirect($this->generateUrl('magecore_test_task_project_view',['id'=>$project->getId()]));
+            return $this->redirect($this->generateUrl('magecore_test_task_project_view', ['id'=>$project->getId()]));
         }
 
         return array(
