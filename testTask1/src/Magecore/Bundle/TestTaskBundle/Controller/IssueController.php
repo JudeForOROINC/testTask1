@@ -37,13 +37,12 @@ class IssueController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $currentUser = $this->getUser();
-
-        if($currentUser->hasRole('ROLE_ADMIN')){
+        if ($currentUser->hasRole('ROLE_ADMIN')) {
             $entities = $em->getRepository('MagecoreTestTaskBundle:Issue')->findAll();
         } else {
-            $entities = $em->getRepository('MagecoreTestTaskBundle:Issue')->findOpenByCollaboratorId($this->getUser()->getId());
+            $entities = $em->getRepository('MagecoreTestTaskBundle:Issue')
+                ->findOpenByCollaboratorId($this->getUser()->getId());
         }
 
         $projects = $this->getAllowedProjects($currentUser);
@@ -58,9 +57,11 @@ class IssueController extends Controller
      * @param Project $project
      * @throws AccessDeniedException
      */
-    protected function checkProjectAccess(Project $project){
+    protected function checkProjectAccess(Project $project)
+    {
         if (!$this->isProjectAccessAllowed($project)) {
-            throw new AccessDeniedException($this->get('translator')->trans('message.exception.no.member')); // hard core Secure to protect a not member intrude;
+            throw new AccessDeniedException($this->get('translator')->trans('message.exception.no.member'));
+            // hard core Secure to protect a not member intrude;
         }
     }
 
@@ -80,7 +81,7 @@ class IssueController extends Controller
         }
 
         // any admin or manager must have access too
-        if ($currentUser->hasRole('ROLE_ADMIN') || $currentUser->hasRole('ROLE_MANAGER'))  {
+        if ($currentUser->hasRole('ROLE_ADMIN') || $currentUser->hasRole('ROLE_MANAGER')) {
             return true;
         }
 
@@ -95,10 +96,7 @@ class IssueController extends Controller
      */
     public function createAction(Request $request, Project $project)
     {
-
-
         $this->checkProjectAccess($project);
-
 
         $entity = new Issue();
         $entity->setReporter($this->getUser());
@@ -113,11 +111,7 @@ class IssueController extends Controller
             $entity->setCreated(new \DateTime('now'));
             $entity->setUpdated($entity->getCreated());
 
-            //add coloboretors: Reporter,Assignee;==begin
             $this->setCollaborators($entity);
-//            $entity->addCollaborator($entity->getReporter());
-//            $entity->addCollaborator($entity->getAssignee());
-//            //===add coloboretors: Reporter,Assignee;==end;
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
@@ -136,19 +130,16 @@ class IssueController extends Controller
      * @param User $user
      * @return Project[]
      */
-    protected function getAllowedProjects(User $user){
+    protected function getAllowedProjects(User $user)
+    {
         $em = $this->getDoctrine()->getManager();
-        if ($user->hasRole('ROLE_ADMIN') ||$user->hasRole('ROLE_MANAGER')){
+        if ($user->hasRole('ROLE_ADMIN') ||$user->hasRole('ROLE_MANAGER')) {
             $projects = $em->getRepository('MagecoreTestTaskBundle:Project')->findAll();
         } else {
             $projects = $em->getRepository('MagecoreTestTaskBundle:Project')->findByMemberId($user->getId());
         }
         return $projects;
     }
-
-
-
-
 
     /**
      * Creates a new Issue entity.
@@ -159,16 +150,13 @@ class IssueController extends Controller
     public function createNoProjectAction(Request $request)
     {
         //Check is in a members;
-       // var_dump($request); die;
         $current_user = $this->getUser();
-
         $em = $this->getDoctrine()->getManager();
-
         $projects = $this->getAllowedProjects($current_user);
 
-
-        if (empty($projects)){
-            throw new AccessDeniedException( $this->get('translator')->trans('message.exception.no.issue.create'));
+        if (empty($projects)) {
+            #throw new AccessDeniedException( $this->get('translator')->trans('message.exception.no.issue.create'));
+            throw new AccessDeniedException('You have no rights to create an issue!');
 
         }
 
@@ -176,25 +164,16 @@ class IssueController extends Controller
         $entity->setReporter($this->getUser());
         $entity->setCode('dd');
 
-
-
-        $form = $this->createCreateForm($entity,$projects);
-
-        //var_dump($form); die;
+        $form = $this->createCreateForm($entity, $projects);
 
         $form->handleRequest($request);
-        //var_dump($form); die;
 
         if ($form->isValid()) {
             //set time
             $entity->setCreated(new \DateTime('now'));
             $entity->setUpdated($entity->getCreated());
 
-            //add coloboretors: Reporter,Assignee;==begin
             $this->setCollaborators($entity);
-//            $entity->addCollaborator($entity->getReporter());
-//            $entity->addCollaborator($entity->getAssignee());
-//            //===add coloboretors: Reporter,Assignee;==end;
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
@@ -220,7 +199,7 @@ class IssueController extends Controller
         $project =  $story->getProject();
         $this->checkProjectAccess($project);
 
-        if (!$story->isStory()){
+        if (!$story->isStory()) {
             throw new BadRequestHttpException('Story type expected , but " '.( (string)$story->getType() ).' " given!');
         }
 
@@ -239,9 +218,7 @@ class IssueController extends Controller
             //set time
             $entity->setCreated(new \DateTime('now'));
             $entity->setUpdated($entity->getCreated());
-//
-//            $entity->addCollaborator($entity->getReporter());
-//            $entity->addCollaborator($entity->getAssignee());
+
             $this->setCollaborators($entity);
 
             $em = $this->getDoctrine()->getManager();
@@ -266,15 +243,21 @@ class IssueController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Issue $entity, $projects=array())
+    private function createCreateForm(Issue $entity, $projects = array())
     {
-        if (count($projects)){
+        if (count($projects)) {
             $url =  $this->generateUrl('magecore_testtask_issue_noproject_create');
         } else {
             if (empty($entity->getParentIssue())) {
-                $url = $this->generateUrl('magecore_testtask_issue_create',array('id'=>$entity->getProject()->getId()));
+                $url = $this->generateUrl(
+                    'magecore_testtask_issue_create',
+                    array('id'=>$entity->getProject()->getId())
+                );
             } else {
-                $url = $this->generateUrl('magecore_testtask_issue_subtask_create',array('id'=>$entity->getParentIssue()->getId()));
+                $url = $this->generateUrl(
+                    'magecore_testtask_issue_subtask_create',
+                    array('id'=>$entity->getParentIssue()->getId())
+                );
             }
         }
 
@@ -300,7 +283,7 @@ class IssueController extends Controller
     private function createCreateNoProjectForm(Issue $entity)
     {
         $form = $this->createCreateForm($entity);
-        $form->add('project','entity',array(
+        $form->add('project', 'entity', array(
             'class' => 'Magecore\Bundle\TestTaskBundle\Entity\Project',
 
         ));
@@ -332,15 +315,16 @@ class IssueController extends Controller
         $comment = new Comment();
         $comment->setIssue($entity);
         $comment->setAuthor($this->getUser());
-        $addCommentForm = $this->createForm( new CommentType(),$comment,
+        $addCommentForm = $this->createForm(
+            new CommentType(),
+            $comment,
             array(
-                'action' => $this->generateUrl('magecore_testtask_comment_create',array('id'=>$entity->getId()))
-            ))
-            ;//->add('submit', 'submit', array('label' => 'Create'));
+                'action' => $this->generateUrl('magecore_testtask_comment_create', array('id'=>$entity->getId()))
+            )
+        );
 
         return array(
             'entity'      => $entity,
-//            'delete_form' => $deleteForm->createView(),
             'addComment'  => $addCommentForm->createView(),
         );
     }
@@ -365,12 +349,10 @@ class IssueController extends Controller
         $this->checkProjectAccess($entity->getProject());
 
         $editForm = $this->createEditForm($entity);
-//        $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-//            'delete_form' => $deleteForm->createView(),
         );
     }
 
@@ -392,6 +374,7 @@ class IssueController extends Controller
 
         return $form;
     }
+
     /**
      * Edits an existing Issue entity.
      *
@@ -411,114 +394,34 @@ class IssueController extends Controller
 
         $this->checkProjectAccess($entity->getProject());
 
-//        $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $entity->setUpdated(new \DateTime('now'));
-
-//            $entity->addCollaborator($entity->getReporter());
- //           $entity->addCollaborator($entity->getAssignee());
             $this->setCollaborators($entity);
 
             $em->flush();
-//mailler
-//
-//            $message = \Swift_Message::newInstance()
-//                ->setSubject('Hello Email')
-//                ->setFrom('send@example.com')
-//                ->setTo('correct_mailbox@i.ua')
-//                ->setBody(
-////             $this->renderView(
-////                    // app/Resources/views/Emails/registration.html.twig
-////                        'Emails/registration.html.twig',
-////                        array('name' => $name)
-////                    ),
-//                    '<body>test</body>',
-//                    'text/html'
-//                )
-//                /*
-//                 * If you also want to include a plaintext version of the message
-//                ->addPart(
-//                    $this->renderView(
-//                        'Emails/registration.txt.twig',
-//                        array('name' => $name)
-//                    ),
-//                    'text/plain'
-//                )
-//                */
-//            ;
-//            $this->get('mailer')->send($message);
-
-                //die;
-
-
-            //return $this->redirect($this->generateUrl('issue_edit', array('id' => $id)));
             return $this->redirect($this->generateUrl('magecore_testtask_issue_show', array('id' => $id)));
         }
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-//            'delete_form' => $deleteForm->createView(),
         );
     }
-//    /**
-//     * Deletes a Issue entity.
-//     *
-//     * @Route("/{id}", name="issue_delete")
-//     * @Method("DELETE")
-//     */
-//    public function deleteAction(Request $request, $id)
-//    {
-//        $form = $this->createDeleteForm($id);
-//        $form->handleRequest($request);
-//
-//        if ($form->isValid()) {
-//            $em = $this->getDoctrine()->getManager();
-//            $entity = $em->getRepository('MagecoreTestTaskBundle:Issue')->find($id);
-//
-//            if (!$entity) {
-//                throw $this->createNotFoundException('Unable to find Issue entity.');
-//            }
-//            $this->checkProjectAccess($entity->getProject());
-//
-//            $em->remove($entity);
-//            $em->flush();
-//        }
-//
-//        return $this->redirect($this->generateUrl('issue'));
-//    }
 
-//    /**
-//     * Creates a form to delete a Issue entity by id.
-//     *
-//     * @param mixed $id The entity id
-//     *
-//     * @return \Symfony\Component\Form\Form The form
-//     */
-//    private function createDeleteForm($id)
-//    {
-//        return $this->createFormBuilder()
-//            ->setAction($this->generateUrl('issue_delete', array('id' => $id)))
-//            ->setMethod('DELETE')
-//            ->add('submit', 'submit', array('label' => 'Delete'))
-//            ->getForm()
-//        ;
-//    }
-
-    protected function setCollaborators(Issue &$issue){
-        if (  $issue->getReporter()  ){
-            $issue->addCollaborator( $issue->getReporter() );
+    /**
+     * @param Issue $issue
+     */
+    protected function setCollaborators(Issue &$issue)
+    {
+        if ($issue->getReporter()) {
+            $issue->addCollaborator($issue->getReporter());
         }
-        if (  $issue->getAssignee()  ){
-            $issue->addCollaborator( $issue->getAssignee() );
+        if ($issue->getAssignee()) {
+            $issue->addCollaborator($issue->getAssignee());
         }
-//        $issue->addCollaborator($issue->getReporter());
-//        $issue->addCollaborator($issue->getAssignee());
     }
-
-    //protected function CreateIssue
 
 }
