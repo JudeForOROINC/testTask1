@@ -12,16 +12,20 @@ use Doctrine\ORM\EntityRepository;
  */
 class ActivityRepository extends EntityRepository
 {
+    /**
+     * @param $id
+     * @return array
+     */
     public function findAllByProjectId($id)
     {
         $em = $this->getEntityManager();
 
         $rep = $em->createQueryBuilder()
             ->select('a')
-            ->from('MagecoreTestTaskBundle:Activity','a')
-            ->innerJoin('a.issue', 'MagecoreTestTaskBundle:Issue','i')
+            ->from('MagecoreTestTaskBundle:Activity', 'a')
+            ->innerJoin('a.issue', 'MagecoreTestTaskBundle:Issue', 'i')
             ->where('MagecoreTestTaskBundle:Issue.project = :pro')
-            ->setParameter('pro',$id);
+            ->setParameter('pro', $id);
 
 
 
@@ -30,18 +34,22 @@ class ActivityRepository extends EntityRepository
             ->getResult();
     }
 
+    /**
+     * @param $id
+     * @return array
+     */
     public function findAllByUserMemberId($id)
     {
         $em = $this->getEntityManager();
 
         $rep = $em->createQueryBuilder()
             ->select('a')
-            ->from('MagecoreTestTaskBundle:Activity','a')
-            ->innerJoin('a.user', 'u','WITH', 'u.id = :id')
+            ->from('MagecoreTestTaskBundle:Activity', 'a')
+            ->innerJoin('a.user', 'u', 'WITH', 'u.id = :id')
             ->innerJoin('a.issue', 'i')
             ->innerJoin('i.project', 'p')
-            ->innerJoin('p.members', 'm', 'WITH','m.id=u.id')
-            ->setParameter('id',$id);
+            ->innerJoin('p.members', 'm', 'WITH', 'm.id=u.id')
+            ->setParameter('id', $id);
 
 
 

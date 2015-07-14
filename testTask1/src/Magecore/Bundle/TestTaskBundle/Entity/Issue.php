@@ -115,7 +115,7 @@ class Issue
 
     /**
      * @ORM\ManyToOne(targetEntity="Project", inversedBy="issues")
-     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $project;
 
@@ -233,9 +233,13 @@ class Issue
         return in_array( $type ,[self::ISSUE_TYPE_STORY,self::ISSUE_TYPE_BUG, self::ISSUE_TYPE_SUBTASK, self::ISSUE_TYPE_TASK]);
     }
 
+    /**
+     * @param $type
+     * @return $this
+     */
     public function setType($type)
     {
-        if ($this->isValidType($type)){
+        if ($this->isValidType($type)) {
             $this->type = $type;
         }
 
@@ -252,15 +256,27 @@ class Issue
         return $this->type;
     }
 
-    public function isStory(){
+    /**
+     * @return bool
+     */
+    public function isStory()
+    {
         return (bool)($this->getType()==self::ISSUE_TYPE_STORY);
     }
 
-    public function isSubtask(){
+    /**
+     * @return bool
+     */
+    public function isSubtask()
+    {
         return (bool)($this->getType()==self::ISSUE_TYPE_SUBTASK);
     }
 
-    public function getParentTypes(){
+    /**
+     * @return array
+     */
+    public function getParentTypes()
+    {
         return array(
             self::ISSUE_TYPE_BUG,
             self::ISSUE_TYPE_TASK,
@@ -502,7 +518,8 @@ class Issue
         return $this->parentIssue;
     }
 
-    public function __toString(){
+    public function __toString()
+    {
         return (string)$this->getCode();
     }
 
@@ -570,7 +587,7 @@ class Issue
      */
     public function addCollaborator(\Magecore\Bundle\TestTaskBundle\Entity\User $collaborator)
     {
-        if (!$this->getCollaborators()->contains($collaborator)){
+        if (!$this->getCollaborators()->contains($collaborator)) {
             $this->collaborators[] = $collaborator;
             $collaborator->addIssue($this);
         }

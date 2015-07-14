@@ -25,15 +25,33 @@ class ActivityListener
 
     protected $container=null;
 
+    //flag. Remove if ve load fixtures;
+    protected $maySandEmail = true;
+
     /**
      * @param Activity $activity
      */
     protected function pushMail(Activity $activity)
     {
         $mailer = $this->container->get('my.mailer');
-        $mailer->PushMail($activity);
+        $mailer->pushMail($activity);
     }
 
+    /**
+     * @return bool
+     */
+    public function getMaySendEmail()
+    {
+        return $this->maySandEmail;
+    }
+
+    /**
+     * @param $flag
+     */
+    public function setMaySendEmail($flag)
+    {
+        $this->maySandEmail= (bool)$flag;
+    }
 
     /**
      * @param LifecycleEventArgs $args
@@ -69,7 +87,9 @@ class ActivityListener
             $entityManager->flush();
         }
         if ($entity instanceof Activity) {
-            $this->pushMail($entity);
+            if ($this->maySandEmail) {
+                $this->pushMail($entity);
+            }
         }
     }
 

@@ -35,6 +35,8 @@ class LoadTestData implements FixtureInterface, ContainerAwareInterface
 
     public function load(ObjectManager $manager)
     {
+        $this->container->get('my.listener')->setMaySendEmail(false);
+
         $this->loadUsers($manager);
         $this->loadDictionaries($manager);
         $this->loadProjects($manager);
@@ -43,7 +45,7 @@ class LoadTestData implements FixtureInterface, ContainerAwareInterface
         $this->loadActivity($manager);
 
         //$this->loadPosts($manager);
-
+        $this->container->get('my.listener')->setMaySendEmail(true);
     }
 
 //    /**

@@ -35,6 +35,8 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 
     public function load(ObjectManager $manager)
     {
+        $this->container->get('my.listener')->setMaySendEmail(false);
+
         $this->loadUsers($manager);
         $this->loadDictionaries($manager);
         $this->loadProjects($manager);
@@ -43,21 +45,9 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $this->loadActivity($manager);
 
         //$this->loadPosts($manager);
+        $this->container->get('my.listener')->setMaySendEmail(true);
     }
 
-//    /**
-//     * {@inheritDoc}
-//     */
-    /*
-    public function load(ObjectManager $manager)
-    {
-        $userAdmin = new User();
-        $userAdmin->setUsername('admin');
-        $userAdmin->setPassword('test');
-
-        $manager->persist($userAdmin);
-        $manager->flush();
-    }*/
 
     private function loadUsers(ObjectManager $manager)
     {
