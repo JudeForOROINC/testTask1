@@ -3,6 +3,7 @@
 namespace Magecore\Bundle\TestTaskBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Comment
@@ -35,6 +36,7 @@ class Comment
 
     /**
      * @var string
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="body", type="text", nullable=false)
      */
