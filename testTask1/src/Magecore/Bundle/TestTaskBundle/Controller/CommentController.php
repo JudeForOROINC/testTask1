@@ -98,12 +98,6 @@ class CommentController extends Controller
      */
     public function createAction(Request $request, Issue $issue)
     {
-  //      var_dump($request);
-//        die;
-//        var_dump($request->headers);
-//        var_dump($request->isXmlHttpRequest());
-        var_dump($request->request);
- //       die;
         if (!$request->isXmlHttpRequest()) {
             return new JsonResponse(array('message'=>'You can access this only using Ajax!'), 400);
         }
@@ -112,13 +106,12 @@ class CommentController extends Controller
             return new JsonResponse(array('message'=>'You have no permissons to create a comment!'), 403);
         };
 
+       // unset($request->request['magecore_bundle_testtaskbundle_comment']['body']);
 
         $entity = new Comment();
         $entity->setIssue($issue);
         $entity->setAuthor($this->getUser());
         $form = $this->createCreateForm($entity);
-
-        //var_dump($issue);
 
         $form->handleRequest($request);
         if ($form->isValid()) {
@@ -128,18 +121,17 @@ class CommentController extends Controller
             $em->flush();
             return $this->listAction($issue);
         }
-        var_dump('me here!'); die;
         $responce = new JsonResponse(
             array(
                 'message'=>'Error',
 //                'form'=>$form->createView(),
-//                'form'=>$this->renderView(
-//                    'MagecoreTestTaskBundle:Comment:show.html.twig',
-//                    array(
-//                        'entity'=>$entity,
-//                        'form'=>$form->createView(),
-//                    )
-//                ),
+                'form'=>$this->renderView(
+                    'MagecoreTestTaskBundle:Comment:form.html.twig',
+                    array(
+                        'entity'=>$entity,
+                        'form'=>$form->createView(),
+                    )
+                ),
 
             ),
             400
