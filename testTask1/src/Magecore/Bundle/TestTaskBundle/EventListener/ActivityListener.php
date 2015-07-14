@@ -73,6 +73,9 @@ class ActivityListener
         }
     }
 
+    /**
+     * @param PreUpdateEventArgs $args
+     */
     public function preUpdate(PreUpdateEventArgs $args)
     {
         $entity = $args->getEntity();
@@ -97,6 +100,9 @@ class ActivityListener
         }
     }
 
+    /**
+     * @param LifecycleEventArgs $args
+     */
     public function postUpdate(LifecycleEventArgs $args)
     {
         //TODO use postflush
@@ -118,7 +124,9 @@ class ActivityListener
     }
 
 
-
+    /**
+     * @param OnFlushEventArgs $args
+     */
     public function onFlush(OnFlushEventArgs $args)
     {
         $zone = new \DateTimeZone('UTC');
@@ -148,6 +156,9 @@ class ActivityListener
         }
     }
 
+    /**
+     * @param LifecycleEventArgs $args
+     */
     public function postLoad(LifecycleEventArgs $args)
     {
         $Basezone = new \DateTimeZone('UTC');
@@ -178,6 +189,9 @@ class ActivityListener
 
     }
 
+    /**
+     * @param ContainerInterface $container
+     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
