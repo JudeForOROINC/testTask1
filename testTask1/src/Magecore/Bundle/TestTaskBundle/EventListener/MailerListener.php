@@ -55,7 +55,7 @@ class MailerListener
 
     /**
      * @param Activity $entity
-     * @return int
+     * @return bool
      */
     public function pushMail(Activity $entity)
     {
@@ -63,6 +63,8 @@ class MailerListener
         $mailer = $this->container->get('mailer');
 
         $arr = $this->formMailAction($entity);
+
+        $result = true;
 
         if (!empty($arr) && count($arr)) {
             foreach ($arr as $letter) {
@@ -75,7 +77,7 @@ class MailerListener
                         'text/html'
                     );
 
-                $result = $mailer->send($message);
+                $result = $result && (bool)$mailer->send($message);
 
             }
         }

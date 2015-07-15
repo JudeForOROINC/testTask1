@@ -192,4 +192,84 @@ class MailerListenerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testPush()
+    {
+        // returnValueMap
+        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+
+        $issue = $this->getMock('Magecore\Bundle\TestTaskBundle\Entity\Issue');
+        $usersArray = [];
+        foreach (array(
+                      array('getEmail'=>'mail2@mail.com',
+                          'getFullName'=>'testname2'
+
+                      ),
+                      array('getEmail'=>'mail3@mail.com',
+                          'getFullName'=>'testname3'
+                      ),
+                  ) as $u) {
+            $user = $this->getMock('Magecore\Bundle\TestTaskBundle\Entity\User');
+
+            $user->expects($this->once())->method('getFullName')->will($this->returnValue($u['getFullName']));
+            $user->expects($this->once())->method('getEmail')->will($this->returnValue($u['getEmail']));
+            $usersArray[] = $user;
+        }
+        $collaborators = new ArrayCollection($usersArray);
+
+        $issue->expects($this->once())->method('getCollaborators')->will($this->returnValue($collaborators));
+
+        $activity = $this->getMock('Magecore\Bundle\TestTaskBundle\Entity\Activity');
+
+        $activity->expects($this->once())->method('getIssue')->will($this->returnValue($issue));
+
+        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+
+        $render = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
+
+        $render->expects($this->exactly(count($usersArray)))->method('render')->will($this->returnValue('ok'));
+
+        $mailer= $this->getMockBuilder('Swift_Mailer')->disableOriginalConstructor()->getMock();
+
+        $mailer->expects($this->any())->method('send')->with($this->isInstanceOf('Swift_Message'))
+            ->will($this->returnValue(1));
+
+        $container->expects($this->at(0))->method('get')->with($this->equalTo('mailer'))->will($this->returnValue(
+                 $mailer
+        ));
+//TODO find why array map do not work.
+//        $container->expects($this->at(1))->method('get')->with($this->equalTo('templating'))
+//            ->will($this->returnValueMap(
+//                array(
+//                    array('templating' , $render),
+//                    array('mailer' , $mailer)
+//                )
+//            ));
+        $container->expects($this->at(1))->method('get')->with($this->equalTo('templating'))->will($this->returnValue(
+            $render
+
+        ));
+        $container->expects($this->at(2))->method('get')->with($this->equalTo('templating'))->will($this->returnValue(
+            $render
+
+        ));
+//        $container->expects($this->at(3))->method('get')->with($this->equalTo('mailer'))->will($this->returnValueMap(
+//            array(
+//                array('templating' , $render),
+//                array('mailer' , $mailer)
+//            )
+//        ));
+
+//        $container->expects($this->any())->method('get')->will($this->returnValueMap(
+//            array(
+//                array('templating' , $render),
+//                array('mailer' , $mailer)
+//                )
+//        ));
+
+        $listener = new MailerListener($container);
+
+        $result = $listener->pushMail($activity);
+        $this->assertTrue( $result);
+
+    }
 }
