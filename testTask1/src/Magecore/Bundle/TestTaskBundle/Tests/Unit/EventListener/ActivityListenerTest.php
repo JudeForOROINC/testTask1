@@ -23,7 +23,8 @@ class ActivityListenerTest extends \PHPUnit_Framework_TestCase
     {
         $mock = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
 
-        $arg = $this->getMock('LifecycleEventArgs');
+        $arg = $this->getMock('Doctrine\ORM\Event\LifecycleEventArgs')
+        ;
 
         $listener = new ActivityListener($mock);
 
