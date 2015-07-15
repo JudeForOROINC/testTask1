@@ -30,6 +30,7 @@ class CommentControllerTest extends WebTestCase
         $issue = $em->getRepository('MagecoreTestTaskBundle:Issue')->findOneBy(['summary' => 'TestTask1: made timeing']);
 
         $user = $em->getRepository('MagecoreTestTaskBundle:User')->findOneBy(['username' => 'Admin']);
+        $justuser = $em->getRepository('MagecoreTestTaskBundle:User')->findOneBy(['username' => 'JustUser']);
 
         //clear old data
         $comments = $em->getRepository('MagecoreTestTaskBundle:Comment')->findBy(array('issue'=>$issue,'author'=>$user),array('id'=>'DESC'));
@@ -48,6 +49,25 @@ class CommentControllerTest extends WebTestCase
         $this->assertEquals(400, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for corrupted request Post $url");
 
 //        $this->assertJson( $client->getResponse()->getContent());
+
+        //test acess denide
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'NoMember',//'JustUser',
+            'PHP_AUTH_PW'   => '123',
+        ));
+
+        $crawler = $client->request('POST', $url, array(), array(), array(
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+            'CONTENT_TYPE' => 'application/json',
+        ));
+
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
+
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'Admin',//'JustUser',
+            'PHP_AUTH_PW'   => '123',
+        ));
+
 
         $crawler = $client->request('GET', $url_issue);
 
@@ -94,6 +114,8 @@ class CommentControllerTest extends WebTestCase
 
         $this->assertArrayHasKey('form', $content);
 
+        //test forbiden rights
+
 
         $crawler = $client->request('POST', $url, $right_post_data, array(), array(
                 'HTTP_X-Requested-With' => 'XMLHttpRequest',
@@ -107,14 +129,10 @@ class CommentControllerTest extends WebTestCase
         $comment = $comments[0];
         $this->assertEquals('Mama mila ramu', $comment->getBody());
 
-        //test user acess = member;
-//        var_dump($comment->getId());
-//
-//        $this->setComment( $comment->getId());
 
-        //$userMember = $em->getRepository('MagecoreTestTaskBundle:User')->findOneBy(['username' => 'M']);
 
     }
+
 
     /**
      *@depends testCompleteScenario
@@ -134,12 +152,15 @@ class CommentControllerTest extends WebTestCase
 
         $comment = $em->getRepository('MagecoreTestTaskBundle:Comment')->findOneBy(array('issue'=>$issue,'author'=>$user));
 
+        //var_dump([$comment->getId(),'edit']);
+
         $url = $client->getContainer()->get('router')
             ->generate('magecore_testtask_comment_edit', array('id'=> $comment->getId()));
         //test bad request
         $crawler = $client->request('POST',$url);
 
         $this->assertEquals(400,$client->getResponse()->getStatusCode());
+
         //get form
         $crawler = $client->request('POST', $url, array(), array(), array(
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
@@ -164,7 +185,7 @@ class CommentControllerTest extends WebTestCase
         $frm = $form->getValues();
 
         $data = array(
-            'body'=>$frm['magecore_bundle_testtaskbundle_comment[body]'],
+            'body'=>'Ababa Galamaga',
             '_token'=>$frm['magecore_bundle_testtaskbundle_comment[_token]'],
         );
 
@@ -190,6 +211,10 @@ class CommentControllerTest extends WebTestCase
         $comment = $comments[0];
         $this->assertNotEquals('Ababa Galamaga', $comment->getBody());
 
+
+
+        $comid = $comment->getId();
+
         $crawler = $client->request('POST', $url, $right_post_data, array(), array(
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'CONTENT_TYPE' => 'application/json',
@@ -197,10 +222,17 @@ class CommentControllerTest extends WebTestCase
         //test true edit;
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        $comments = $em->getRepository('MagecoreTestTaskBundle:Comment')->findBy(array('issue'=>$issue,'author'=>$user),array('id'=>'DESC'));
-        $this->assertEquals(1,count($comments));
-        $comment = $comments[0];
-        $this->assertEquals('Ababa Galamaga', $comment->getBody());
+        //var_dump($comid);
+        $em = $client->getContainer()->get('doctrine')->getManagerForClass('MagecoreTestTaskBundle:Comment');
+
+        $NewComment = $em->getRepository('MagecoreTestTaskBundle:Comment')->findOneBy(array('id'=>$comid));
+        $this->assertFalse(empty($NewComment));
+
+        //var_dump($NewComment);
+        //$this->assertEquals(1,count($comments));
+
+        //$comment = $comments[0];
+        $this->assertEquals('Ababa Galamaga', $NewComment->getBody());
 
     }
     /**
@@ -232,7 +264,7 @@ class CommentControllerTest extends WebTestCase
         $url = $client->getContainer()->get('router')
             ->generate('magecore_testtask_comment_delete', array('id'=> $comment->getId()));
 
-        var_dump($url);
+        //var_dump($url);
             //test bad request edit;
         $crawler = $client->request('POST',$url);
 
@@ -244,14 +276,58 @@ class CommentControllerTest extends WebTestCase
         ));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $em = $client->getContainer()->get('doctrine')->getManager();
 
         $comments = $em->getRepository('MagecoreTestTaskBundle:Comment')->findBy(array('issue'=>$issue,'author'=>$user),array('id'=>'DESC'));
         //var_dump($comments);
-        $this->assertEquals(1,count($comments));
-        $comment = $comments[0];
-        $this->assertNotEquals('Ababa Galamaga', $comment->getBody());
+        $this->assertEquals(0,count($comments));
+
+    }
+
+    /**
+     *@depends testDelete
+     */
+    public function testMemberAllow()
+    {
+        // test member comment allow
+
+
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'JustUser',//'JustUser',
+            'PHP_AUTH_PW'   => '123',
+        ));
+        $em = $client->getContainer()->get('doctrine')->getManager();
+
+        $issue = $em->getRepository('MagecoreTestTaskBundle:Issue')->findOneBy(['summary' => 'TestTask1: made timeing']);
+
+        $user = $em->getRepository('MagecoreTestTaskBundle:User')->findOneBy(['username' => 'JustUser']);
+
+        $project = $em->getRepository('MagecoreTestTaskBundle:Project')->findOneBy(['id'=>$issue->getProject()->getId()]);
+
+        $project->addMember($user);
+
+        $em->merge($project);
+        $em->flush();
+        $url_issue = $client->getContainer()->get('router')->generate('magecore_testtask_issue_show',array('id'=>$issue->getId()));
+        $crawler = $client->request('GET', $url_issue);
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for  $url_issue");
+
+        $form = $crawler->selectButton('Submit')->form(array(
+                'magecore_bundle_testtaskbundle_comment[body]'  => 'rama',)
+        );
+
+        $url = $client->getContainer()->get('router')->generate('magecore_testtask_comment_create',array('id'=>$issue->getId()));
+
+        $frm = $form->getValues();
+
+        $data = array(
+            'body'=>'Mama mila ramu',
+            '_token'=>$frm['magecore_bundle_testtaskbundle_comment[_token]'],
+        );
+        $right_post_data = array(
+            'magecore_bundle_testtaskbundle_comment'=>$data
+        );
 
         $crawler = $client->request('POST', $url, $right_post_data, array(), array(
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
@@ -260,12 +336,76 @@ class CommentControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        $comments = $em->getRepository('MagecoreTestTaskBundle:Comment')->findBy(array('issue'=>$issue,'author'=>$user),array('id'=>'DESC'));
-        //var_dump($comments);
-        $this->assertEquals(0,count($comments));
+        //TODO test edit & delete for member
+
+        $em->flush();
+
+        $comment = $em->getRepository('MagecoreTestTaskBundle:Comment')->findOneBy(['issue'=>$issue,'author'=>$user]);
+        $this->assertTrue(!empty($comment));
+
+        $url = $client->getContainer()->get('router')->generate('magecore_testtask_comment_edit',array('id'=>$comment->getId()));
+
+//        $client = static::createClient(array(), array(
+//            'PHP_AUTH_USER' => 'JustUser',//'JustUser',
+//            'PHP_AUTH_PW'   => '123',
+//        ));
+        $crawler = $client->request('POST', $url, array(), array(), array(
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+            'CONTENT_TYPE' => 'application/json',
+        ));
+
+        $this->assertEquals(200,$client->getResponse()->getStatusCode());
+        //all right edit by owner;
+
+        //test admin edit
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'Admin',//'JustUser',
+            'PHP_AUTH_PW'   => '123',
+        ));
+        $crawler = $client->request('POST', $url, array(), array(), array(
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+            'CONTENT_TYPE' => 'application/json',
+        ));
+
+        $this->assertEquals(200,$client->getResponse()->getStatusCode());
+
+        //test admin edit
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'NoMember',//'JustUser',
+            'PHP_AUTH_PW'   => '123',
+        ));
+        $crawler = $client->request('POST', $url, array(), array(), array(
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+            'CONTENT_TYPE' => 'application/json',
+        ));
+
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
+
+        $url = $client->getContainer()->get('router')
+            ->generate('magecore_testtask_comment_delete', array('id'=>$comment->getId()));
+        $crawler = $client->request('POST', $url, array(), array(), array(
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+            'CONTENT_TYPE' => 'application/json',
+        ));
+
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'Admin',//'JustUser',
+            'PHP_AUTH_PW'   => '123',
+        ));
+        $crawler = $client->request('POST', $url, array(), array(), array(
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+            'CONTENT_TYPE' => 'application/json',
+        ));
+
+        //all right edit by owner;
+
+        //clear data after post
+        $project->removeMember($user);
+
+        $em->merge($project);
+        $em->flush();
 
     }
-
-
 
 }

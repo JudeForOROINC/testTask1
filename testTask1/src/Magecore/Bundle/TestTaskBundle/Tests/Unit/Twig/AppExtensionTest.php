@@ -55,8 +55,8 @@ class AppExtensionTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
 
             ->getMock();
-        $token = $this->getMockBuilder('Symfony\Component\Security\Core\Authentication\Token')->disableOriginalConstructor()
-            ->setMethods(['getUser'])
+        $token = $this->getMockBuilder('Symfony\Component\Security\Core\Authentication\Token\TokenInterface')->disableOriginalConstructor()
+            //->setMethods(['getUser'])
             ->getMock();
         $user = $this->getMockBuilder('Magecore\Bundle\TestTaskBundle\Entity\User')->getMock();
         $user->expects($this->once())->method('getTimezone')->will($this->returnValue('Europe/Paris'));
