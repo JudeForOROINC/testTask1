@@ -234,7 +234,7 @@ class MailerListenerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(1));
 
         $container->expects($this->at(0))->method('get')->with($this->equalTo('mailer'))->will($this->returnValue(
-                 $mailer
+            $mailer
         ));
 //TODO find why array map do not work.
 //        $container->expects($this->at(1))->method('get')->with($this->equalTo('templating'))
