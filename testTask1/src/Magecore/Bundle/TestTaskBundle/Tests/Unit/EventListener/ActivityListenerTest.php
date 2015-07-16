@@ -178,13 +178,11 @@ class ActivityListenerTest extends \PHPUnit_Framework_TestCase
         $arg->expects($this->once())->method('hasChangedField')
             ->with($this->equalTo('status'))
             ->will($this->returnValue(true));
-        //$status1 = $this->getMock('\Magecore\Bundle\TestTaskBundle\Entity\DicStatus');
         $status1 = new \Magecore\Bundle\TestTaskBundle\Entity\DicStatus();
         $status1->setValue('old');
         $status2 = new \Magecore\Bundle\TestTaskBundle\Entity\DicStatus();
         $status2->setValue('new');
 
-//        $status2 = $this->getMock('\Magecore\Bundle\TestTaskBundle\Entity\DicStatus');
         $arg->expects($this->once())->method('getOldValue')
             ->with($this->equalTo('status'))
             ->will($this->returnValue($status1));
@@ -223,11 +221,8 @@ class ActivityListenerTest extends \PHPUnit_Framework_TestCase
                 return $result;
             })
         );
-
         $argLife->expects($this->once())->method('getEntityManager')->will($this->returnValue($manager));
-
         $listener->postUpdate($argLife);
-
     }
 
     public function testDateTime()
@@ -240,9 +235,6 @@ class ActivityListenerTest extends \PHPUnit_Framework_TestCase
         $dt->setTimezone(new \DateTimeZone('UTC'));
         $dt = $dt->format('Y-m-d h:i:s');
 
-            //'2015-01-01 08:00:00';
-            //$entity->getTime()->format();
-
         $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $listener = new ActivityListener($container);
 
@@ -250,7 +242,6 @@ class ActivityListenerTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $manager = $this->getMockBuilder('Doctrine\ORM\EntityManagerInterface')->getMock();
 
-        //$unitofwork = $this->getMock('Doctrine\Common\PropertyChangedListener');
         $unitofwork = $this->getMockBuilder('Doctrine\ORM\UnitOfWork')
             ->disableOriginalConstructor()->getMock();
         $unitofwork->expects($this->once())->method('getScheduledEntityInsertions')
@@ -274,8 +265,6 @@ class ActivityListenerTest extends \PHPUnit_Framework_TestCase
                 })
             );
 
-
-
         $manager->expects($this->once())->method('getUnitOfWork')->will(
             $this->returnValue($unitofwork)
         );
@@ -283,28 +272,21 @@ class ActivityListenerTest extends \PHPUnit_Framework_TestCase
         $class_metadata = $this->getMockBuilder('\Doctrine\ORM\Mapping\ClassMetadata')
             ->disableOriginalConstructor()->getMock();
 
-
         $manager->expects($this->once())->method('getClassMetadata')
-            //->with($this->any())
             ->with($this->stringContains('Activity'))
-            //->with($this->equalTo('Magecore\Bundle\TestTaskBundle\Entity\Activity'))
             ->will($this->returnValue($class_metadata));
 
         $arg->expects($this->once())
             ->method('getEntityManager')
             ->will($this->returnValue($manager));
 
-
-
         $listener->onFlush($arg);
     }
 
     public function testSetDateTime()
     {
-        //
         $entity = new Activity();
         $entity->setTime(new \DateTime('2015-01-01 10:00:00'));
-
 
         $dt = new \DateTime('2015-01-01 10:00:00', new \DateTimeZone('UTC'));
 
@@ -318,7 +300,6 @@ class ActivityListenerTest extends \PHPUnit_Framework_TestCase
 
         $listener->postLoad($arg);
         $this->assertEquals($dt, $entity->getTime());
-
     }
 
     public function testSetDateTimeUserProtect()

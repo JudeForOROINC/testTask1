@@ -13,11 +13,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-//use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-//use Symfony\Component\Console\Input\InputArgument;
-//use Symfony\Component\Console\Input\InputOption;
-//use Symfony\Component\Console\Input\InputInterface;
-//use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateUserCommand extends ContainerAwareCommand
 {
@@ -69,13 +64,6 @@ EOT
         $inactive   = $input->getOption('inactive');
         $superadmin = $input->getOption('super-admin');
 
-
-
-
-
-        //$manager->persist($johnUser);
-
-
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
 
         $q = $em->createQueryBuilder();
@@ -107,7 +95,6 @@ EOT
         $encodedPassword = $passwordEncoder->encodePassword($password, $user->getSalt());
         $user->setPassword($encodedPassword);
 
-
         if (!$inactive) {
             $user->setEnabled(true);
         }
@@ -120,82 +107,12 @@ EOT
         $em->persist($user);
         $em->flush();
 
-
-
-        //$manipulator->create($username, $password, $email, !$inactive, $superadmin);
-        //$user->setEmail($email);
-
-
-        $output->writeln(sprintf('Created user <comment>%s</comment> for fullname <info>%s</info>',
-            $username, $fullname));
+        $output->writeln(sprintf(
+            'Created user <comment>%s</comment> for fullname <info>%s</info>',
+            $username,
+            $fullname
+        ));
     }
-
-//    /**
-//     * @see Command
-//     */
-//    protected function interact(InputInterface $input, OutputInterface $output)
-//    {
-//        if (!$input->getArgument('username')) {
-//            $username = $this->getHelper('dialog')->askAndValidate(
-//                $output,
-//                'Please choose a username:',
-//                function ($username) {
-//                    if (empty($username)) {
-//                        throw new \Exception('Username can not be empty');
-//                    }
-//
-//                    return $username;
-//                }
-//            );
-//            $input->setArgument('username', $username);
-//        }
-//
-//        if (!$input->getArgument('email')) {
-//            $email = $this->getHelper('dialog')->askAndValidate(
-//                $output,
-//                'Please choose an email:',
-//                function($email) {
-//                    if (empty($email)) {
-//                        throw new \Exception('Email can not be empty');
-//                    }
-//
-//                    return $email;
-//                }
-//            );
-//            $input->setArgument('email', $email);
-//        }
-//
-//        if (!$input->getArgument('password')) {
-//            $password = $this->getHelper('dialog')->askHiddenResponseAndValidate(
-//                $output,
-//                'Please choose a password:',
-//                function($password) {
-//                    if (empty($password)) {
-//                        throw new \Exception('Password can not be empty');
-//                    }
-//
-//                    return $password;
-//                }
-//            );
-//            $input->setArgument('password', $password);
-//        }
-//
-//        if (!$input->getArgument('fullname')) {
-//            $fullname = $this->getHelper('dialog')->askAndValidate(
-//                $output,
-//                'Please choose a fullname:',
-//                function($fullname) {
-//                    if (empty($fullname)) {
-//                        throw new \Exception('Fullname can not be empty');
-//                    }
-//
-//                    return $fullname;
-//                }
-//            );
-//            $input->setArgument('fullname', $fullname);
-//        }
-//    }
-
 }
 
 
