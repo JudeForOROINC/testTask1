@@ -269,7 +269,7 @@ class MailerListenerTest extends \PHPUnit_Framework_TestCase
         $listener = new MailerListener($container);
 
         $result = $listener->pushMail($activity);
-        $this->assertTrue( $result);
+        $this->assertTrue($result);
 
     }
 }

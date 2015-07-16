@@ -184,8 +184,8 @@ class ActivityListener
         $Basezone = new \DateTimeZone('UTC');
         $Zone = new \DateTimeZone(date_default_timezone_get());
         //Get hold of the unit of work.
-        $entityManager = $args->getEntityManager();
-        $unitOfWork = $entityManager->getUnitOfWork();
+//        $entityManager = $args->getEntityManager();
+//        $unitOfWork = $entityManager->getUnitOfWork();
         $entity = $args->getEntity();
         if ($entity instanceof User) {
             return;
