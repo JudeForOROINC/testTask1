@@ -51,7 +51,12 @@ class EntityType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(['choice_list' => $this->choiceList]);
+        $resolver->setDefaults(['choice_list' => $this->choiceList,
+            'class'=>'Magecore\Bundle\TestTaskBundle\Entity\User',
+            'multiple'=>true,
+            'expanded'=>true,
+        ]);
+
     }
 
     /**

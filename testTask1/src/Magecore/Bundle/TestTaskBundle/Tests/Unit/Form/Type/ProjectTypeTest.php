@@ -34,7 +34,11 @@ class ProjectTypeTest extends TypeTestCase
 
     protected function getExtensions()
     {
-        $childType = new EntityType();
+        $childType = new EntityType(array(
+            0=>'user',
+            1=>'oper',
+            2=>'Admin'
+        ));
         return array(new PreloadedExtension(array(
             $childType->getName() => $childType,
         ), array()));
@@ -46,7 +50,7 @@ class ProjectTypeTest extends TypeTestCase
             'label' => 'test',
             'code' => 'rrr',
             'summary' => 'test2',
-            'members' => null,
+            'members' => 2,
         );
 
         $type = new ProjectType();
@@ -55,13 +59,19 @@ class ProjectTypeTest extends TypeTestCase
         $object = new Project();
         $object->setLabel('test');
         $object->setCode('rrr');
-        $object->setSummary('summary');
+        $object->setSummary('test2');
+       // $object->setMembers()
 
 
         $form->submit($formData);
 
         $this->assertTrue($form->isSynchronized());
-        $this->assertEquals($object, $form->getData());
+        $data = $form->getData();
+
+        $this->assertEquals($object->getLabel(), $data['label']);
+        $this->assertEquals($object->getCode(), $data['code']);
+        $this->assertEquals($object->getSummary(), $data['summary']);
+
 
         $view = $form->createView();
         $children = $view->children;
@@ -71,49 +81,31 @@ class ProjectTypeTest extends TypeTestCase
         }
     }
 
-//    protected function setUp()
-//    {
-//        parent::setUp();
-//
-//        $validator = $this->getMock('\Symfony\Component\Validator\ValidatorInterface');
-//        $validator->expects($this->any())->method('validate')->will($this->returnValue(new ConstraintViolationList()));
-//
-//        $mockEntityType = $this->getMockBuilder('Magecore\Bundle\TestTaskBundle\Tests\Unit\EntityType')
-//            //->setConstructorArgs(array($mockEntityManager))
-//            //->disableOriginalConstructor()
-//            ->getMock();
-//
-//        $mockEntityType->expects($this->any())->method('getName')
-//            ->will($this->returnValue('entity'));
-//
-//        $mockEntityManager = $this->getMockBuilder('\Doctrine\Common\Persistence\ManagerRegistry')
-//            ->disableOriginalConstructor()
-//            ->getMock();
-//
-//        $this->factory = Forms::createFormFactoryBuilder()
-//            ->addExtensions($this->getExtensions())
-//            ->addTypeExtension(
-//                new FormTypeValidatorExtension(
-//                    $validator
-//                )
-//            )
-//            ->addTypeGuesser(
-//                $this->getMockBuilder(
-//                    'Symfony\Component\Form\Extension\Validator\ValidatorTypeGuesser'
-//                )
-//                    ->disableOriginalConstructor()
-//                    ->getMock()
-//            )
-//            ->addExtension(
-//                new PreloadedExtension(
-//                    array('entity'=>$mockEntityType),
-//                    array()
-//                )
-//            )
-//            ->getFormFactory();
-//
-//        $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
-//        $this->builder = new FormBuilder(null, null, $this->dispatcher, $this->factory);
-//    }
+    protected function setUp()
+    {
+        parent::setUp();
 
+        $validator = $this->getMockBuilder('Symfony\Component\Validator\ValidatorInterface')
+            ->disableOriginalConstructor()->getMock();
+        $validator->expects($this->any())->method('validate')->will($this->returnValue(new ConstraintViolationList()));
+
+        $this->factory = Forms::createFormFactoryBuilder()
+            ->addExtensions($this->getExtensions())
+            ->addTypeExtension(
+                new FormTypeValidatorExtension(
+                    $validator
+                )
+            )
+            ->addTypeGuesser(
+                $this->getMockBuilder(
+                    'Symfony\Component\Form\Extension\Validator\ValidatorTypeGuesser'
+                )
+                    ->disableOriginalConstructor()
+                    ->getMock()
+            )
+            ->getFormFactory();
+
+        $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
+        $this->builder = new FormBuilder(null, null, $this->dispatcher, $this->factory);
+    }
 }
