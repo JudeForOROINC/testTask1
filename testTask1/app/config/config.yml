@@ -30,6 +30,7 @@ twig:
     strict_variables: "%kernel.debug%"
     globals:
         route_helper: "@my.helper"
+        file_helper:  "@file.helper"
 
 # Assetic Configuration
 assetic:

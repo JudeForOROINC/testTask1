@@ -66,25 +66,28 @@ EOT
 
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
 
-        $q = $em->createQueryBuilder();
-        $q->select('u')->from('MagecoreTestTaskBundle:User', 'u')
-            ->where('u.username = :username')
-            ->setParameter('username', strtolower($username));
-
-        $users = $q->getQuery()->getResult();
-
+        //this is an example of using query builder. removed;
+//        $q = $em->createQueryBuilder();
+//        $q->select('u')->from('MagecoreTestTaskBundle:User', 'u')
+//            ->where('u.username = :username')
+//            ->setParameter('username', strtolower($username));
+//
+//        $users = $q->getQuery()->getResult();
+        $users = $em->getRepository('MagecoreTestTaskBundle:User')->findBy(array('username'=>$username));
         if ($users) {
             throw new \Exception('user already exists');
         }
-        $q = $em->createQueryBuilder();
-        $q->select('u')->from('MagecoreTestTaskBundle:User', 'u')
-            ->where('u.email = :mail')
-            ->setParameter('mail', strtolower($email));
-
-        $users = $q->getQuery()->getResult();
+//        $q = $em->createQueryBuilder();
+//        $q->select('u')->from('MagecoreTestTaskBundle:User', 'u')
+//            ->where('u.email = :mail')
+//            ->setParameter('mail', strtolower($email));
+//
+//
+//        $users = $q->getQuery()->getResult();
+        $users = $em->getRepository('MagecoreTestTaskBundle:User')->findBy(array('email'=>$email));
 
         if ($users) {
-            throw new \Exception('Mail is forbiden. chouse enother one.');
+            throw new \Exception('Mail is forbidden. Please choose another one.');
         }
 
         $user = new User();

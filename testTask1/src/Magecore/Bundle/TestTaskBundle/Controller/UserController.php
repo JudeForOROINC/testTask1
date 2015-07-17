@@ -123,8 +123,8 @@ class UserController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-
-            $entity->upload();
+            $filemanager = $this->container->get('file.helper');
+            $filemanager->upload($entity);
 
             $em->persist($entity);
             $em->flush();

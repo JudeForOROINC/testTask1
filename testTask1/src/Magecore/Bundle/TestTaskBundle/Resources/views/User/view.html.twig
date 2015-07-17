@@ -8,7 +8,7 @@
     <h2>{{ 'title.user.view'|trans }} :{{ user.username }}</h2>
     <h3>{{ 'field.fullname'|trans }}: {{ user.FullName }}</h3>
     {% if user.avapath %}
-    <img src="{{ asset(user.getWebPath) }}">
+    <img src="{{ asset(file_helper.getWebPath(user.avapath)) }}">
         {% else %}
         <p>{{ 'message.no.ave'|trans }}</p>
         {% endif %}

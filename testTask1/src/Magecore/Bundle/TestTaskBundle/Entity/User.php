@@ -76,33 +76,58 @@ class User extends BaseUser
     const ADMINISTRATOR='ROLE_ADMIN';
 
 
-    public function setRole($role){
-        $this->role = $role;
-        if (in_array( $this->role, array(self::ADMINISTRATOR,self::MANAGER,self::OPERATOR) )){
-            $this->addRole($this->role );
-            foreach(array_diff([self::ADMINISTRATOR,self::MANAGER,self::OPERATOR],[$this->role]) as $rol){
-                $this->removeRole($rol);
-            }
-        }
-
+    /**
+     * @param $role
+     */
+    public function setRole($role)
+    {
+        $this->addRole($role);
     }
-    public function getRole(){
+
+    /**
+     * @return null|string
+     */
+    public function getRole()
+    {
+        //this done for protection logic of fos user bundle/
+        $roles = array_intersect(
+            $this->getRoles(),
+            [self::OPERATOR,self::ADMINISTRATOR,self::MANAGER,]
+        );
+        if (empty($roles)) {
+            return null;
+        }
+        $this->role= $roles[0];
         return $this->role;
     }
 
+    /**
+     * @return mixed
+     */
     public function getRemoveAva()
     {
         return $this->remove_ava;
     }
+
+    /**
+     * @param $remove_ava
+     */
     public function setRemoveAva($remove_ava)
     {
         $this->remove_ava = $remove_ava;
     }
 
-    public function setFile(UploadedFile $file = null){
+    /**
+     * @param UploadedFile $file
+     */
+    public function setFile(UploadedFile $file = null)
+    {
         $this->file = $file;
     }
 
+    /**
+     * @return UploadedFile|null
+     */
     public function getFile()
     {
         return $this->file;
@@ -112,82 +137,7 @@ class User extends BaseUser
         return (bool)($this->getId() == $user->getId());
     }
 
-    public function getAbsolutePath()
-    {
-        return null === $this->avapath
-            ? null
-            : $this->getUploadRootDir().DIRECTORY_SEPARATOR.$this->avapath;
-    }
 
-    public function getWebPath()
-    {
-        return null === $this->avapath
-            ? null
-            : $this->getUploadDir().DIRECTORY_SEPARATOR.$this->avapath;
-    }
-
-    public function getUploadRootDir()
-    {
-        //upload abs. dir;
-        return dirname(dirname(dirname(dirname(dirname(__DIR__))))).DIRECTORY_SEPARATOR.'web'.DIRECTORY_SEPARATOR.$this->getUploadDir();
-    }
-
-    public function getUploadDir()
-    {
-        //upload abs. dir;
-        return 'uploads'.DIRECTORY_SEPARATOR.'documents';
-    }
-
-    public  function upload(){
-        if($this->getRemoveAva()){
-            if(!empty($this->avapath)){
-                //kick old ave:
-                if (\file_exists($this->getAbsolutePath())){
-                    unlink($this->getAbsolutePath());
-                }
-                $this->avapath = null;
-            }
-        }
-
-        if (null === $this->getFile()) {
-            return;
-        }
-
-        // use the original file name here but you should
-        // sanitize it at least to avoid any security issues
-
-        // move takes the target directory and then the
-        // target filename to move to
-
-
-/*
-        $this->getFile()->move(
-            $this->getUploadRootDir(),
-            $this->getFile()->getClientOriginalName()
-        );*/
-
-        $extension = $this->getFile()->guessExtension();
-        if (!$extension) {
-            // extension cannot be guessed
-            $extension = 'bin';
-        }
-
-        //kick old ave:
-        if (\file_exists($this->getAbsolutePath())){
-            unlink($this->getAbsolutePath());
-        }
-
-        $this->getFile()->move(
-            $this->getUploadRootDir(),
-            $this->getId().'.'.$extension
-        );
-        // set the path property to the filename where you've saved the file
-        //$this->avapath = $this->getFile()->getClientOriginalName();
-        $this->avapath = $this->getId().'.'.$extension;
-
-        // clean up the file property as you won't need it anymore
-        $this->file = null;
-    }
 
     /**
      * Get id
@@ -217,7 +167,7 @@ class User extends BaseUser
     /**
      * Get avapath
      *
-     * @return string 
+     * @return string
      */
     public function getAvapath()
     {
@@ -240,7 +190,7 @@ class User extends BaseUser
     /**
      * Get full_name
      *
-     * @return string 
+     * @return string
      */
     public function getFullName()
     {
@@ -253,7 +203,7 @@ class User extends BaseUser
      * @param string $timezone
      * @return User
      */
-    public function setTimezone( $timezone)
+    public function setTimezone($timezone)
     {
         $this->timezone = $timezone;
 
@@ -263,7 +213,7 @@ class User extends BaseUser
     /**
      * Get timezone
      *
-     * @return string 
+     * @return string
      */
     public function getTimezone()
     {
@@ -308,7 +258,7 @@ class User extends BaseUser
     /**
      * Get issues
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getIssues()
     {
@@ -348,4 +298,23 @@ class User extends BaseUser
     {
         return $this->activity;
     }
+
+    public function addRole($role)
+    {
+        parent::addRole($role);
+        // by the task we may set only one role.
+        //so check is role in list of roles that must be only one/
+        if (!in_array(
+            $this->role,
+            array(self::ADMINISTRATOR, self::MANAGER, self::OPERATOR)
+        )) {
+            return $this;
+        };
+        $this->removeRole($this::OPERATOR);
+        $this->removeRole($this::ADMINISTRATOR);
+        $this->removeRole($this::MANAGER);
+        $this->addRole($role);
+        return $this;
+    }
+
 }
