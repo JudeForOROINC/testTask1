@@ -42,6 +42,7 @@ class FileManagerHelper
 
     public function upload(User $entity)
     {
+        //TODO Rewrite to made a class methods;
         if ($entity->getRemoveAva()) {
             if (!empty($entity->getAvapath($entity->getAvapath()))) {
                 //kick old ave:
