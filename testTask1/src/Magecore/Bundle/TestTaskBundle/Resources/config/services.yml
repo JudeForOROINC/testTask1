@@ -15,7 +15,7 @@ services:
         arguments: [@service_container]
     app.twig_extension:
         class: Magecore\Bundle\TestTaskBundle\Twig\AppExtension
-        arguments: [@service_container, @security.context]
+        arguments: [@service_container, @security.context, @file.helper]
         public: false
         tags:
             - { name: twig.extension }

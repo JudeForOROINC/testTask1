@@ -94,12 +94,12 @@ class UserController extends Controller
         $current_user = $this->getUser();
 
         //only admin may edit
-        if(! $current_user->hasRole('ROLE_ADMIN') ){
+        if (!$current_user->hasRole('ROLE_ADMIN')) {
             return false;
         }
 
         //admin can not edit itself.
-        if( $user->isOwner($current_user) ){
+        if ( $user->isOwner($current_user) ) {
             return false;
         }
 
