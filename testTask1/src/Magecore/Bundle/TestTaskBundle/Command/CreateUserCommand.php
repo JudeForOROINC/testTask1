@@ -75,7 +75,7 @@ EOT
 //        $users = $q->getQuery()->getResult();
         $users = $em->getRepository('MagecoreTestTaskBundle:User')->findBy(array('username'=>$username));
         if ($users) {
-            throw new \Exception('user already exists');
+            throw new \Exception('User already exists.');
         }
 //        $q = $em->createQueryBuilder();
 //        $q->select('u')->from('MagecoreTestTaskBundle:User', 'u')
@@ -87,7 +87,7 @@ EOT
         $users = $em->getRepository('MagecoreTestTaskBundle:User')->findBy(array('email'=>$email));
 
         if ($users) {
-            throw new \Exception('Mail is forbidden. Please choose another one.');
+            throw new \Exception('This mailbox is forbidden. Please choose another one.');
         }
 
         $user = new User();
