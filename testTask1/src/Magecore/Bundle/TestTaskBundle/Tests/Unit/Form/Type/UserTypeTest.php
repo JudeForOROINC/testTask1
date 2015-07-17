@@ -48,8 +48,8 @@ class UserTypeTest extends TypeTestCase
         $this->assertTrue($form->isSynchronized());
 //        $this->assertEquals($object, $form->getData());
         $data = $form->getData();
-        $this->assertEquals($object->getFullName(),$data->getFullName());
-        $this->assertEquals($object->getTimezone(),$data->getTimezone());
+        $this->assertEquals($object->getFullName(), $data->getFullName());
+        $this->assertEquals($object->getTimezone(), $data->getTimezone());
 
         $view = $form->createView();
         $children = $view->children;

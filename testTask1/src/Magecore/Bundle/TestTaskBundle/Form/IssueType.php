@@ -71,7 +71,7 @@ class IssueType extends AbstractType
             ));
         }
         $builder
-            ->add('priority', null, array('label'=>'field.priority',
+            ->add('priority', 'entity', array('label'=>'field.priority',
                 'class' => 'Magecore\Bundle\TestTaskBundle\Entity\DicPriority',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('p')->orderBy('p.sortOrder', 'ASC');

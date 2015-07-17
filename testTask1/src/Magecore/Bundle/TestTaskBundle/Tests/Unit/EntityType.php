@@ -55,6 +55,7 @@ class EntityType extends AbstractType
             'class'=>'Magecore\Bundle\TestTaskBundle\Entity\User',
             'multiple'=>true,
             'expanded'=>true,
+            'query_builder'=>false,
         ]);
 
     }
